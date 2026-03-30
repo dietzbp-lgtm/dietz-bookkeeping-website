@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>My Google AI Studio App</title>
+    <script>
+      // Suppress generic cross-origin "Script error." from third-party embeds (like Jotform)
+      // This must run before Vite's client script to prevent the error overlay
+      window.addEventListener('error', function(e) {
+        if (e.message === 'Script error.') {
+          e.preventDefault();
+          e.stopImmediatePropagation();
+        }
+      }, true);
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
+
