@@ -9,32 +9,32 @@ const About = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
             {/* Left Column: Image and Badges */}
-            <motion.div 
-              initial={{ opacity: 0, x: -20 }}
+            <motion.div
+              initial={false}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.6 }}
               className="lg:col-span-5 flex flex-col gap-8"
             >
               <div className="relative rounded-3xl overflow-hidden shadow-2xl shadow-slate-200">
-                <img 
-                  src="https://i.postimg.cc/9MzF84FH/Dietzbookeepingabout.jpg" 
-                  alt="Bryan Dietz" 
+                <img
+                  src="/images/dietzbookeepingabout.webp"
+                  alt="Bryan Dietz"
                   className="w-full h-auto object-cover"
                 />
               </div>
-              
+
               {/* Badges */}
               <div className="grid grid-cols-4 gap-4">
-                <img src="https://i.postimg.cc/fLkT23TT/level-1.png" alt="QuickBooks Level 1" className="w-full h-auto object-contain" />
-                <img src="https://i.postimg.cc/xCqTxkTr/Level_2.png" alt="QuickBooks Level 2" className="w-full h-auto object-contain" />
-                <img src="https://i.postimg.cc/d1DtH7tQ/payroll.png" alt="QuickBooks Payroll" className="w-full h-auto object-contain" />
-                <img src="https://i.postimg.cc/QtVx4Bxh/Gold_Tier_Badge.png" alt="QuickBooks Gold ProAdvisor" className="w-full h-auto object-contain" />
+                <img src="/images/level-1.webp" alt="QuickBooks Level 1" className="w-full h-auto object-contain" />
+                <img src="/images/level-2.webp" alt="QuickBooks Level 2" className="w-full h-auto object-contain" />
+                <img src="/images/payroll.webp" alt="QuickBooks Payroll" className="w-full h-auto object-contain" />
+                <img src="/images/gold-tier-badge.webp" alt="QuickBooks Gold ProAdvisor" className="w-full h-auto object-contain" />
               </div>
             </motion.div>
 
             {/* Right Column: Bio Text */}
-            <motion.div 
-              initial={{ opacity: 0, x: 20 }}
+            <motion.div
+              initial={false}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.6, delay: 0.2 }}
               className="lg:col-span-7 space-y-6"

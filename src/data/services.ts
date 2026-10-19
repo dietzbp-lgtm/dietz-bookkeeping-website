@@ -16,7 +16,7 @@ export const services = [
     slug: '/tampa-bank-reconciliation',
     description: 'Accurate matching of bank and credit card transactions to keep financial records clean and error-free.',
     icon: BarChart3,
-    image: 'https://i.postimg.cc/yxxXfGXJ/tampa-bank-reconciliation.webp',
+    image: '/images/tampa-bank-reconciliation.webp',
     content: {
       heading: 'Precision in Every Transaction',
       subheading: 'Never worry about mismatched records again.',
@@ -36,7 +36,7 @@ export const services = [
     slug: '/tampa-cleanup-bookkeeping',
     description: 'Fixing months or years of messy or incomplete books so your financials are reliable again.',
     icon: FileText,
-    image: 'https://i.postimg.cc/MHtZGshs/tampa-cleanup-bookkeeping.webp',
+    image: '/images/tampa-cleanup-bookkeeping.webp',
     content: {
       heading: 'Restore Confidence in Your Numbers',
       subheading: 'Messy books? We specialize in financial rescue missions.',
@@ -56,7 +56,7 @@ export const services = [
     slug: '/tampa-accounts-payable',
     description: 'Tracking bills, managing due dates, and keeping vendors paid on time to protect cash flow.',
     icon: CreditCard,
-    image: 'https://i.postimg.cc/9fxvz6MR/tampa-accounts-payable.webp',
+    image: '/images/tampa-accounts-payable.webp',
     content: {
       heading: 'Streamlined Vendor Payments',
       subheading: 'Maintain great relationships and protect your cash flow.',
@@ -76,7 +76,7 @@ export const services = [
     slug: '/tampa-accounts-receivable',
     description: 'Creating invoices, tracking customer payments, and helping businesses get paid faster.',
     icon: DollarSign,
-    image: 'https://i.postimg.cc/pV0pRrRy/tampa-accounts-receivable.webp',
+    image: '/images/tampa-accounts-receivable.webp',
     content: {
       heading: 'Get Paid Faster',
       subheading: 'Professional invoicing and follow-up to boost your cash flow.',
@@ -96,7 +96,7 @@ export const services = [
     slug: '/tampa-payroll-support',
     description: 'Assisting with payroll setup, reports, and coordination so employees are paid correctly.',
     icon: Users,
-    image: 'https://i.postimg.cc/bN98pFQR/tampa-payroll-support.webp',
+    image: '/images/tampa-payroll-support.webp',
     content: {
       heading: 'Seamless Payroll Management',
       subheading: 'Happy employees, compliant business.',
@@ -116,7 +116,7 @@ export const services = [
     slug: '/tampa-financial-reporting',
     description: 'Clear monthly reports (P&L, Balance Sheet, Cash Flow) to help you make data-driven decisions.',
     icon: PieChart,
-    image: 'https://i.postimg.cc/dtqpmQyS/tampa-financial-reporting.webp',
+    image: '/images/tampa-financial-reporting.webp',
     content: {
       heading: 'Clarity for Better Decisions',
       subheading: 'Turn numbers into actionable insights.',
@@ -136,7 +136,7 @@ export const services = [
     slug: '/tampa-tax-preparation-support',
     description: 'Organizing clean, tax-ready books for CPAs to reduce stress and maximize deductions.',
     icon: Calculator,
-    image: 'https://i.postimg.cc/MHhYLDGT/tampa-tax-preparation-support.webp',
+    image: '/images/tampa-tax-preparation-support.webp',
     content: {
       heading: 'Stress-Free Tax Season',
       subheading: 'We prepare the books; your CPA loves the results.',
@@ -156,7 +156,7 @@ export const services = [
     slug: '/tampa-budgeting-forecasting',
     description: 'Planning future income, expenses, and cash flow so you can grow with confidence.',
     icon: TrendingUp,
-    image: 'https://i.postimg.cc/L8VzkRj6/tampa-financial-reporting.jpg',
+    image: '/images/budgeting-forecasting.webp',
     content: {
       heading: 'Plan for Future Growth',
       subheading: 'Stop guessing and start strategizing.',

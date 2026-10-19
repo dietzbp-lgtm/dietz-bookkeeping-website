@@ -58,7 +58,7 @@ const Resources = () => {
     { 
       title: 'How to Add Your Accountant in QuickBooks Online', 
       duration: '1:45', 
-      thumbnail: 'https://img.youtube.com/vi/0x_fWYYCgF4/maxresdefault.jpg',
+      thumbnail: '/images/quickbooks-accountant-access-video.webp',
       url: 'https://www.youtube.com/watch?v=0x_fWYYCgF4'
     }
   ];

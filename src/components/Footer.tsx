@@ -15,7 +15,7 @@ const Footer = () => {
           <div className="space-y-4">
             <div className="flex items-center gap-2">
               <img
-                src="https://i.postimg.cc/zBpK7Xw4/Dietzbookkeepinglogotampafl.png"
+                src="/images/dietzbookkeepinglogotampafl.webp"
                 alt="Dietz Bookkeeping"
                 className="w-[270px] h-auto rounded-lg"
               />
