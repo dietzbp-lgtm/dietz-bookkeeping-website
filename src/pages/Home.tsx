@@ -1,195 +1,79 @@
-import React from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowRight, CheckCircle2, Star, Quote } from 'lucide-react';
+import { ArrowRight, CheckCircle2, FileText, Monitor, MessageCircle, RefreshCw, BarChart3, Star, Quote } from 'lucide-react';
 import Layout from '../components/Layout';
 import ServiceCard from '../components/ServiceCard';
 import { services } from '../data/services';
-import { motion } from 'motion/react';
 
-const Home = () => {
+const primaryServices = [
+  { title: 'Monthly bookkeeping', text: 'Keep transactions organized, accounts reconciled, and financial reports ready for your next decision.', link: '/contact#estimate', label: 'Discuss monthly support', icon: BarChart3, Star, Quote },
+  { title: 'Cleanup & catch-up', text: 'Behind on your books? Start with a review of your records and a practical plan to bring them up to date.', link: '/tampa-cleanup-bookkeeping', label: 'Explore cleanup services', icon: RefreshCw },
+];
+
+export default function Home() {
   return (
     <Layout>
-      {/* Hero Section */}
-      <section className="relative pt-24 pb-32 overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-b from-blue-50 to-white pointer-events-none" />
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-          <div className="text-center max-w-4xl mx-auto">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6 }}
-            >
-              <span className="inline-block bg-blue-100 text-blue-700 px-4 py-1.5 rounded-full text-sm font-medium mb-6">
-                Tampa's Premier Bookkeeping Service
-              </span>
-              <h1 className="text-5xl md:text-7xl font-bold text-slate-900 tracking-tight mb-8 leading-tight">
-                Focus on your business. <br />
-                <span className="text-blue-600">We'll handle the books.</span>
-              </h1>
-              
-              {/* Dark Tile Card */}
-              <div className="bg-gradient-to-br from-blue-500 to-blue-600 text-white rounded-[2rem] p-8 md:p-12 shadow-2xl shadow-blue-500/30 mx-auto max-w-3xl mb-10 relative overflow-hidden">
-                {/* Subtle background effect for the tile */}
-                <div className="absolute top-0 right-0 w-64 h-64 bg-white rounded-full mix-blend-overlay filter blur-3xl opacity-20 -mr-16 -mt-16"></div>
-                <div className="absolute bottom-0 left-0 w-64 h-64 bg-purple-500 rounded-full mix-blend-overlay filter blur-3xl opacity-20 -ml-16 -mb-16"></div>
-                
-                <div className="relative z-10">
-                  <h2 className="text-2xl md:text-3xl font-bold mb-6">Welcome to Dietz Bookkeeping Services</h2>
-                  <p className="text-lg md:text-xl text-blue-50 leading-relaxed mb-8">
-                    Imagine an extra $7,500 in your business's budget each year. Our comprehensive bookkeeping services are designed to do just that. We'll meticulously manage your financial records, ensuring accuracy, compliance, and identifying opportunities for cost savings. From expense tracking to reporting, we've got you covered, so you can focus on what you do best – growing your business.
-                  </p>
-                  
-                  <Link
-                    to="/contact"
-                    className="inline-block bg-white text-blue-600 px-8 py-4 rounded-full text-lg font-bold shadow-lg hover:bg-blue-50 transition-transform hover:scale-105 uppercase tracking-wide"
-                  >
-                    Schedule an Appointment
-                  </Link>
-                </div>
-              </div>
-
-              <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                <Link
-                  to="/services"
-                  className="ios-btn bg-white text-slate-700 border border-slate-200 px-8 py-4 rounded-full text-lg font-medium hover:bg-slate-50 transition-all"
-                >
-                  Explore Services
-                </Link>
-              </div>
-            </motion.div>
+      <section className="bg-gradient-to-br from-blue-50 via-white to-slate-50 py-12 sm:py-16 lg:py-20">
+        <div className="max-w-7xl mx-auto px-5 sm:px-8 grid lg:grid-cols-2 gap-10 lg:gap-16 items-center">
+          <div>
+            <p className="text-sm font-semibold tracking-wide text-blue-700 mb-5">BASED IN TAMPA · SERVING BUSINESSES NATIONWIDE</p>
+            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-slate-900 tracking-tight leading-[1.1] mb-6">Clear books.<br /><span className="text-blue-600">More time for your business.</span></h1>
+            <p className="text-lg text-slate-600 leading-relaxed max-w-xl mb-8">Monthly bookkeeping and cleanup support for small business owners. Work directly with Bryan Dietz to organize your records, understand your numbers, and get your books ready for your tax professional.</p>
+            <div className="flex flex-col sm:flex-row gap-3">
+              <Link to="/contact#schedule" className="bg-blue-600 text-white px-6 py-3.5 rounded-xl font-semibold text-center hover:bg-blue-700 transition-colors">Book a Free Consultation</Link>
+              <Link to="/contact#estimate" className="bg-white text-slate-800 border border-slate-300 px-6 py-3.5 rounded-xl font-semibold text-center hover:bg-slate-50 transition-colors">Request an Estimate</Link>
+            </div>
+            <p className="text-sm text-slate-500 mt-5">Remote service across the U.S. · Local Tampa meetings by appointment</p>
           </div>
-        </div>
-        
-        {/* Abstract Background Elements */}
-        <div className="absolute top-1/2 left-0 w-96 h-96 bg-blue-200 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-blob" />
-        <div className="absolute top-1/2 right-0 w-96 h-96 bg-purple-200 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-blob animation-delay-2000" />
-      </section>
-
-      {/* Cleanup & Catch-Up Section */}
-      <section className="py-24 bg-white relative overflow-hidden">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-            <motion.div
-              initial={{ opacity: 0, x: -50 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6 }}
-            >
-              <div className="relative group">
-                <div className="absolute inset-0 bg-blue-600 rounded-[2.5rem] rotate-3 opacity-5 group-hover:rotate-6 transition-transform duration-500"></div>
-                <img
-                  src="https://i.postimg.cc/9MzF84FH/Dietzbookeepingabout.jpg"
-                  alt="Bryan Dietz"
-                  className="relative rounded-[2.5rem] shadow-2xl w-full max-w-md mx-auto object-cover transform group-hover:-translate-y-2 transition-transform duration-500"
-                />
-              </div>
-            </motion.div>
-
-            <motion.div
-              initial={{ opacity: 0, x: 50 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6 }}
-            >
-              <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-6 leading-tight">
-                Bookkeeping, Cleanup & Catch-Up Services
-              </h2>
-              <div className="space-y-6 text-lg text-slate-600 leading-relaxed">
-                <p>
-                  Our bookkeeping cleanup and catch-up services are specialized offering designed to help businesses bring their financial records up to date, resolve discrepancies, and establish a solid foundation for accurate and organized bookkeeping moving forward. These services are ideal for businesses that have fallen behind on their bookkeeping, have disorganized records, or are transitioning to a new bookkeeping system.
-                </p>
-                <p>
-                  At <span className="font-bold text-slate-900">Dietz Bookkeeping</span>, we understand that life as a business owner can be hectic, and bookkeeping often takes a backseat to day-to-day operations. That's why we offer comprehensive cleanup and catch-up services to help you regain control of your finances and ensure compliance with tax regulations.
-                </p>
-              </div>
-              <div className="mt-8">
-                <Link
-                  to="/services"
-                  className="inline-block bg-blue-600 text-white px-8 py-4 rounded-full font-bold text-lg shadow-lg shadow-blue-600/30 hover:bg-blue-700 transition-transform hover:scale-105"
-                >
-                  Discover More
-                </Link>
-              </div>
-            </motion.div>
+          <div className="max-w-md w-full mx-auto lg:ml-auto">
+            <div className="rounded-3xl overflow-hidden bg-white border border-slate-200 shadow-xl shadow-slate-200/60">
+              <img src="https://i.postimg.cc/9MzF84FH/Dietzbookeepingabout.jpg" alt="Bryan Dietz, founder of Dietz Bookkeeping" width="800" height="800" fetchPriority="high" className="w-full aspect-square object-cover" />
+              <div className="p-5 sm:p-6"><p className="font-bold text-xl text-slate-900">Your business. Your bookkeeper.</p><p className="text-slate-600 mt-2">Meet Bryan Dietz — a fellow business owner who understands how much you have on your plate.</p><Link to="/about" className="inline-flex items-center gap-2 text-blue-700 font-semibold mt-4">Get to know Bryan <ArrowRight className="w-4 h-4" /></Link></div>
+            </div>
           </div>
         </div>
       </section>
 
-      {/* Features Section */}
-      <section className="py-24 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
-            {[
-              { title: 'Accuracy Guaranteed', desc: 'We double-check every transaction so you never have to worry about errors.' },
-              { title: 'Tax-Ready Financials', desc: 'Your books will be clean and organized, making tax season a breeze for your CPA.' },
-              { title: 'Local Tampa Experts', desc: 'We understand the local business landscape and are just a phone call away.' }
-            ].map((feature, idx) => (
-              <motion.div 
-                key={idx}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: idx * 0.1 }}
-                className="text-center p-8 rounded-3xl bg-slate-50 border border-slate-100"
-              >
-                <div className="w-12 h-12 bg-blue-100 text-blue-600 rounded-2xl flex items-center justify-center mx-auto mb-6">
-                  <CheckCircle2 className="h-6 w-6" />
-                </div>
-                <h3 className="text-xl font-bold text-slate-900 mb-3">{feature.title}</h3>
-                <p className="text-slate-600 leading-relaxed">{feature.desc}</p>
-              </motion.div>
-            ))}
-          </div>
+      <section className="bg-white border-y border-slate-100">
+        <div className="max-w-7xl mx-auto px-5 sm:px-8 py-6 grid sm:grid-cols-3 gap-4">
+          {['Work directly with Bryan', 'Monthly & catch-up support', 'Remote service nationwide'].map(text => <div key={text} className="flex gap-3 items-center text-slate-700 font-medium"><CheckCircle2 className="h-5 w-5 text-blue-600 shrink-0" />{text}</div>)}
         </div>
       </section>
 
-      {/* Services Grid */}
-      <section className="py-24 bg-slate-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center max-w-3xl mx-auto mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-4">Comprehensive Financial Solutions</h2>
-            <p className="text-lg text-slate-600">Everything you need to keep your business financially healthy.</p>
-          </div>
-          
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {services.map((service, idx) => (
-              <motion.div
-                key={service.id}
-                initial={{ opacity: 0, scale: 0.9 }}
-                whileInView={{ opacity: 1, scale: 1 }}
-                viewport={{ once: true }}
-                transition={{ delay: idx * 0.05 }}
-              >
-                <ServiceCard
-                  title={service.title}
-                  description={service.description}
-                  icon={<service.icon className="h-6 w-6" />}
-                  link={service.slug}
-                  color={idx % 2 === 0 ? "bg-blue-500" : "bg-indigo-500"}
-                />
-              </motion.div>
-            ))}
-          </div>
-          
-          <div className="mt-12 text-center">
-            <Link to="/services" className="text-blue-600 font-semibold hover:text-blue-700 inline-flex items-center gap-2">
-              View all services <ArrowRight className="h-4 w-4" />
-            </Link>
-          </div>
+      <section className="py-14 sm:py-20 bg-white">
+        <div className="max-w-7xl mx-auto px-5 sm:px-8">
+          <div className="max-w-2xl mb-9"><p className="text-blue-700 font-semibold text-sm mb-3">START WHERE YOU ARE</p><h2 className="text-3xl sm:text-4xl font-bold text-slate-900 mb-4">Ongoing support or a fresh start.</h2><p className="text-lg text-slate-600">Whether your books need regular attention or some catching up, we’ll discuss your needs and define a clear scope.</p></div>
+          <div className="grid md:grid-cols-2 gap-6">{primaryServices.map(item => <div key={item.title} className="rounded-2xl border border-slate-200 bg-slate-50 p-7 sm:p-9"><item.icon className="w-8 h-8 text-blue-600 mb-5" /><h3 className="text-2xl font-bold text-slate-900 mb-3">{item.title}</h3><p className="text-slate-600 leading-relaxed mb-6">{item.text}</p><Link to={item.link} className="inline-flex items-center gap-2 text-blue-700 font-semibold">{item.label}<ArrowRight className="w-4 h-4" /></Link></div>)}</div>
         </div>
       </section>
+
+      <section className="py-14 sm:py-20 bg-slate-50">
+        <div className="max-w-7xl mx-auto px-5 sm:px-8 grid lg:grid-cols-2 gap-10 items-start">
+          <div><h2 className="text-3xl sm:text-4xl font-bold text-slate-900 mb-5">Built for owners who do a little of everything.</h2><p className="text-lg text-slate-600 leading-relaxed mb-5">Bryan’s experience running cleaning and handyman businesses brings a practical understanding of the work behind every invoice and expense.</p><p className="text-slate-600 leading-relaxed">We welcome small service businesses, independent professionals, and owner-operated companies throughout the United States.</p></div>
+          <div className="grid sm:grid-cols-2 gap-4">{['Cleaning businesses', 'Handymen & contractors', 'Independent professionals', 'Other small businesses'].map(text => <div key={text} className="p-6 rounded-2xl bg-white border border-slate-200"><CheckCircle2 className="h-5 w-5 text-blue-600 mb-3" /><h3 className="font-semibold text-slate-900">{text}</h3></div>)}</div>
+        </div>
+      </section>
+
+      <section className="py-14 sm:py-20 bg-white">
+        <div className="max-w-7xl mx-auto px-5 sm:px-8"><div className="max-w-2xl mb-10"><h2 className="text-3xl sm:text-4xl font-bold text-slate-900 mb-4">A straightforward way to work together.</h2><p className="text-lg text-slate-600">You don’t have to be in Tampa to get personal support.</p></div><div className="grid md:grid-cols-3 gap-8">{[
+          { icon: MessageCircle, title: '1. Tell us about your business', text: 'Start with a free consultation. We’ll discuss your accounts, current records, and the help you’re looking for.' },
+          { icon: FileText, title: '2. Agree on the scope', text: 'We’ll review your needs and outline the work and pricing before you decide to move forward.' },
+          { icon: Monitor, title: '3. Work together remotely', text: 'Coordinate access to your accounting software, share the records needed, and stay in touch as work progresses.' },
+        ].map(item => <div key={item.title}><item.icon className="w-8 h-8 text-blue-600 mb-5" /><h3 className="text-xl font-bold text-slate-900 mb-3">{item.title}</h3><p className="text-slate-600 leading-relaxed">{item.text}</p></div>)}</div></div>
+      </section>
+
+      <section className="py-14 sm:py-20 bg-slate-50"><div className="max-w-7xl mx-auto px-5 sm:px-8"><h2 className="text-3xl sm:text-4xl font-bold text-slate-900 mb-4">Support for the details, too.</h2><p className="text-lg text-slate-600 max-w-2xl mb-9">Explore the services that can form part of your bookkeeping plan.</p><div className="grid sm:grid-cols-2 xl:grid-cols-4 gap-5">{services.map(service => <ServiceCard key={service.id} title={service.title} description={service.description} icon={<service.icon className="h-6 w-6" />} link={service.slug} color="bg-blue-600" />)}</div></div></section>
 
       {/* Testimonials */}
-      <section className="py-24 bg-white overflow-hidden">
+      <section className="py-14 sm:py-20 bg-white overflow-hidden">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center max-w-4xl mx-auto mb-16">
             <h2 className="text-3xl md:text-5xl font-bold text-slate-900 mb-6">Client Feedback & Reviews</h2>
             <p className="text-xl text-slate-600">
-              Discover How Our Expert Bookkeeping Services Have Helped Clients Streamline Their Finances and Achieve Greater Success
+              What business owners say about working with Dietz Bookkeeping
             </p>
           </div>
           
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             {[
               { 
                 name: 'Lissandra P.', 
@@ -198,25 +82,21 @@ const Home = () => {
                 text: "Working with Dietz Bookkeeping has been an absolute game-changer for my cleaning service, Dazzle by Lis! As a small business owner, managing my books was always a challenge, but thanks to their personalized QuickBooks training, I now feel confident and empowered to handle my finances. The team took the time to explain everything in detail, walking me through the system step-by-step. I can now efficiently track expenses, invoicing, and payments, which has freed up more time to focus on growing my business. I can't recommend their services enough – they truly care about your success!" 
               },
               { 
-                name: 'Jordan Matthews', 
-                role: 'MJ Realty (Realtor)', 
-                image: 'https://picsum.photos/seed/jordan/200/200',
-                text: "I've been working with Dietz Bookkeeping for several months now, and their monthly bookkeeping service has been invaluable for my real estate business, Skyline Realty. As a busy realtor, keeping track of commissions, expenses, and taxes was overwhelming before they stepped in. Their team is incredibly professional, and they always ensure my books are up-to-date and accurate. They've saved me so much time, allowing me to focus on what I do best – helping my clients find their dream homes. I couldn't run my business without them!" 
-              },
-              { 
                 name: 'Nelson Silva', 
                 role: 'Nsilva Construction Inc. (Construction Company)', 
                 image: 'https://i.postimg.cc/TwhY7yY6/Nelson_Silva.jpg',
                 text: "We hired Dietz Bookkeeping for a much-needed cleanup of our company's financial records, and I am beyond impressed with the results. As a construction business, we deal with numerous invoices, contractors, and projects, so our books were a bit of a mess. The team at Dietz Bookkeeping took the time to carefully go through everything, correct discrepancies, and organize our financials in a way that makes sense. Their attention to detail was incredible, and I now feel much more confident about the state of our finances. Highly recommend their services for any business in need of bookkeeping help!" 
               }
             ].map((testimonial, idx) => (
-              <div key={idx} className={`bg-white p-8 rounded-3xl relative flex flex-col ${idx === 1 ? 'shadow-2xl scale-105 z-10 border-t-4 border-blue-500' : 'shadow-lg border border-slate-100'}`}>
+              <div key={idx} className="bg-white p-8 rounded-3xl relative flex flex-col shadow-sm border border-slate-200">
                 <div className="flex gap-1 text-yellow-400 mb-6">
                   {[...Array(5)].map((_, i) => <Star key={i} className="h-5 w-5 fill-current" />)}
                 </div>
                 <p className="text-slate-600 mb-8 text-sm leading-relaxed flex-grow">{testimonial.text}</p>
                 <div className="flex items-center gap-4 mt-auto">
                   <img 
+                    loading="lazy"
+                    width="48" height="48"
                     src={testimonial.image} 
                     alt={testimonial.name} 
                     className="w-12 h-12 rounded-full object-cover border-2 border-slate-100"
@@ -236,24 +116,14 @@ const Home = () => {
         </div>
       </section>
 
-      {/* CTA Section */}
-      <section className="py-24 bg-blue-600 relative overflow-hidden">
-        <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-10"></div>
-        <div className="max-w-4xl mx-auto px-4 text-center relative z-10">
-          <h2 className="text-3xl md:text-5xl font-bold text-white mb-8">Ready to take control of your finances?</h2>
-          <p className="text-xl text-blue-100 mb-10 max-w-2xl mx-auto">
-            Schedule a free consultation today and see how we can help your business thrive.
-          </p>
-          <Link
-            to="/contact"
-            className="inline-block bg-white text-blue-600 px-10 py-4 rounded-full font-bold text-lg shadow-xl hover:bg-blue-50 transition-transform hover:scale-105"
-          >
-            Get Started Now
-          </Link>
-        </div>
-      </section>
+      <section className="py-14 sm:py-20 bg-white"><div className="max-w-3xl mx-auto px-5 sm:px-8"><h2 className="text-3xl sm:text-4xl font-bold text-slate-900 mb-8">A few questions before we talk.</h2><div className="divide-y divide-slate-200">{[
+        ['Do I need to be in Florida?', 'No. Dietz Bookkeeping is based in Tampa and works remotely with small businesses across the United States. Local meetings are available by appointment.'],
+        ['Can you help if my books are behind?', 'Yes. We can discuss cleanup and catch-up support. The scope depends on how much history needs attention and the condition of your records.'],
+        ['How much does bookkeeping cost?', 'Pricing depends on your transaction volume, accounts, record condition, and services. Request an estimate so we can discuss the right scope for your business.'],
+        ['Do you prepare my tax return?', 'Our tax preparation support focuses on organizing bookkeeping records for your tax professional. Tax return preparation is not included in that bookkeeping service.'],
+      ].map(([question,answer]) => <details key={question} className="py-5"><summary className="cursor-pointer font-semibold text-lg text-slate-900 pr-5">{question}</summary><p className="mt-3 text-slate-600 leading-relaxed">{answer}</p></details>)}</div></div></section>
+
+      <section className="py-14 sm:py-20 bg-slate-900 text-white"><div className="max-w-3xl mx-auto px-5 text-center"><h2 className="text-3xl sm:text-4xl font-bold mb-5">Let’s get your books working for you.</h2><p className="text-lg text-slate-300 mb-8">Tell us what you need help with. We’ll talk through a practical next step.</p><div className="flex flex-col sm:flex-row gap-3 justify-center"><Link to="/contact#schedule" className="rounded-xl bg-blue-600 px-6 py-3.5 font-semibold hover:bg-blue-500">Book a Free Consultation</Link><Link to="/contact#estimate" className="rounded-xl border border-slate-500 px-6 py-3.5 font-semibold hover:bg-slate-800">Request an Estimate</Link></div></div></section>
     </Layout>
   );
-};
-
-export default Home;
+}
