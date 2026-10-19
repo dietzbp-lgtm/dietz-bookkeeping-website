@@ -17,6 +17,7 @@ import Resources from './pages/Resources';
 import ServicePage from './pages/ServicePage';
 import { services } from './data/services';
 import ChatbotEmbed from './components/ChatbotEmbed';
+import Analytics from './components/Analytics';
 
 // Scroll to top on route change
 function ScrollToTop() {
@@ -56,6 +57,7 @@ export function AppContent() {
   return (
     <>
       <ScrollToTop />
+      <Analytics />
       <Seo />
       <AppRoutes />
       <ChatbotEmbed />
