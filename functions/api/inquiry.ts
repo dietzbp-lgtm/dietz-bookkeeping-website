@@ -20,7 +20,7 @@ const escapeHtml = (value: string) => value
   .replaceAll('"', '&quot;').replaceAll("'", '&#39;');
 
 function validEmail(email: string) {
-  return /^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/.test(email) && email.length <= 254;
+  return /^[^\s@]+@[^\s@]+\\.[^\s@]+$/.test(email) && email.length <= 254;
 }
 
 async function sendResend(key: string, payload: Record<string, unknown>) {
@@ -101,9 +101,9 @@ export const onRequestPost = async (context: {
     ] : []),
     ['Message', message],
   ].filter(([, v]) => Boolean(v));
-  const text = details.map(([k, v]) => `${k}: ${v}`).join('\\n');
+  const text = details.map(([k, v]) => `${k}: ${v}`).join('\n');
   const html = '<h2>New Dietz Bookkeeping inquiry</h2>' +
-    details.map(([k, v]) => `<p><strong>${escapeHtml(k)}:</strong> ${escapeHtml(v).replaceAll('\\n', '<br>')}</p>`).join('');
+    details.map(([k, v]) => `<p><strong>${escapeHtml(k)}:</strong> ${escapeHtml(v).replaceAll('\n', '<br>')}</p>`).join('');
 
   try {
     await sendResend(env.RESEND_API_KEY, {
@@ -119,7 +119,7 @@ export const onRequestPost = async (context: {
         from: 'Dietz Bookkeeping <notifications@dietzbookkeeping.com>',
         to: [email],
         subject: 'We received your Dietz Bookkeeping request',
-        text: `Hi ${name},\\n\\nThank you for contacting Dietz Bookkeeping. We received your ${type === 'estimate' ? 'estimate request' : 'message'} and will review it.\\n\\nPlease do not email passwords or financial account credentials.\\n\\nDietz Bookkeeping`,
+        text: `Hi ${name},\n\nThank you for contacting Dietz Bookkeeping. We received your ${type === 'estimate' ? 'estimate request' : 'message'} and will review it.\n\nPlease do not email passwords or financial account credentials.\n\nDietz Bookkeeping`,
       });
     } catch {
       console.error('Customer confirmation delivery failed');
