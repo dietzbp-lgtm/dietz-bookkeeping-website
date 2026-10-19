@@ -19,8 +19,8 @@ export default function Home() {
             <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-slate-900 tracking-tight leading-[1.1] mb-6">Clear books.<br /><span className="text-blue-600">More time for your business.</span></h1>
             <p className="text-lg text-slate-600 leading-relaxed max-w-xl mb-8">Monthly bookkeeping and cleanup support for small business owners. Work directly with Bryan Dietz to organize your records, understand your numbers, and get your books ready for your tax professional.</p>
             <div className="flex flex-col sm:flex-row gap-3">
-              <Link to="/contact#schedule" className="bg-blue-600 text-white px-6 py-3.5 rounded-xl font-semibold text-center hover:bg-blue-700 transition-colors">Book a Free Consultation</Link>
-              <Link to="/contact#estimate" className="bg-white text-slate-800 border border-slate-300 px-6 py-3.5 rounded-xl font-semibold text-center hover:bg-slate-50 transition-colors">Request an Estimate</Link>
+              <Link to="/schedule" className="bg-blue-600 text-white px-6 py-3.5 rounded-xl font-semibold text-center hover:bg-blue-700 transition-colors">Book a Free Consultation</Link>
+              <Link to="/estimate" className="bg-white text-slate-800 border border-slate-300 px-6 py-3.5 rounded-xl font-semibold text-center hover:bg-slate-50 transition-colors">Request an Estimate</Link>
             </div>
             <p className="text-sm text-slate-500 mt-5">Remote service across the U.S. · Local Tampa meetings by appointment</p>
           </div>
@@ -123,7 +123,7 @@ export default function Home() {
         ['Do you prepare my tax return?', 'Our tax preparation support focuses on organizing bookkeeping records for your tax professional. Tax return preparation is not included in that bookkeeping service.'],
       ].map(([question,answer]) => <details key={question} className="py-5"><summary className="cursor-pointer font-semibold text-lg text-slate-900 pr-5">{question}</summary><p className="mt-3 text-slate-600 leading-relaxed">{answer}</p></details>)}</div></div></section>
 
-      <section className="py-14 sm:py-20 bg-slate-900 text-white"><div className="max-w-3xl mx-auto px-5 text-center"><h2 className="text-3xl sm:text-4xl font-bold mb-5">Let’s get your books working for you.</h2><p className="text-lg text-slate-300 mb-8">Tell us what you need help with. We’ll talk through a practical next step.</p><div className="flex flex-col sm:flex-row gap-3 justify-center"><Link to="/contact#schedule" className="rounded-xl bg-blue-600 px-6 py-3.5 font-semibold hover:bg-blue-500">Book a Free Consultation</Link><Link to="/contact#estimate" className="rounded-xl border border-slate-500 px-6 py-3.5 font-semibold hover:bg-slate-800">Request an Estimate</Link></div></div></section>
+      <section className="py-14 sm:py-20 bg-slate-900 text-white"><div className="max-w-3xl mx-auto px-5 text-center"><h2 className="text-3xl sm:text-4xl font-bold mb-5">Let’s get your books working for you.</h2><p className="text-lg text-slate-300 mb-8">Tell us what you need help with. We’ll talk through a practical next step.</p><div className="flex flex-col sm:flex-row gap-3 justify-center"><Link to="/schedule" className="rounded-xl bg-blue-600 px-6 py-3.5 font-semibold hover:bg-blue-500">Book a Free Consultation</Link><Link to="/estimate" className="rounded-xl border border-slate-500 px-6 py-3.5 font-semibold hover:bg-slate-800">Request an Estimate</Link></div></div></section>
     </Layout>
   );
 }

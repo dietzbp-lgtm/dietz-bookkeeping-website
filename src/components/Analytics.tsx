@@ -42,10 +42,10 @@ export default function Analytics() {
         gtag('event', 'consultation_booking_link_click', { destination: 'calendly' });
       } else if (/^https:\/\/form\.jotform\.com\/260844540670053(?:[?#]|$)/i.test(href)) {
         gtag('event', 'estimate_form_link_click', { destination: 'jotform' });
-      } else if (/^\/contact#schedule$/i.test(href)) {
-        gtag('event', 'consultation_cta_click', { destination: 'contact_schedule' });
-      } else if (/^\/contact#estimate$/i.test(href)) {
-        gtag('event', 'estimate_cta_click', { destination: 'contact_estimate' });
+      } else if (/^\/(?:schedule|contact#schedule)\/?$/i.test(href)) {
+        gtag('event', 'consultation_cta_click', { destination: 'schedule_page' });
+      } else if (/^\/(?:estimate|contact#estimate)\/?$/i.test(href)) {
+        gtag('event', 'estimate_cta_click', { destination: 'estimate_page' });
       }
     }
     document.addEventListener('click', handleClick);

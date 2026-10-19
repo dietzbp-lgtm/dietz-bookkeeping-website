@@ -18,7 +18,7 @@ const Services = () => {
 
           <div className="bg-blue-600 text-white rounded-3xl p-8 mb-10 flex flex-col md:flex-row gap-6 items-start md:items-center justify-between">
             <div><h2 className="text-2xl font-bold mb-2">Need regular support or a fresh start?</h2><p>Start with monthly bookkeeping, or discuss cleanup if your records are behind.</p></div>
-            <Link to="/contact#schedule" className="shrink-0 bg-white text-blue-700 rounded-xl px-6 py-3 font-semibold">Book a Free Consultation</Link>
+            <Link to="/schedule" className="shrink-0 bg-white text-blue-700 rounded-xl px-6 py-3 font-semibold">Book a Free Consultation</Link>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {services.map((service, idx) => (

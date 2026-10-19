@@ -1,12 +1,45 @@
+import { useEffect } from 'react';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import Layout from '../components/Layout';
-import { InlineWidget } from 'react-calendly';
-import { Link } from 'react-router-dom';
 
 export default function Contact() {
+  const { hash } = useLocation();
+  const navigate = useNavigate();
+
+  // Preserve old /contact#schedule and /contact#estimate links from search and bookmarks.
+  useEffect(() => {
+    if (hash === '#schedule') navigate('/schedule', { replace: true });
+    if (hash === '#estimate') navigate('/estimate', { replace: true });
+  }, [hash, navigate]);
+
   return <Layout>
-    <section className="bg-blue-50 py-16"><div className="max-w-4xl mx-auto px-6 text-center"><h1 className="text-4xl md:text-5xl font-bold mb-6">Let’s talk about your books.</h1><p className="text-xl text-slate-600 mb-8">Monthly support, a cleanup project or a question about where to start—tell Bryan what your business needs. Based in Tampa, serving small businesses nationwide.</p><div className="flex flex-wrap justify-center gap-4"><Link to="/contact#schedule" className="bg-blue-600 text-white px-6 py-3 rounded-xl font-semibold">Book a Free Consultation</Link><Link to="/contact#estimate" className="bg-white border px-6 py-3 rounded-xl font-semibold">Request an Estimate</Link></div></div></section>
-    <section className="py-12"><div className="max-w-6xl mx-auto px-6 grid md:grid-cols-3 gap-6"><div className="bg-slate-50 rounded-2xl p-6"><h2 className="font-bold text-lg mb-2">Call Bryan</h2><a href="tel:+18134193475" className="text-blue-600">813-419-3475</a></div><div className="bg-slate-50 rounded-2xl p-6 min-w-0"><h2 className="font-bold text-lg mb-2">Email</h2><a href="mailto:bryand@dietzbookkeeping.com" className="text-blue-600 break-words">bryand@dietzbookkeeping.com</a></div><div className="bg-slate-50 rounded-2xl p-6"><h2 className="font-bold text-lg mb-2">Tampa appointments</h2><p className="text-slate-600">7506 Bolanos Ct, Tampa, FL 33615</p><p className="text-sm text-slate-600 mt-2">Home office. Please arrange an appointment before visiting.</p></div></div></section>
-    <section id="schedule" className="scroll-mt-24 py-12 bg-slate-50"><div className="max-w-5xl mx-auto px-4 sm:px-6"><h2 className="text-3xl font-bold text-center mb-4">Book your free consultation</h2><p className="text-center text-slate-600 mb-4">Choose a time for a 30-minute conversation about your records and the support you need.</p><p className="text-center mb-6"><a href="https://calendly.com/dietzbookkeeping/30min" target="_blank" rel="noopener noreferrer" className="text-blue-600 underline">Open the booking calendar in a new tab</a></p><div className="bg-white rounded-2xl overflow-hidden border"><InlineWidget url="https://calendly.com/dietzbookkeeping/30min" styles={{height:'780px',width:'100%',minWidth:'280px'}} /></div></div></section>
-    <section id="estimate" className="scroll-mt-24 py-16"><div className="max-w-4xl mx-auto px-4 sm:px-6"><h2 className="text-3xl font-bold text-center mb-4">Request an estimate</h2><p className="text-slate-600 text-center mb-4">Use the current inquiry form to tell us what you need. If you need monthly bookkeeping or another service, include that in your message. We review your scope before quoting a price.</p><p className="text-sm text-slate-500 text-center mb-4">Please do not submit passwords, Social Security numbers, bank account details or financial documents through this inquiry form.</p><p className="text-center mb-6"><a href="https://form.jotform.com/260844540670053" target="_blank" rel="noopener noreferrer" className="text-blue-600 underline">Open the inquiry form in a new tab</a></p><iframe src="https://form.jotform.com/260844540670053" title="Bookkeeping inquiry and estimate request" loading="lazy" className="w-full h-[1050px] border rounded-2xl bg-white" /></div></section>
+    <section className="bg-gradient-to-br from-blue-50 via-white to-slate-50 py-12 sm:py-20">
+      <div className="max-w-4xl mx-auto px-5 sm:px-6 text-center">
+        <p className="font-bold text-sm text-blue-700 tracking-wide mb-4">GET IN TOUCH</p>
+        <h1 className="text-4xl sm:text-5xl font-bold tracking-tight text-slate-900 mb-5">Let's talk about your books.</h1>
+        <p className="text-lg text-slate-600 max-w-2xl mx-auto">Get practical bookkeeping support from Tampa, Florida, serving small businesses nationwide. Choose the next step that works for you.</p>
+      </div>
+    </section>
+    <section className="bg-white py-12 sm:py-16">
+      <div className="max-w-5xl mx-auto px-5 sm:px-6 grid md:grid-cols-2 gap-6">
+        <div className="rounded-2xl border border-slate-200 bg-slate-50 p-7 sm:p-9 flex flex-col">
+          <h2 className="text-2xl font-bold text-slate-900 mb-3">Book a free consultation</h2>
+          <p className="text-slate-600 leading-relaxed mb-7 flex-1">Choose a convenient time for a 30-minute conversation about your bookkeeping goals and how we can help.</p>
+          <Link to="/schedule" className="inline-block rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-center px-6 py-3.5 font-semibold">Schedule a call</Link>
+        </div>
+        <div className="rounded-2xl border border-slate-200 bg-slate-50 p-7 sm:p-9 flex flex-col">
+          <h2 className="text-2xl font-bold text-slate-900 mb-3">Request an estimate</h2>
+          <p className="text-slate-600 leading-relaxed mb-7 flex-1">Share a few details about your business, accounts, and the type of support you need to get a personalized quote.</p>
+          <Link to="/estimate" className="inline-block rounded-xl bg-white border border-slate-300 hover:bg-slate-100 text-slate-900 text-center px-6 py-3.5 font-semibold">Start estimate request</Link>
+        </div>
+      </div>
+    </section>
+    <section className="bg-slate-50 py-12 sm:py-16">
+      <div className="max-w-5xl mx-auto px-5 sm:px-6 grid sm:grid-cols-3 gap-6">
+        <div className="bg-white rounded-xl p-6 border border-slate-200"><h2 className="font-bold text-lg mb-3">Call Bryan</h2><a href="tel:+18134193475" className="text-blue-700 hover:underline">813-419-3475</a></div>
+        <div className="bg-white rounded-xl p-6 border border-slate-200 min-w-0"><h2 className="font-bold text-lg mb-3">Email</h2><a href="mailto:bryand@dietzbookkeeping.com" className="text-blue-700 hover:underline break-words">bryand@dietzbookkeeping.com</a></div>
+        <div className="bg-white rounded-xl p-6 border border-slate-200"><h2 className="font-bold text-lg mb-3">Tampa appointments</h2><p className="text-slate-600">Home office visits are by appointment only. Please contact us before visiting.</p></div>
+      </div>
+    </section>
   </Layout>;
 }

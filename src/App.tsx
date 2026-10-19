@@ -13,6 +13,8 @@ import About from './pages/About';
 import Services from './pages/Services';
 import ServiceAreas from './pages/ServiceAreas';
 import Contact from './pages/Contact';
+import Schedule from './pages/Schedule';
+import Estimate from './pages/Estimate';
 import Resources from './pages/Resources';
 import ServicePage from './pages/ServicePage';
 import { services } from './data/services';
@@ -42,6 +44,8 @@ function AppRoutes() {
     { path: "/services", element: <Services /> },
     { path: "/service-areas", element: <ServiceAreas /> },
     { path: "/contact", element: <Contact /> },
+    { path: "/schedule", element: <Schedule /> },
+    { path: "/estimate", element: <Estimate /> },
     { path: "/resources", element: <Resources /> },
     ...services.map(service => ({
       path: service.slug,
@@ -57,8 +61,8 @@ export function AppContent() {
   return (
     <>
       <ScrollToTop />
-      <Analytics />
       <Seo />
+      <Analytics />
       <AppRoutes />
       <ChatbotEmbed />
     </>

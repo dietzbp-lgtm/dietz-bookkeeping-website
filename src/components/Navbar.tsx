@@ -53,7 +53,7 @@ const Navbar = () => {
               <span>813-419-3475</span>
             </a>
             <Link
-              to="/contact#schedule"
+              to="/schedule"
               className="ios-btn bg-blue-500 text-white px-5 py-2 rounded-full text-sm font-medium shadow-lg shadow-blue-500/20 hover:bg-blue-600"
             >
               Consultation
@@ -109,7 +109,7 @@ const Navbar = () => {
                   <span>813-419-3475</span>
                 </a>
                 <Link
-                  to="/contact#schedule"
+                  to="/schedule"
                   className="ios-btn block w-full text-center bg-blue-500 text-white px-5 py-3 rounded-xl text-base font-medium shadow-lg shadow-blue-500/20"
                 >
                   Book Consultation

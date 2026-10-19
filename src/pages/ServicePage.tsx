@@ -105,7 +105,7 @@ const ServicePage: React.FC<ServicePageProps> = ({ service }) => {
                     Schedule a free consultation to discuss how our {service.title} services can help your business grow.
                   </p>
                   <Link
-                    to="/contact#schedule"
+                    to="/schedule"
                     className="inline-flex items-center justify-center w-full bg-blue-600 text-white px-8 py-4 rounded-xl font-semibold text-lg shadow-lg shadow-blue-600/30 hover:bg-blue-700 transition-all transform hover:scale-[1.02]"
                   >
                     {service.content.cta} <ArrowRight className="ml-2 h-5 w-5" />
@@ -145,7 +145,7 @@ const ServicePage: React.FC<ServicePageProps> = ({ service }) => {
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link
-              to="/contact#schedule"
+              to="/schedule"
               className="bg-white text-slate-900 px-8 py-4 rounded-full font-bold text-lg hover:bg-blue-50 transition-colors"
             >
               Book Your Consultation
