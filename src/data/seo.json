@@ -12,8 +12,8 @@
     "description": "Explore monthly bookkeeping, cleanup, reconciliation and reporting for small businesses. Based in Tampa with remote support across the United States."
   },
   "/contact": {
-    "title": "Contact Dietz Bookkeeping | Free Consultation",
-    "description": "Contact Dietz Bookkeeping to discuss your small business bookkeeping needs and schedule a free consultation."
+    "title": "Contact Dietz Bookkeeping | Tampa & Nationwide",
+    "description": "Contact Dietz Bookkeeping by phone or email, schedule a free consultation, or request a personalized estimate. Serving small businesses nationwide."
   },
   "/resources": {
     "title": "Bookkeeping Resources & QuickBooks Guides | Dietz Bookkeeping",
@@ -58,5 +58,13 @@
   "/service-areas": {
     "title": "Bookkeeping in Tampa & Across the U.S. | Dietz Bookkeeping",
     "description": "Tampa-based bookkeeping with remote service throughout Florida and the United States. Explore monthly support, cleanup and local appointments."
+  },
+  "/schedule": {
+    "title": "Book a Free Bookkeeping Consultation | Dietz Bookkeeping",
+    "description": "Schedule a free 30-minute bookkeeping consultation with Dietz Bookkeeping. Remote appointments for small businesses across the U.S."
+  },
+  "/estimate": {
+    "title": "Request a Bookkeeping Estimate | Dietz Bookkeeping",
+    "description": "Request a bookkeeping estimate for monthly support, cleanup, or other bookkeeping services from Dietz Bookkeeping, based in Tampa and serving the U.S."
   }
 }
