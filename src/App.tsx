@@ -61,8 +61,8 @@ export function AppContent() {
   return (
     <>
       <ScrollToTop />
-      <Analytics />
       <Seo />
+      <Analytics />
       <AppRoutes />
       <ChatbotEmbed />
     </>
