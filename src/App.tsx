@@ -6,6 +6,9 @@
 import { useRoutes, useLocation, BrowserRouter as Router } from 'react-router-dom';
 import { useEffect } from 'react';
 import Home from './pages/Home';
+import Seo from './components/Seo';
+import Layout from './components/Layout';
+import { Link } from 'react-router-dom';
 import About from './pages/About';
 import Services from './pages/Services';
 import Contact from './pages/Contact';
@@ -36,7 +39,7 @@ function AppRoutes() {
       path: service.slug,
       element: <ServicePage service={service} />
     })),
-    { path: "*", element: <Home /> }
+    { path: "*", element: <Layout><section className="max-w-3xl mx-auto px-6 py-24 text-center"><h1 className="text-4xl font-bold mb-6">Page not found</h1><p className="mb-8">The page you requested could not be found.</p><Link to="/" className="text-blue-600 underline">Return to Dietz Bookkeeping</Link></section></Layout> }
   ]);
 
   return routes;
@@ -46,6 +49,7 @@ export default function App() {
   return (
     <Router>
       <ScrollToTop />
+      <Seo />
       <AppRoutes />
       <ChatbotEmbed />
     </Router>

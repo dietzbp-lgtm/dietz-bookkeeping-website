@@ -1,0 +1,54 @@
+{
+  "/": {
+    "title": "Bookkeeping Services in Tampa, FL | Dietz Bookkeeping",
+    "description": "Bookkeeping for Tampa small businesses. Get help with account reconciliation, catch-up bookkeeping and financial reporting. Schedule a free consultation."
+  },
+  "/about": {
+    "title": "About Dietz Bookkeeping | Tampa, FL",
+    "description": "Learn about Dietz Bookkeeping and our approach to organized records, clear financial reports and bookkeeping support for small businesses."
+  },
+  "/services": {
+    "title": "Small Business Bookkeeping Services | Tampa, FL",
+    "description": "Explore bank reconciliation, bookkeeping cleanup, accounts payable, accounts receivable, payroll support and financial reporting for Tampa businesses."
+  },
+  "/contact": {
+    "title": "Contact Dietz Bookkeeping | Free Consultation",
+    "description": "Contact Dietz Bookkeeping to discuss your small business bookkeeping needs and schedule a free consultation."
+  },
+  "/resources": {
+    "title": "Bookkeeping Resources & QuickBooks Guides | Dietz Bookkeeping",
+    "description": "Find bookkeeping resources and QuickBooks guidance to help keep your small business financial records organized."
+  },
+  "/tampa-bank-reconciliation": {
+    "title": "Bank Reconciliation in Tampa, FL | Dietz Bookkeeping",
+    "description": "Accurate matching of bank and credit card transactions to keep financial records clean and error-free."
+  },
+  "/tampa-cleanup-bookkeeping": {
+    "title": "Cleanup Bookkeeping in Tampa, FL | Dietz Bookkeeping",
+    "description": "Fixing months or years of messy or incomplete books so your financials are reliable again."
+  },
+  "/tampa-accounts-payable": {
+    "title": "Accounts Payable in Tampa, FL | Dietz Bookkeeping",
+    "description": "Tracking bills, managing due dates, and keeping vendors paid on time to protect cash flow."
+  },
+  "/tampa-accounts-receivable": {
+    "title": "Accounts Receivable in Tampa, FL | Dietz Bookkeeping",
+    "description": "Creating invoices, tracking customer payments, and helping businesses get paid faster."
+  },
+  "/tampa-payroll-support": {
+    "title": "Payroll Support in Tampa, FL | Dietz Bookkeeping",
+    "description": "Assisting with payroll setup, reports, and coordination so employees are paid correctly."
+  },
+  "/tampa-financial-reporting": {
+    "title": "Financial Reporting in Tampa, FL | Dietz Bookkeeping",
+    "description": "Clear monthly reports (P&L, Balance Sheet, Cash Flow) to help you make data-driven decisions."
+  },
+  "/tampa-tax-preparation-support": {
+    "title": "Tax Preparation Support in Tampa, FL | Dietz Bookkeeping",
+    "description": "Organizing clean, tax-ready books for CPAs to reduce stress and maximize deductions."
+  },
+  "/tampa-budgeting-forecasting": {
+    "title": "Budgeting & Forecasting in Tampa, FL | Dietz Bookkeeping",
+    "description": "Planning future income, expenses, and cash flow so you can grow with confidence."
+  }
+}
