@@ -26,7 +26,7 @@ export default function Home() {
           </div>
           <div className="max-w-md w-full mx-auto lg:ml-auto">
             <div className="rounded-3xl overflow-hidden bg-white border border-slate-200 shadow-xl shadow-slate-200/60">
-              <img src="https://i.postimg.cc/9MzF84FH/Dietzbookeepingabout.jpg" alt="Bryan Dietz, founder of Dietz Bookkeeping" width="800" height="800" fetchPriority="high" className="w-full aspect-square object-cover" />
+              <img src="/images/dietzbookeepingabout.webp" alt="Bryan Dietz, founder of Dietz Bookkeeping" width="800" height="800" fetchPriority="high" className="w-full aspect-square object-cover" />
               <div className="p-5 sm:p-6"><p className="font-bold text-xl text-slate-900">Your business. Your bookkeeper.</p><p className="text-slate-600 mt-2">Meet Bryan Dietz — a fellow business owner who understands how much you have on your plate.</p><Link to="/about" className="inline-flex items-center gap-2 text-blue-700 font-semibold mt-4">Get to know Bryan <ArrowRight className="w-4 h-4" /></Link></div>
             </div>
           </div>
@@ -78,13 +78,13 @@ export default function Home() {
               { 
                 name: 'Lissandra P.', 
                 role: 'Dazzle by Lis (Cleaning Service)', 
-                image: 'https://i.postimg.cc/C1dLPZL0/Lissandra_P.jpg',
+                image: '/images/lissandra-p.webp',
                 text: "Working with Dietz Bookkeeping has been an absolute game-changer for my cleaning service, Dazzle by Lis! As a small business owner, managing my books was always a challenge, but thanks to their personalized QuickBooks training, I now feel confident and empowered to handle my finances. The team took the time to explain everything in detail, walking me through the system step-by-step. I can now efficiently track expenses, invoicing, and payments, which has freed up more time to focus on growing my business. I can't recommend their services enough – they truly care about your success!" 
               },
               { 
                 name: 'Nelson Silva', 
                 role: 'Nsilva Construction Inc. (Construction Company)', 
-                image: 'https://i.postimg.cc/TwhY7yY6/Nelson_Silva.jpg',
+                image: '/images/nelson-silva.webp',
                 text: "We hired Dietz Bookkeeping for a much-needed cleanup of our company's financial records, and I am beyond impressed with the results. As a construction business, we deal with numerous invoices, contractors, and projects, so our books were a bit of a mess. The team at Dietz Bookkeeping took the time to carefully go through everything, correct discrepancies, and organize our financials in a way that makes sense. Their attention to detail was incredible, and I now feel much more confident about the state of our finances. Highly recommend their services for any business in need of bookkeeping help!" 
               }
             ].map((testimonial, idx) => (

@@ -28,7 +28,7 @@ const Navbar = () => {
           {/* Logo */}
           <Link to="/" className="flex-shrink-0 flex items-center gap-2">
             <img
-              src="https://i.postimg.cc/zBpK7Xw4/Dietzbookkeepinglogotampafl.png"
+              src="/images/dietzbookkeepinglogotampafl.webp"
               alt="Dietz Bookkeeping"
               className="w-[205px] sm:w-[230px] h-auto mix-blend-multiply"
             />

@@ -31,7 +31,7 @@ const ServicePage: React.FC<ServicePageProps> = ({ service }) => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="text-center max-w-3xl mx-auto">
             <motion.div
-              initial={{ scale: 0.8, opacity: 0 }}
+              initial={false}
               animate={{ scale: 1, opacity: 1 }}
               transition={{ duration: 0.5 }}
               className="w-20 h-20 bg-blue-500 rounded-3xl flex items-center justify-center mx-auto mb-8 shadow-xl shadow-blue-500/30 text-white"
@@ -53,7 +53,7 @@ const ServicePage: React.FC<ServicePageProps> = ({ service }) => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
             <motion.div
-              initial={{ x: -50, opacity: 0 }}
+              initial={false}
               whileInView={{ x: 0, opacity: 1 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6 }}
@@ -67,7 +67,7 @@ const ServicePage: React.FC<ServicePageProps> = ({ service }) => {
               <div className="prose prose-lg text-slate-600 mb-8">
                 <p>{service.content.details}</p>
               </div>
-              
+
               <div className="bg-slate-50 rounded-3xl p-8 border border-slate-100">
                 <h3 className="font-semibold text-slate-900 mb-4">Key Benefits</h3>
                 <ul className="space-y-4">
@@ -82,7 +82,7 @@ const ServicePage: React.FC<ServicePageProps> = ({ service }) => {
             </motion.div>
 
             <motion.div
-              initial={{ x: 50, opacity: 0 }}
+              initial={false}
               whileInView={{ x: 0, opacity: 1 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6 }}
@@ -91,8 +91,8 @@ const ServicePage: React.FC<ServicePageProps> = ({ service }) => {
               <div className="absolute inset-0 bg-gradient-to-tr from-blue-100 to-purple-100 rounded-[2.5rem] transform rotate-3 scale-105 opacity-50" />
               <div className="relative bg-white rounded-[2rem] shadow-2xl p-8 border border-slate-100">
                 <div className="aspect-video bg-slate-100 rounded-xl mb-6 overflow-hidden">
-                  <img 
-                    src={service.image || `https://picsum.photos/seed/${service.title.replace(/\s/g, '')}/800/600`} 
+                  <img
+                    src={service.image || '/images/dietzbookeepingabout.webp'}
                     alt={service.title}
                     className="w-full h-full object-cover"
                     referrerPolicy="no-referrer"
@@ -122,7 +122,7 @@ const ServicePage: React.FC<ServicePageProps> = ({ service }) => {
           <div className="absolute -top-24 -right-24 w-96 h-96 bg-blue-500 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob" />
           <div className="absolute -bottom-24 -left-24 w-96 h-96 bg-purple-500 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob animation-delay-2000" />
         </div>
-        
+
         <div className="max-w-4xl mx-auto px-4 text-center relative z-10">
           <h2 className="text-3xl md:text-4xl font-bold mb-6">Stop stressing about your books.</h2>
           <p className="text-xl text-slate-300 mb-10">

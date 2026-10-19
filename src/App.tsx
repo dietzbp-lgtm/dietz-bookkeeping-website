@@ -50,13 +50,17 @@ function AppRoutes() {
   return routes;
 }
 
-export default function App() {
+export function AppContent() {
   return (
-    <Router>
+    <>
       <ScrollToTop />
       <Seo />
       <AppRoutes />
       <ChatbotEmbed />
-    </Router>
+    </>
   );
+}
+
+export default function App() {
+  return <Router><AppContent /></Router>;
 }
