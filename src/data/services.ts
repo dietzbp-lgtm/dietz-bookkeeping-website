@@ -11,20 +11,35 @@ import {
 
 export const services = [
   {
+    id: 'monthly-bookkeeping',
+    title: 'Monthly Bookkeeping',
+    slug: '/monthly-bookkeeping',
+    description: 'Ongoing transaction organization, account reconciliation and financial reports for small businesses in Tampa and across the United States.',
+    icon: Calculator,
+    image: '/images/tampa-financial-reporting.webp',
+    content: {
+      heading: 'Know where your business stands each month',
+      subheading: 'A consistent routine for your books, with Bryan as your point of contact.',
+      benefits: ['Categorize business transactions using the records you provide', 'Reconcile agreed bank and credit card accounts', 'Review profit and loss and balance sheet reports', 'Flag missing records and questions for your review'],
+      details: 'Monthly bookkeeping helps keep daily business activity from turning into a year-end backlog. We review your accounting setup, discuss the accounts and transaction volume involved, and agree on a recurring scope. You provide statements, receipts and answers to transaction questions; we organize the records and prepare reports so you can see income, expenses and account balances. If earlier periods need attention, cleanup work is scoped separately before ongoing support begins.',
+      cta: 'Discuss Monthly Bookkeeping'
+    }
+  },
+  {
     id: 'bank-reconciliation',
     title: 'Bank Reconciliation',
     slug: '/tampa-bank-reconciliation',
-    description: 'Accurate matching of bank and credit card transactions to keep financial records clean and error-free.',
+    description: 'Match bank and credit card statements to your books, investigate differences and keep account balances organized.',
     icon: BarChart3,
     image: '/images/tampa-bank-reconciliation.webp',
     content: {
       heading: 'Precision in Every Transaction',
       subheading: 'Never worry about mismatched records again.',
       benefits: [
-        'Identify errors and unauthorized transactions immediately',
-        'Ensure your financial statements are 100% accurate',
+        'Identify unmatched entries and unusual items for your review',
+        'Reconcile recorded balances against available statements',
         'Simplify tax preparation with clean records',
-        'Track cash flow with real-time precision'
+        'Understand recorded cash movements and outstanding items'
       ],
       details: `Bank reconciliation is the foundation of a healthy business. We meticulously match your internal records with your bank and credit card statements to ensure every penny is accounted for. This process not only keeps your books clean but also helps detect fraud, bank errors, or lost checks before they become major issues.`,
       cta: 'Get Your Books in Order'
@@ -42,7 +57,7 @@ export const services = [
       subheading: 'Messy books? We specialize in financial rescue missions.',
       benefits: [
         'Catch up on months or years of backlog',
-        'Reclassify transactions for maximum tax deductions',
+        'Review transaction categories and supporting documents',
         'Eliminate stress before tax season',
         'Get a clear picture of your true financial health'
       ],
@@ -66,7 +81,7 @@ export const services = [
         'Maintain positive vendor relationships',
         'Digital record keeping for easy auditing'
       ],
-      details: `Managing bills can be time-consuming and stressful. Our Accounts Payable service ensures your bills are recorded accurately and paid on time. We help you implement approval workflows, track due dates, and manage cash flow so you're never caught off guard by a surprise expense.`,
+      details: `Managing bills can be time-consuming and stressful. Our Accounts Payable service helps organize bills and payment schedules. We help you implement approval workflows, track due dates, and manage cash flow so you can review upcoming commitments. Payment authority and approvals are agreed before work begins.`,
       cta: 'Optimize Your Payables'
     }
   },
@@ -99,14 +114,14 @@ export const services = [
     image: '/images/tampa-payroll-support.webp',
     content: {
       heading: 'Seamless Payroll Management',
-      subheading: 'Happy employees, compliant business.',
+      subheading: 'Connect payroll records with your bookkeeping.',
       benefits: [
         'Accurate and timely employee payments',
-        'Compliance with federal and state payroll taxes',
+        'Coordinate payroll records with your payroll provider',
         'Integration with your accounting software',
         'Detailed payroll reporting'
       ],
-      details: `Payroll is one area where you can't afford mistakes. We work with your payroll provider to ensure seamless integration with your bookkeeping system. From setting up new employees to reconciling payroll runs and tax filings, we ensure your team is paid correctly and your compliance is rock solid.`,
+      details: `Payroll is one area where you can't afford mistakes. We work with your payroll provider to ensure seamless integration with your bookkeeping system. From setting up new employees to reconciling payroll runs and tax filings, we ensure your team is paid correctly and discrepancies can be reviewed with your payroll provider. Filing and payment responsibilities are defined in the agreed scope.`,
       cta: 'Simplify Payroll'
     }
   },
@@ -124,7 +139,7 @@ export const services = [
         'Monthly Profit & Loss and Balance Sheet analysis',
         'Customized reports for your specific KPIs',
         'Trend analysis to spot opportunities and risks',
-        'Investor-ready financial statements'
+        'Organized management reports for business discussions'
       ],
       details: `Don't drive your business blind. Our financial reporting service provides you with clear, accurate, and timely financial statements every month. We don't just send you a spreadsheet; we help you understand what the numbers mean so you can make informed decisions about hiring, investing, and growing.`,
       cta: 'Get Clear Insights'
@@ -134,7 +149,7 @@ export const services = [
     id: 'tax-preparation-support',
     title: 'Tax Preparation Support',
     slug: '/tampa-tax-preparation-support',
-    description: 'Organizing clean, tax-ready books for CPAs to reduce stress and maximize deductions.',
+    description: 'Organize bookkeeping records and year-end reports for your tax professional.',
     icon: Calculator,
     image: '/images/tampa-tax-preparation-support.webp',
     content: {
@@ -142,11 +157,11 @@ export const services = [
       subheading: 'We prepare the books; your CPA loves the results.',
       benefits: [
         'Year-round tax readiness, not just at year-end',
-        'Maximize deductions with accurate categorization',
-        'Reduce CPA billable hours with clean records',
-        'Avoid filing extensions and penalties'
+        'Organize categories and documents for your tax professional',
+        'Make records easier for your tax professional to review',
+        'Identify missing bookkeeping information before handoff'
       ],
-      details: `Tax season doesn't have to be a nightmare. We work throughout the year to ensure your books are tax-ready at all times. By maintaining clean records and proper categorization, we make it easy for your CPA to file your returns efficiently, potentially saving you thousands in tax liability and professional fees.`,
+      details: `Tax season doesn't have to be a nightmare. We work throughout the year to ensure your books are tax-ready at all times. By maintaining clean records and proper categorization, we make it easy for your CPA to file your returns efficiently, with organized supporting records. This service covers bookkeeping preparation; tax return preparation, tax advice and filing are handled by your tax professional.`,
       cta: 'Prepare for Tax Season'
     }
   },
