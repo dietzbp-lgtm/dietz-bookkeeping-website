@@ -64,7 +64,7 @@ const Contact = () => {
             {/* Forms Section */}
             <div className="space-y-12">
               {/* Primary: Jotform */}
-              <div className="bg-white rounded-3xl shadow-xl border border-slate-100 p-4 sm:p-8">
+              <div id="estimate" className="scroll-mt-24 bg-white rounded-3xl shadow-xl border border-slate-100 p-4 sm:p-8">
                 <h2 className="text-2xl md:text-3xl font-bold text-slate-900 mb-6 text-center">
                   Get Your Books Cleaned Up & Back on Track
                 </h2>
@@ -79,7 +79,7 @@ const Contact = () => {
               </div>
 
               {/* Secondary: Calendly */}
-              <div className="bg-white rounded-3xl shadow-xl border border-slate-100 overflow-hidden">
+              <div id="schedule" className="scroll-mt-24 bg-white rounded-3xl shadow-xl border border-slate-100 overflow-hidden">
                 <div className="p-8 pb-0 text-center">
                   <h3 className="text-2xl font-bold text-slate-900">Prefer to schedule a call?</h3>
                 </div>

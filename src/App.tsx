@@ -19,11 +19,16 @@ import ChatbotEmbed from './components/ChatbotEmbed';
 
 // Scroll to top on route change
 function ScrollToTop() {
-  const { pathname } = useLocation();
+  const { pathname, hash } = useLocation();
 
   useEffect(() => {
-    window.scrollTo(0, 0);
-  }, [pathname]);
+    const frame = requestAnimationFrame(() => {
+      const target = hash ? document.getElementById(hash.slice(1)) : null;
+      if (target) target.scrollIntoView();
+      else window.scrollTo(0, 0);
+    });
+    return () => cancelAnimationFrame(frame);
+  }, [pathname, hash]);
 
   return null;
 }

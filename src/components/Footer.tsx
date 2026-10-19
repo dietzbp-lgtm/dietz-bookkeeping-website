@@ -14,17 +14,17 @@ const Footer = () => {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-12">
           <div className="space-y-4">
             <div className="flex items-center gap-2">
-              <img 
-                src="https://i.postimg.cc/zBpK7Xw4/Dietzbookkeepinglogotampafl.png" 
-                alt="Dietzbookkeepinglogotampafl" 
+              <img
+                src="https://i.postimg.cc/zBpK7Xw4/Dietzbookkeepinglogotampafl.png"
+                alt="Dietz Bookkeeping"
                 className="w-[270px] h-auto rounded-lg"
               />
             </div>
             <p className="text-slate-500 text-sm leading-relaxed">
-              Professional, accurate, and reliable bookkeeping services for Tampa businesses. We handle the numbers so you can focus on growth.
+              Professional, accurate, and reliable bookkeeping services for small businesses nationwide. Based in Tampa, Florida. We handle the numbers so you can focus on growth.
             </p>
           </div>
-          
+
           <div>
             <h3 className="font-semibold text-slate-900 mb-4">Services</h3>
             <ul className="space-y-2 text-sm text-slate-500">
@@ -42,7 +42,7 @@ const Footer = () => {
               <li><Link to="/contact" className="hover:text-blue-600 transition-colors">Contact</Link></li>
               <li><Link to="/resources" className="hover:text-blue-600 transition-colors">Resources</Link></li>
               <li>
-                <button 
+                <button
                   onClick={() => setIsPrivacyModalOpen(true)}
                   className="hover:text-blue-600 transition-colors text-left"
                 >
@@ -50,7 +50,7 @@ const Footer = () => {
                 </button>
               </li>
               <li>
-                <button 
+                <button
                   onClick={() => setIsTermsModalOpen(true)}
                   className="hover:text-blue-600 transition-colors text-left"
                 >
@@ -78,7 +78,7 @@ const Footer = () => {
             </ul>
           </div>
         </div>
-        
+
         <div className="mt-16 pt-8 border-t border-slate-100 flex flex-col md:flex-row justify-between items-center gap-4">
           <p className="text-sm text-slate-400">
             © 2024–{new Date().getFullYear()} Dietz Bookkeeping Services. All rights reserved. | Website by <a href="https://createflowmedia.com" target="_blank" rel="noopener noreferrer" className="hover:text-blue-500 transition-colors">Create Flow Media</a>
@@ -90,15 +90,15 @@ const Footer = () => {
           </div>
         </div>
       </div>
-      
-      <PrivacyPolicyModal 
-        isOpen={isPrivacyModalOpen} 
-        onClose={() => setIsPrivacyModalOpen(false)} 
+
+      <PrivacyPolicyModal
+        isOpen={isPrivacyModalOpen}
+        onClose={() => setIsPrivacyModalOpen(false)}
       />
-      
-      <TermsOfServiceModal 
-        isOpen={isTermsModalOpen} 
-        onClose={() => setIsTermsModalOpen(false)} 
+
+      <TermsOfServiceModal
+        isOpen={isTermsModalOpen}
+        onClose={() => setIsTermsModalOpen(false)}
       />
     </footer>
   );
