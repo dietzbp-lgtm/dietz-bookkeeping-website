@@ -8,8 +8,8 @@
     "description": "Learn about Dietz Bookkeeping and our approach to organized records, clear financial reports and bookkeeping support for small businesses."
   },
   "/services": {
-    "title": "Small Business Bookkeeping Services | Tampa, FL",
-    "description": "Explore bank reconciliation, bookkeeping cleanup, accounts payable, accounts receivable, payroll support and financial reporting for Tampa businesses."
+    "title": "Bookkeeping Services | Tampa & Nationwide | Dietz Bookkeeping",
+    "description": "Explore monthly bookkeeping, cleanup, reconciliation and reporting for small businesses. Based in Tampa with remote support across the United States."
   },
   "/contact": {
     "title": "Contact Dietz Bookkeeping | Free Consultation",
@@ -21,7 +21,7 @@
   },
   "/tampa-bank-reconciliation": {
     "title": "Bank Reconciliation in Tampa, FL | Dietz Bookkeeping",
-    "description": "Accurate matching of bank and credit card transactions to keep financial records clean and error-free."
+    "description": "Match bank and credit card statements to your books, investigate differences and keep account balances organized."
   },
   "/tampa-cleanup-bookkeeping": {
     "title": "Cleanup Bookkeeping in Tampa, FL | Dietz Bookkeeping",
@@ -45,10 +45,18 @@
   },
   "/tampa-tax-preparation-support": {
     "title": "Tax Preparation Support in Tampa, FL | Dietz Bookkeeping",
-    "description": "Organizing clean, tax-ready books for CPAs to reduce stress and maximize deductions."
+    "description": "Organize bookkeeping records and year-end reports for your tax professional."
   },
   "/tampa-budgeting-forecasting": {
     "title": "Budgeting & Forecasting in Tampa, FL | Dietz Bookkeeping",
     "description": "Planning future income, expenses, and cash flow so you can grow with confidence."
+  },
+  "/monthly-bookkeeping": {
+    "title": "Monthly Bookkeeping for Small Businesses | Dietz Bookkeeping",
+    "description": "Ongoing transaction organization, account reconciliation and financial reports for small businesses in Tampa and across the United States."
+  },
+  "/service-areas": {
+    "title": "Bookkeeping in Tampa & Across the U.S. | Dietz Bookkeeping",
+    "description": "Tampa-based bookkeeping with remote service throughout Florida and the United States. Explore monthly support, cleanup and local appointments."
   }
 }

@@ -11,6 +11,7 @@ import Layout from './components/Layout';
 import { Link } from 'react-router-dom';
 import About from './pages/About';
 import Services from './pages/Services';
+import ServiceAreas from './pages/ServiceAreas';
 import Contact from './pages/Contact';
 import Resources from './pages/Resources';
 import ServicePage from './pages/ServicePage';
@@ -38,6 +39,7 @@ function AppRoutes() {
     { path: "/", element: <Home /> },
     { path: "/about", element: <About /> },
     { path: "/services", element: <Services /> },
+    { path: "/service-areas", element: <ServiceAreas /> },
     { path: "/contact", element: <Contact /> },
     { path: "/resources", element: <Resources /> },
     ...services.map(service => ({

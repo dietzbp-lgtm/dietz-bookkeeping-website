@@ -5,6 +5,8 @@ const template = fs.readFileSync('dist/index.html', 'utf8');
 const escape = s => s.replaceAll('&', '&amp;').replaceAll('"', '&quot;').replaceAll('<', '&lt;');
 for (const [path, page] of Object.entries(pages)) {
   const url = `https://dietzbookkeeping.com${path}`;
+  const service = path === '/monthly-bookkeeping' || path.startsWith('/tampa-');
+  const serviceSchema = service ? `<script type="application/ld+json">${JSON.stringify({'@context':'https://schema.org','@type':'Service',name:page.title.split(' | ')[0],description:page.description,url,provider:{'@id':'https://dietzbookkeeping.com/#organization'},areaServed:{'@type':'Country',name:'United States'}})}</script>` : '';
   const html = template.replace('<div id="root"></div>', `<div id="root">${render(path)}</div>`).replace(/<title>.*?<\/title>/, `<title>${escape(page.title)}</title>`).replace(/<!-- SEO_HEAD_START -->[\s\S]*?<!-- SEO_HEAD_END -->/, `<!-- SEO_HEAD_START -->
 <meta name="description" content="${escape(page.description)}" />
 <link rel="canonical" href="${url}" />
@@ -15,6 +17,7 @@ for (const [path, page] of Object.entries(pages)) {
 <meta property="og:url" content="${url}" />
 <meta property="og:image" content="https://dietzbookkeeping.com/images/dietzbookeepingabout.webp" />
 <script type="application/ld+json">${JSON.stringify({'@context':'https://schema.org','@type':'Organization','@id':'https://dietzbookkeeping.com/#organization',name:'Dietz Bookkeeping',url:'https://dietzbookkeeping.com/',logo:'https://dietzbookkeeping.com/images/dietzbookkeepinglogotampafl.webp',telephone:'+1-813-419-3475',email:'bryand@dietzbookkeeping.com',areaServed:{'@type':'Country',name:'United States'}})}</script>
+${serviceSchema}
 <!-- SEO_HEAD_END -->`);
   const dest = path === '/' ? 'dist/index.html' : `dist${path}/index.html`;
   fs.mkdirSync(dest.slice(0, dest.lastIndexOf('/')), { recursive: true });

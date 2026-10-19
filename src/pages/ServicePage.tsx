@@ -39,8 +39,9 @@ const ServicePage: React.FC<ServicePageProps> = ({ service }) => {
               <Icon className="h-10 w-10" />
             </motion.div>
             <h1 className="text-4xl md:text-5xl font-bold text-slate-900 tracking-tight mb-6">
-              {service.title}
+              {service.title} for Small Businesses
             </h1>
+            <p className="text-sm font-semibold text-blue-600 mb-4">Tampa, Florida · Remote service nationwide</p>
             <p className="text-xl text-slate-600 leading-relaxed">
               {service.description}
             </p>
@@ -104,7 +105,7 @@ const ServicePage: React.FC<ServicePageProps> = ({ service }) => {
                     Schedule a free consultation to discuss how our {service.title} services can help your business grow.
                   </p>
                   <Link
-                    to="/contact"
+                    to="/contact#schedule"
                     className="inline-flex items-center justify-center w-full bg-blue-600 text-white px-8 py-4 rounded-xl font-semibold text-lg shadow-lg shadow-blue-600/30 hover:bg-blue-700 transition-all transform hover:scale-[1.02]"
                   >
                     {service.content.cta} <ArrowRight className="ml-2 h-5 w-5" />
@@ -113,6 +114,20 @@ const ServicePage: React.FC<ServicePageProps> = ({ service }) => {
               </div>
             </motion.div>
           </div>
+        </div>
+      </section>
+
+      <section className="py-16 bg-slate-50">
+        <div className="max-w-5xl mx-auto px-6">
+          <div className="grid md:grid-cols-3 gap-8 mb-12">
+            <div><h2 className="text-xl font-bold mb-3">Start with a review</h2><p className="text-slate-600">Tell Bryan about your business, accounting software, accounts and any backlog. We agree on scope and pricing before work begins.</p></div>
+            <div><h2 className="text-xl font-bold mb-3">Share the right records</h2><p className="text-slate-600">We discuss software access and the statements and documents needed. Please do not email passwords, bank login details or sensitive records.</p></div>
+            <div><h2 className="text-xl font-bold mb-3">Keep communication clear</h2><p className="text-slate-600">We flag questions and missing information for your review. Timing depends on the agreed work and the availability of your records.</p></div>
+          </div>
+          <h2 className="text-2xl font-bold mb-5">Before we get started</h2>
+          <details className="border-b py-4"><summary className="font-semibold cursor-pointer">Can we work together outside Florida?</summary><p className="mt-3 text-slate-600">Yes. Bookkeeping support is available remotely across the United States. Tampa meetings are by appointment. <Link to="/service-areas" className="text-blue-600 underline">See how service works in your area.</Link></p></details>
+          <details className="border-b py-4"><summary className="font-semibold cursor-pointer">How is pricing determined?</summary><p className="mt-3 text-slate-600">Pricing depends on transaction volume, number of accounts, condition of the records and services requested. We review your needs before preparing an estimate.</p></details>
+          <details className="border-b py-4"><summary className="font-semibold cursor-pointer">Can this be part of monthly bookkeeping?</summary><p className="mt-3 text-slate-600">We can discuss including this work in an ongoing plan or defining it as a separate project. <Link to="/monthly-bookkeeping" className="text-blue-600 underline">Explore monthly bookkeeping.</Link></p></details>
         </div>
       </section>
 
@@ -130,7 +145,7 @@ const ServicePage: React.FC<ServicePageProps> = ({ service }) => {
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link
-              to="/contact"
+              to="/contact#schedule"
               className="bg-white text-slate-900 px-8 py-4 rounded-full font-bold text-lg hover:bg-blue-50 transition-colors"
             >
               Book Your Consultation

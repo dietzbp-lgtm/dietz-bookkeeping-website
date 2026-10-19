@@ -5,7 +5,7 @@ import ServiceCard from '../components/ServiceCard';
 import { services } from '../data/services';
 
 const primaryServices = [
-  { title: 'Monthly bookkeeping', text: 'Keep transactions organized, accounts reconciled, and financial reports ready for your next decision.', link: '/contact#estimate', label: 'Discuss monthly support', icon: BarChart3, Star, Quote },
+  { title: 'Monthly bookkeeping', text: 'Keep transactions organized, accounts reconciled, and financial reports ready for your next decision.', link: '/monthly-bookkeeping', label: 'Explore monthly bookkeeping', icon: BarChart3, Star, Quote },
   { title: 'Cleanup & catch-up', text: 'Behind on your books? Start with a review of your records and a practical plan to bring them up to date.', link: '/tampa-cleanup-bookkeeping', label: 'Explore cleanup services', icon: RefreshCw },
 ];
 
