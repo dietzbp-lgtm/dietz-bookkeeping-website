@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import Layout from '../components/Layout';
+import InquiryForm from '../components/InquiryForm';
 
 export default function Contact() {
   const { hash } = useLocation();
@@ -34,6 +35,7 @@ export default function Contact() {
         </div>
       </div>
     </section>
+    <section className="bg-white py-12 sm:py-16"><div className="max-w-4xl mx-auto px-5 sm:px-6"><h2 className="text-2xl sm:text-3xl font-bold text-slate-900 mb-4">Send us a message</h2><p className="text-slate-600 mb-7">For general questions, use this short form. For a customized bookkeeping quote, please use the estimate page.</p><InquiryForm kind="contact" /></div></section>
     <section className="bg-slate-50 py-12 sm:py-16">
       <div className="max-w-5xl mx-auto px-5 sm:px-6 grid sm:grid-cols-3 gap-6">
         <div className="bg-white rounded-xl p-6 border border-slate-200"><h2 className="font-bold text-lg mb-3">Call Bryan</h2><a href="tel:+18134193475" className="text-blue-700 hover:underline">813-419-3475</a></div>
