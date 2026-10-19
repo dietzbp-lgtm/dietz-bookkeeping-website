@@ -8,6 +8,14 @@
     <meta name="description" content="Monthly bookkeeping and cleanup for small businesses across the U.S. Based in Tampa, Florida. Work with Bryan Dietz and book a free consultation." />
     <link rel="canonical" href="https://dietzbookkeeping.com/" />
     <!-- SEO_HEAD_END -->
+    <!-- Google Analytics 4: one tag for the site; SPA page views handled by Analytics.tsx. -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-32H4NF3JFN"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-32H4NF3JFN', { send_page_view: false });
+    </script>
     <script>
       // Suppress generic cross-origin "Script error." from third-party embeds (like Jotform)
       // This must run before Vite's client script to prevent the error overlay
