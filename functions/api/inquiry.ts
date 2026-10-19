@@ -20,7 +20,7 @@ const escapeHtml = (value: string) => value
   .replaceAll('"', '&quot;').replaceAll("'", '&#39;');
 
 function validEmail(email: string) {
-  return /^[^\s@]+@[^\s@]+\\.[^\s@]+$/.test(email) && email.length <= 254;
+  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) && email.length <= 254;
 }
 
 async function sendResend(key: string, payload: Record<string, unknown>) {
