@@ -11,7 +11,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
   return (
     <div className="min-h-screen flex flex-col bg-[#F2F2F7]">
       <Navbar />
-      <main className="flex-grow pt-20">
+      <main id="main-content" className="flex-grow min-w-0">
         <motion.div
           initial={false}
           animate={{ opacity: 1, y: 0 }}
