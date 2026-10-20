@@ -6,6 +6,18 @@ type Env = {
 type RequestPayload = Record<string, unknown>;
 
 const permitted = new Set(['contact', 'estimate']);
+const allowedServices = new Set([
+  'Monthly bookkeeping',
+  'Cleanup / catch-up bookkeeping',
+  'Bank reconciliation',
+  'Accounts payable',
+  'Accounts receivable',
+  'Payroll support',
+  'Financial reporting',
+  'Tax preparation support',
+  'Budgeting & forecasting',
+  'Other / not sure',
+]);
 const allowedOrigins = new Set(['https://dietzbookkeeping.com', 'https://www.dietzbookkeeping.com']);
 const json = (body: unknown, status = 200) => new Response(JSON.stringify(body), {
   status,
@@ -63,12 +75,20 @@ export const onRequestPost = async (context: {
   const phone = asText(data.phone, 40);
   const message = asText(data.message, 3000);
   const company = asText(data.company, 150);
-  const service = asText(data.service, 90);
+  // Accept the new multi-select payload and the previous single-service format,
+  // so a visitor with a cached copy of the old form is not rejected.
+  const submittedServices = Array.isArray(data.services)
+    ? data.services
+    : (typeof data.service === 'string' ? [data.service] : []);
+  const validServices = submittedServices.length > 0
+    && submittedServices.length <= allowedServices.size
+    && submittedServices.every((item: unknown) => typeof item === 'string' && allowedServices.has(item));
+  const services = validServices ? [...new Set(submittedServices as string[])] : [];
   const transactions = asText(data.transactions, 50);
   const accounts = asText(data.accounts, 50);
   const software = asText(data.software, 90);
   if (name.length < 2 || !validEmail(email) || (type === 'contact' && message.length < 10) ||
-      (type === 'estimate' && (!company || !service))) {
+      (type === 'estimate' && (!company || services.length === 0))) {
     return json({ error: 'Please complete the required fields.' }, 400);
   }
 
@@ -95,7 +115,7 @@ export const onRequestPost = async (context: {
     ['Submission', type === 'contact' ? 'General contact' : 'Bookkeeping estimate'],
     ['Name', name], ['Email', email], ['Phone', phone],
     ...(type === 'estimate' ? [
-      ['Company', company], ['Service requested', service],
+      ['Company', company], ['Services requested', services.join(', ')],
       ['Monthly transactions', transactions], ['Bank/card accounts', accounts],
       ['Accounting software', software],
     ] : []),
