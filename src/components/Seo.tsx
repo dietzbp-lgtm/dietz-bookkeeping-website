@@ -6,6 +6,7 @@ export default function Seo() {
   const { pathname } = useLocation();
   useEffect(() => {
     const path = pathname.replace(/\/+$/, '') || '/';
+    const canonicalUrl = `https://dietzbookkeeping.com${path === '/' ? '/' : `${path}/`}`;
     const page = pages[path as keyof typeof pages];
     document.title = page?.title || 'Page Not Found | Dietz Bookkeeping';
     const meta = (name: string, content: string, property = false) => {
@@ -18,11 +19,11 @@ export default function Seo() {
     meta('robots', page ? 'index,follow' : 'noindex,follow');
     meta('og:title', document.title, true);
     meta('og:description', page?.description || 'Page not found.', true);
-    meta('og:url', `https://dietzbookkeeping.com${path === '/' ? '/' : path}`, true);
+    meta('og:url', canonicalUrl, true);
     let canonical = document.head.querySelector('link[rel="canonical"]');
     if (!page) { canonical?.remove(); return; }
     if (!canonical) { canonical = document.createElement('link'); canonical.setAttribute('rel', 'canonical'); document.head.appendChild(canonical); }
-    canonical.setAttribute('href', `https://dietzbookkeeping.com${path}`);
+    canonical.setAttribute('href', canonicalUrl);
   }, [pathname]);
   return null;
 }
