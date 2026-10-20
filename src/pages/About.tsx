@@ -1,6 +1,5 @@
 import React from 'react';
 import Layout from '../components/Layout';
-import { motion } from 'motion/react';
 
 const About = () => {
   return (
@@ -9,10 +8,7 @@ const About = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
             {/* Left Column: Image and Badges */}
-            <motion.div
-              initial={false}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.6 }}
+            <div
               className="lg:col-span-5 flex flex-col gap-8"
             >
               <div className="relative rounded-3xl overflow-hidden shadow-2xl shadow-slate-200">
@@ -30,13 +26,10 @@ const About = () => {
                 <img src="/images/payroll.webp" alt="QuickBooks Payroll" className="w-full h-auto object-contain" />
                 <img src="/images/gold-tier-badge.webp" alt="QuickBooks Gold ProAdvisor" className="w-full h-auto object-contain" />
               </div>
-            </motion.div>
+            </div>
 
             {/* Right Column: Bio Text */}
-            <motion.div
-              initial={false}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.6, delay: 0.2 }}
+            <div
               className="lg:col-span-7 space-y-6"
             >
               <h1 className="text-3xl md:text-4xl font-bold text-slate-900 leading-tight">
@@ -55,7 +48,7 @@ const About = () => {
                   Now, Bryan is channeling his passion for organization and numbers into <strong>Dietz Bookkeeping</strong>, where he provides tailored bookkeeping solutions designed to simplify financial management for businesses. His firsthand experience as a business owner allows him to approach bookkeeping with a unique perspective, ensuring that his clients receive not only accurate and reliable services but also practical insights to help their businesses thrive.
                 </p>
               </div>
-            </motion.div>
+            </div>
           </div>
         </div>
       </section>
