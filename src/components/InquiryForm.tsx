@@ -102,7 +102,8 @@ export default function InquiryForm({ kind }: { kind: Kind }) {
                 value={service}
                 checked={checked}
                 onChange={event => {
-                  setSelectedServices(previous => event.target.checked ? [...previous, service] : previous.filter(value => value !== service));
+                  const isChecked = event.currentTarget.checked;
+                  setSelectedServices(previous => isChecked ? [...previous, service] : previous.filter(value => value !== service));
                   setServiceError('');
                 }}
                 className="mt-0.5 h-4 w-4 shrink-0 accent-blue-600"
