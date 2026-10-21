@@ -52,6 +52,7 @@ export default function Home() {
           <div className="grid sm:grid-cols-2 gap-4">{[
             { label: 'Cleaning businesses', url: '/bookkeeping-for-cleaning-businesses' },
             { label: 'Handymen & contractors', url: '/bookkeeping-for-contractors' },
+            { label: 'Real estate agents', url: '/bookkeeping-for-real-estate-agents' },
             { label: 'Independent professionals' },
             { label: 'Other small businesses' }
           ].map(item => (
