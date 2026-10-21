@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { CheckCircle2, ArrowRight } from 'lucide-react';
 import Layout from '../components/Layout';
 import Breadcrumbs from '../components/Breadcrumbs';
+import { serviceGuides } from '../data/service-guides';
 
 interface ServicePageProps {
   service: {
@@ -29,6 +30,7 @@ interface ServicePageProps {
 
 const ServicePage: React.FC<ServicePageProps> = ({ service }) => {
   const Icon = service.icon;
+  const guide = serviceGuides[service.slug];
 
   return (
     <Layout>
@@ -208,7 +210,71 @@ const ServicePage: React.FC<ServicePageProps> = ({ service }) => {
         </>
       )}
 
-      {!service.monthlyDetail && (
+      {guide && (
+        <>
+          <section className="py-14 sm:py-20 bg-slate-50" aria-labelledby="specific-service-process">
+            <div className="max-w-6xl mx-auto px-5 sm:px-8">
+              <p className="text-sm font-bold tracking-wide text-blue-700 mb-3">A CLEARER PROCESS</p>
+              <h2 id="specific-service-process" className="text-3xl sm:text-4xl font-bold text-slate-900 mb-5">{guide.heading}</h2>
+              <p className="text-lg text-slate-700 leading-relaxed max-w-4xl mb-9">{guide.introduction}</p>
+              <ol className="grid md:grid-cols-3 gap-5">
+                {guide.steps.map((step, index) => (
+                  <li key={step.heading} className="rounded-2xl bg-white border border-slate-200 p-6">
+                    <span className="inline-flex rounded-full bg-blue-100 text-blue-800 w-9 h-9 items-center justify-center font-bold mb-4">{index + 1}</span>
+                    <h3 className="text-xl font-semibold text-slate-900 mb-3">{step.heading}</h3>
+                    <p className="text-slate-700 leading-relaxed">{step.text}</p>
+                  </li>
+                ))}
+              </ol>
+            </div>
+          </section>
+          <section className="py-14 sm:py-20 bg-white" aria-labelledby="specific-service-records">
+            <div className="max-w-6xl mx-auto px-5 sm:px-8 grid lg:grid-cols-[.9fr_1.1fr] gap-8 lg:gap-14">
+              <div>
+                <h2 id="specific-service-records" className="text-3xl font-bold text-slate-900 mb-5">{guide.recordsHeading}</h2>
+                <p className="text-lg text-slate-700 leading-relaxed mb-6">{guide.recordsIntro}</p>
+                <Link to="/estimate" className="inline-flex items-center gap-2 font-semibold text-blue-700 underline underline-offset-4">
+                  Request a scope-based estimate <ArrowRight aria-hidden="true" className="w-4 h-4"/>
+                </Link>
+              </div>
+              <div className="bg-blue-50 border border-blue-100 rounded-2xl p-6 sm:p-8">
+                <ul className="space-y-5">
+                  {guide.records.map(item => (
+                    <li key={item} className="flex gap-3 text-slate-800 leading-relaxed">
+                      <CheckCircle2 aria-hidden="true" className="h-5 w-5 mt-1 text-blue-700 shrink-0"/>
+                      <span>{item}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+          </section>
+          <section className="py-14 sm:py-20 bg-slate-50" aria-labelledby="specific-service-questions">
+            <div className="max-w-4xl mx-auto px-5 sm:px-8">
+              <h2 id="specific-service-questions" className="text-3xl font-bold text-slate-900 mb-6">Frequently asked questions about {service.title.toLowerCase()}</h2>
+              <div className="divide-y divide-slate-200 border-y border-slate-200">
+                {guide.faqs.map(item => (
+                  <details key={item.question} className="py-5">
+                    <summary className="cursor-pointer font-semibold text-slate-900">{item.question}</summary>
+                    <p className="mt-3 text-slate-700 leading-relaxed">{item.answer}</p>
+                  </details>
+                ))}
+              </div>
+              <h3 className="text-xl font-bold text-slate-900 mt-10 mb-4">Related bookkeeping services</h3>
+              <ul className="space-y-3">
+                {guide.related.map(item => (
+                  <li key={item.href}>
+                    <Link to={item.href} className="text-blue-700 font-semibold underline underline-offset-4">{item.label}</Link>
+                  </li>
+                ))}
+              </ul>
+              <p className="text-sm text-slate-600 mt-9">Based in Tampa, Florida. Remote bookkeeping support is available nationwide; local appointments are scheduled in advance. The final engagement scope and responsibilities are confirmed before work starts.</p>
+            </div>
+          </section>
+        </>
+      )}
+
+      {!service.monthlyDetail && !guide && (
       <section className="py-16 bg-slate-50">
         <div className="max-w-5xl mx-auto px-6">
           <div className="grid md:grid-cols-3 gap-8 mb-12">
