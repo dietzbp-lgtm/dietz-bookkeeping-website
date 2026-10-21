@@ -126,5 +126,237 @@ export const serviceGuides: Record<string, ServiceGuide> = {
       { href: '/tampa-bank-reconciliation', label: 'Bank and payment reconciliation' },
       { href: '/monthly-bookkeeping', label: 'Ongoing monthly bookkeeping' }
     ]
+  },
+  "/tampa-payroll-support": {
+    "heading": "Keep payroll activity aligned with your bookkeeping",
+    "introduction": "Payroll bookkeeping support focuses on recording and reconciling payroll activity produced by an employer's payroll provider. A payroll register may show gross wages, taxes, deductions and net pay, while the bank shows separate withdrawals. We discuss what records you have and who is responsible for processing payroll before agreeing on the bookkeeping work.",
+    "steps": [
+      {
+        "heading": "Review the provider and payroll records",
+        "text": "Identify the payroll service, pay periods, summary registers, tax and benefit liability reports, and the accounting accounts used to record each payroll run."
+      },
+      {
+        "heading": "Compare entries with cash movements",
+        "text": "Discuss how gross pay, employer costs, employee withholdings and separate provider withdrawals are represented in the books. Flag unexplained differences for review."
+      },
+      {
+        "heading": "Clarify corrections and responsibilities",
+        "text": "Share unresolved payroll-record questions with the owner or provider. Payroll processing, employee setup, tax deposits and filing stay with the responsible authorized party unless expressly covered by a separate agreement."
+      }
+    ],
+    "recordsHeading": "Documents that help with payroll bookkeeping",
+    "recordsIntro": "Payroll records contain sensitive employee information. We establish an appropriate secure sharing method and the limited access needed for the agreed bookkeeping tasks.",
+    "records": [
+      "Payroll summary or register for the periods being reviewed",
+      "Payroll provider reports for employer taxes, benefits, deductions and liabilities, as applicable",
+      "Related bank withdrawals or journal entries and the accounting chart of accounts",
+      "Details of voids, corrections or off-cycle runs that may affect reconciliation"
+    ],
+    "faqs": [
+      {
+        "question": "Will you process employee paychecks or send payroll tax filings?",
+        "answer": "Those duties are not automatically included in bookkeeping support. The employer and its payroll provider remain responsible for processing, deposits and filings unless a separate engagement specifically assigns authorized tasks."
+      },
+      {
+        "question": "Why can payroll bank withdrawals exceed employee net pay?",
+        "answer": "A provider may withdraw employee net pay, payroll taxes, fees or benefit amounts separately or together. We use the available register and provider reports to understand how those movements relate to the accounting entries."
+      },
+      {
+        "question": "Can you review an old payroll liability balance?",
+        "answer": "We can discuss comparing the recorded liability with provider reports and known payments. Corrections requiring a payroll provider or tax professional are referred to the appropriate responsible party."
+      },
+      {
+        "question": "Do you need employee Social Security numbers or passwords?",
+        "answer": "Please do not send employee identifiers, payroll logins or other sensitive personal information through a website form. We discuss secure, minimum-necessary access during onboarding."
+      }
+    ],
+    "related": [
+      {
+        "href": "/monthly-bookkeeping",
+        "label": "Monthly bookkeeping and payroll-related entries"
+      },
+      {
+        "href": "/tampa-bank-reconciliation",
+        "label": "Reconciliation of payroll bank activity"
+      },
+      {
+        "href": "/tampa-financial-reporting",
+        "label": "Reporting payroll expenses"
+      }
+    ]
+  },
+  "/tampa-financial-reporting": {
+    "heading": "Understand what your bookkeeping reports show",
+    "introduction": "Financial reports organize recorded business activity into views such as profit and loss and a balance sheet. They are most useful when the underlying transactions and account reconciliations are reasonably complete. We agree on the reports and review frequency that fit your business.",
+    "steps": [
+      {
+        "heading": "Confirm the reporting period and records",
+        "text": "Discuss the accounting basis, fiscal period, account structure and whether balances are reconciled. Identify missing entries or prior-period issues that could affect comparisons."
+      },
+      {
+        "heading": "Prepare the agreed statements",
+        "text": "Review a profit-and-loss statement for income and expenses and a balance sheet for recorded assets, liabilities and equity. Additional cash flow or segment views depend on your records, software and service scope."
+      },
+      {
+        "heading": "Review trends and unresolved questions",
+        "text": "Compare periods where appropriate, explain what major line items represent and point out unusual changes that deserve the owner's attention. Reports support decisions but do not predict outcomes."
+      }
+    ],
+    "recordsHeading": "Information needed for useful financial reports",
+    "recordsIntro": "A reliable comparison starts with consistent dates and complete bookkeeping information—not with a polished chart alone.",
+    "records": [
+      "Current bookkeeping file and agreed reporting dates",
+      "Reconciled bank and credit card statements for periods in scope",
+      "Information about loans, owner contributions and outstanding bills or invoices, as relevant",
+      "Any questions about departments, projects or reporting categories you would like to discuss"
+    ],
+    "faqs": [
+      {
+        "question": "What is the difference between a profit-and-loss statement and a balance sheet?",
+        "answer": "A profit-and-loss statement summarizes income and expenses over a period. A balance sheet shows the recorded assets, liabilities and equity on a particular date. Both depend on how complete the books are."
+      },
+      {
+        "question": "Can you prepare a cash flow statement?",
+        "answer": "We can discuss whether a cash flow report is appropriate and available from the software and records you use. It is not automatically included in every engagement."
+      },
+      {
+        "question": "Why might a profitable month still leave little cash in the bank?",
+        "answer": "Profit and cash are different measures. Timing of customer collections, payments, loan principal, equipment purchases or owner withdrawals can affect cash without matching the month's reported profit."
+      },
+      {
+        "question": "Are these reports reviewed or audited financial statements?",
+        "answer": "No. Bookkeeping reports are not an independent audit, review, assurance engagement or tax opinion. We can organize information for your accountant or other qualified adviser as agreed."
+      }
+    ],
+    "related": [
+      {
+        "href": "/tampa-bank-reconciliation",
+        "label": "Reconcile balances before reporting"
+      },
+      {
+        "href": "/tampa-budgeting-forecasting",
+        "label": "Use historical reports in a budget"
+      },
+      {
+        "href": "/monthly-bookkeeping",
+        "label": "Monthly bookkeeping and recurring reports"
+      }
+    ]
+  },
+  "/tampa-tax-preparation-support": {
+    "heading": "Prepare organized bookkeeping records for tax season",
+    "introduction": "Bookkeeping support for tax preparation means helping an owner and their tax professional start from better-organized records. It is not tax return preparation or tax advice. We can review transaction categories, reconcile agreed accounts and identify questions to settle before handing over bookkeeping reports.",
+    "steps": [
+      {
+        "heading": "Identify the year and open bookkeeping periods",
+        "text": "Confirm the reporting period, accounting file, outstanding statements and whether earlier months need cleanup before a year-end package can be prepared."
+      },
+      {
+        "heading": "Review categories and reconcile included accounts",
+        "text": "Organize available income and expense records, investigate unmatched bank activity and compile questions about owner transactions, loan balances or unsupported entries."
+      },
+      {
+        "heading": "Prepare the agreed handoff",
+        "text": "Provide the agreed financial reports and a list of unresolved bookkeeping questions for the business owner and tax professional. The tax professional determines deductions, elections, returns and filing requirements."
+      }
+    ],
+    "recordsHeading": "What to gather for a bookkeeping handoff",
+    "recordsIntro": "Your tax adviser may ask for additional information. This checklist covers bookkeeping source materials, not every tax form required for a return.",
+    "records": [
+      "Bank and credit card statements for the tax year and any unclosed earlier periods",
+      "Sales, invoices, merchant processor records and major expense documentation",
+      "Loan, asset-purchase and owner-contribution information when relevant to the bookkeeping file",
+      "Prior-year closing figures and questions already raised by your tax professional, if available"
+    ],
+    "faqs": [
+      {
+        "question": "Will Dietz Bookkeeping prepare or file my business tax return?",
+        "answer": "No tax return filing, tax planning or legal advice is assumed here. We focus on bookkeeping records and reports; a qualified tax professional handles tax treatment, returns, deadlines and filings."
+      },
+      {
+        "question": "Can you tell me which expenses are tax deductible?",
+        "answer": "We can categorize expenses in the books based on supporting records and agreed accounting practices. Whether an expense is deductible is a tax question for your qualified tax professional."
+      },
+      {
+        "question": "What if the books have not been reconciled for most of the year?",
+        "answer": "We can assess the backlog and propose separate cleanup work. The quality of a tax-season handoff depends on completing the necessary records and resolving open questions."
+      },
+      {
+        "question": "Will organized bookkeeping guarantee a faster or lower-cost tax return?",
+        "answer": "No. Better-organized records may help the owner and tax preparer review information, but timing, pricing and tax outcomes depend on the individual situation and the tax professional's work."
+      }
+    ],
+    "related": [
+      {
+        "href": "/tampa-cleanup-bookkeeping",
+        "label": "Catch up on unfinished bookkeeping"
+      },
+      {
+        "href": "/tampa-bank-reconciliation",
+        "label": "Reconcile statements before year end"
+      },
+      {
+        "href": "/monthly-bookkeeping",
+        "label": "Maintain organized books throughout the year"
+      }
+    ]
+  },
+  "/tampa-budgeting-forecasting": {
+    "heading": "Build budgets and scenarios from the numbers you have",
+    "introduction": "A budget is a spending and income plan; a forecast updates expectations as new information arrives. For small service businesses, either can help frame questions about seasonality, staffing, recurring expenses and upcoming purchases. Forecasts depend on assumptions and are not guarantees of future revenue or cash.",
+    "steps": [
+      {
+        "heading": "Review your historical starting point",
+        "text": "Look at the available financial reports, recurring bills, recent sales activity and the reliability of your bookkeeping records. Identify any gaps that would weaken a baseline."
+      },
+      {
+        "heading": "Document assumptions and possible scenarios",
+        "text": "Discuss expected workload, payment timing, supply costs, overhead and planned changes. Compare a base case with reasonable alternatives instead of presenting one certain outcome."
+      },
+      {
+        "heading": "Compare actuals against the plan",
+        "text": "When ongoing support is agreed, review differences between recorded results and earlier assumptions. Adjust the scenario as circumstances change and note decisions that belong to the business owner."
+      }
+    ],
+    "recordsHeading": "Inputs for a useful budget discussion",
+    "recordsIntro": "A forecast is only as helpful as its source information and assumptions. We discuss the level of detail your existing accounting records can support.",
+    "records": [
+      "Historical profit-and-loss reports and recent cash or bank balances",
+      "Known recurring expenses, upcoming bills, loan payments and major planned purchases",
+      "Expected customer demand, sales cycles or seasonal slow periods",
+      "Owner assumptions about pricing, capacity, staffing or other planned changes"
+    ],
+    "faqs": [
+      {
+        "question": "What is the difference between a budget and a forecast?",
+        "answer": "A budget sets out a financial plan for a period. A forecast revises expected results using the information and assumptions currently available. Both need regular review to stay useful."
+      },
+      {
+        "question": "Can a forecast guarantee that I will have enough cash to hire?",
+        "answer": "No. A forecast is a scenario, not a guarantee. It can help examine payment timing and expected costs, but hiring, financing and business decisions remain yours and may require other professional advice."
+      },
+      {
+        "question": "Can you model seasonal income for a cleaning or contracting business?",
+        "answer": "Potentially, if the historical records and owner assumptions provide a reasonable basis. We can discuss seasonal scenarios as part of an agreed budgeting or forecasting scope."
+      },
+      {
+        "question": "Do I need accurate books before you build a budget?",
+        "answer": "Complete, reconciled records generally improve a budget's starting point. We can assess the quality of the available information and discuss whether cleanup or a simpler preliminary plan makes sense."
+      }
+    ],
+    "related": [
+      {
+        "href": "/tampa-financial-reporting",
+        "label": "Review historical financial reports"
+      },
+      {
+        "href": "/monthly-bookkeeping",
+        "label": "Maintain current monthly records"
+      },
+      {
+        "href": "/bookkeeping-for-contractors",
+        "label": "Bookkeeping for contractors and handymen"
+      }
+    ]
   }
 };
