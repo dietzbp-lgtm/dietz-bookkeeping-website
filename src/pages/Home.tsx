@@ -26,7 +26,7 @@ export default function Home() {
           </div>
           <div className="max-w-md w-full mx-auto lg:ml-auto">
             <div className="rounded-3xl overflow-hidden bg-white border border-slate-200 shadow-xl shadow-slate-200/60">
-              <img src="/images/dietzbookeepingabout.webp" alt="Bryan Dietz, founder of Dietz Bookkeeping" width="800" height="800" fetchPriority="high" className="w-full aspect-square object-cover" />
+              <img src="/images/dietzbookeepingabout.webp" alt="Bryan Dietz, founder of Dietz Bookkeeping" width="800" height="800" decoding="async" className="w-full aspect-square object-cover" />
               <div className="p-5 sm:p-6"><p className="font-bold text-xl text-slate-900">Your business. Your bookkeeper.</p><p className="text-slate-600 mt-2">Meet Bryan Dietz — a fellow business owner who understands how much you have on your plate.</p><Link to="/about" className="inline-flex items-center gap-2 text-blue-700 font-semibold mt-4">Get to know Bryan <ArrowRight className="w-4 h-4" /></Link></div>
             </div>
           </div>
