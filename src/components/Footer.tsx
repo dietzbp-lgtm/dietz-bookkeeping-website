@@ -1,8 +1,10 @@
-import React, { useState } from 'react';
+import React, { lazy, Suspense, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Facebook, Instagram, Linkedin, Mail, Phone, MapPin } from 'lucide-react';
-import PrivacyPolicyModal from './PrivacyPolicyModal';
-import TermsOfServiceModal from './TermsOfServiceModal';
+// Defer legal-modal JavaScript until a visitor chooses to open one.
+// The closed modals produce no markup during prerendering or hydration.
+const PrivacyPolicyModal = lazy(() => import('./PrivacyPolicyModal'));
+const TermsOfServiceModal = lazy(() => import('./TermsOfServiceModal'));
 
 const Footer = () => {
   const [isPrivacyModalOpen, setIsPrivacyModalOpen] = useState(false);
@@ -94,15 +96,23 @@ const Footer = () => {
         </div>
       </div>
 
-      <PrivacyPolicyModal
-        isOpen={isPrivacyModalOpen}
-        onClose={() => setIsPrivacyModalOpen(false)}
-      />
+      {isPrivacyModalOpen && (
+        <Suspense fallback={<p role="status" className="text-sm text-slate-500">Loading Privacy Policy…</p>}>
+          <PrivacyPolicyModal
+            isOpen={isPrivacyModalOpen}
+            onClose={() => setIsPrivacyModalOpen(false)}
+          />
+        </Suspense>
+      )}
 
-      <TermsOfServiceModal
-        isOpen={isTermsModalOpen}
-        onClose={() => setIsTermsModalOpen(false)}
-      />
+      {isTermsModalOpen && (
+        <Suspense fallback={<p role="status" className="text-sm text-slate-500">Loading Terms of Service…</p>}>
+          <TermsOfServiceModal
+            isOpen={isTermsModalOpen}
+            onClose={() => setIsTermsModalOpen(false)}
+          />
+        </Suspense>
+      )}
     </footer>
   );
 };
