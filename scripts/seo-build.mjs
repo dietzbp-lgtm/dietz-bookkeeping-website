@@ -8,10 +8,20 @@ const escape = s => s.replaceAll('&', '&amp;').replaceAll('"', '&quot;').replace
 const canonicalPath = path => path === '/' ? '/' : `${path.replace(/\/+$/, '')}/`;
 for (const [path, page] of Object.entries(pages)) {
   const url = `https://dietzbookkeeping.com${canonicalPath(path)}`;
-  const service = path === '/monthly-bookkeeping' || path.startsWith('/tampa-') || path.startsWith('/bookkeeping-for-');
+  const cityPage = path === '/orlando-bookkeeping';
+  const service = path === '/monthly-bookkeeping' || path.startsWith('/tampa-') || path.startsWith('/bookkeeping-for-') || cityPage;
   const breadcrumbLabel = breadcrumbLabels[path];
-  const breadcrumbSchema = breadcrumbLabel ? `<script type="application/ld+json">${JSON.stringify({'@context':'https://schema.org','@type':'BreadcrumbList',itemListElement:[{'@type':'ListItem',position:1,name:'Home',item:'https://dietzbookkeeping.com/'},{'@type':'ListItem',position:2,name:'Services',item:'https://dietzbookkeeping.com/services/'},{'@type':'ListItem',position:3,name:breadcrumbLabel,item:url}]})}</script>` : '';
-  const serviceSchema = service ? `<script type="application/ld+json">${JSON.stringify({'@context':'https://schema.org','@type':'Service',name:page.title.split(' | ')[0],description:page.description,url,provider:{'@id':'https://dietzbookkeeping.com/#organization'},areaServed:{'@type':'Country',name:'United States'}})}</script>` : '';
+  const cityBreadcrumbLabel = cityPage ? 'Orlando, Florida' : null;
+  const breadcrumbTrail = breadcrumbLabel
+    ? [{ name: 'Home', url: 'https://dietzbookkeeping.com/' }, { name: 'Services', url: 'https://dietzbookkeeping.com/services/' }, { name: breadcrumbLabel, url }]
+    : cityBreadcrumbLabel
+      ? [{ name: 'Home', url: 'https://dietzbookkeeping.com/' }, { name: 'Service Areas', url: 'https://dietzbookkeeping.com/service-areas/' }, { name: cityBreadcrumbLabel, url }]
+      : null;
+  const breadcrumbSchema = breadcrumbTrail ? `<script type="application/ld+json">${JSON.stringify({'@context':'https://schema.org','@type':'BreadcrumbList',itemListElement:breadcrumbTrail.map((item,index)=>({'@type':'ListItem',position:index+1,name:item.name,item:item.url}))})}</script>` : '';
+  const serviceArea = cityPage
+    ? {'@type':'City',name:'Orlando',containedInPlace:{'@type':'State',name:'Florida'}}
+    : {'@type':'Country',name:'United States'};
+  const serviceSchema = service ? `<script type="application/ld+json">${JSON.stringify({'@context':'https://schema.org','@type':'Service',name:page.title.split(' | ')[0],description:page.description,url,provider:{'@id':'https://dietzbookkeeping.com/#organization'},areaServed:serviceArea})}</script>` : '';
   const html = template.replace('<div id="root"></div>', `<div id="root">${render(path)}</div>`).replace(/<title>.*?<\/title>/, `<title>${escape(page.title)}</title>`).replace(/<!-- SEO_HEAD_START -->[\s\S]*?<!-- SEO_HEAD_END -->/, `<!-- SEO_HEAD_START -->
 <meta name="description" content="${escape(page.description)}" />
 <link rel="canonical" href="${url}" />
