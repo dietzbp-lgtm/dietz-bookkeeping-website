@@ -12,6 +12,7 @@ import { Link } from 'react-router-dom';
 import About from './pages/About';
 import Services from './pages/Services';
 import ServiceAreas from './pages/ServiceAreas';
+import OrlandoBookkeeping from './pages/OrlandoBookkeeping';
 import Contact from './pages/Contact';
 import Schedule from './pages/Schedule';
 import Estimate from './pages/Estimate';
@@ -44,6 +45,7 @@ function AppRoutes() {
     { path: "/about", element: <About /> },
     { path: "/services", element: <Services /> },
     { path: "/service-areas", element: <ServiceAreas /> },
+    { path: "/orlando-bookkeeping", element: <OrlandoBookkeeping /> },
     { path: "/contact", element: <Contact /> },
     { path: "/schedule", element: <Schedule /> },
     { path: "/estimate", element: <Estimate /> },
