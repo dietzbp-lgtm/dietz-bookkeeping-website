@@ -9,6 +9,12 @@ interface ServicePageProps {
     description: string;
     icon: any;
     image?: string;
+    monthlyDetail?: {
+      process: { heading: string; text: string }[];
+      reports: { heading: string; text: string }[];
+      pricingFactors: string[];
+      faqs: { question: string; answer: string }[];
+    };
     content: {
       heading: string;
       subheading: string;
@@ -35,7 +41,7 @@ const ServicePage: React.FC<ServicePageProps> = ({ service }) => {
               <Icon className="h-10 w-10" />
             </div>
             <h1 className="text-4xl md:text-5xl font-bold text-slate-900 tracking-tight mb-6">
-              {service.title} for Small Businesses
+              {service.monthlyDetail ? 'Online Monthly Bookkeeping Services for Small Businesses' : `${service.title} for Small Businesses`}
             </h1>
             <p className="text-sm font-semibold text-blue-600 mb-4">Tampa, Florida · Remote service nationwide</p>
             <p className="text-xl text-slate-600 leading-relaxed">
@@ -104,6 +110,102 @@ const ServicePage: React.FC<ServicePageProps> = ({ service }) => {
         </div>
       </section>
 
+      {service.monthlyDetail && (
+        <>
+          <section className="py-16 bg-slate-50" aria-labelledby="online-bookkeeping-process">
+            <div className="max-w-6xl mx-auto px-5 sm:px-8">
+              <p className="text-sm font-semibold tracking-wide text-blue-700 mb-3">WORK WITH A REMOTE BOOKKEEPER</p>
+              <h2 id="online-bookkeeping-process" className="text-3xl sm:text-4xl font-bold text-slate-900 mb-5">
+                How our monthly bookkeeping service works
+              </h2>
+              <p className="text-slate-600 text-lg max-w-3xl mb-10">
+                You work with Bryan from Tampa without needing to visit an office. The process and timing depend on
+                the condition of your records and the services we agree to provide.
+              </p>
+              <ol className="grid md:grid-cols-2 gap-6">
+                {service.monthlyDetail.process.map((step, index) => (
+                  <li key={step.heading} className="bg-white border border-slate-200 rounded-2xl p-6">
+                    <span className="inline-flex items-center justify-center rounded-full bg-blue-100 text-blue-800 font-semibold w-9 h-9 mb-4">
+                      {index + 1}
+                    </span>
+                    <h3 className="text-xl font-bold text-slate-900 mb-3">{step.heading}</h3>
+                    <p className="text-slate-600 leading-relaxed">{step.text}</p>
+                  </li>
+                ))}
+              </ol>
+            </div>
+          </section>
+
+          <section className="py-16 bg-white" aria-labelledby="online-bookkeeping-deliverables">
+            <div className="max-w-6xl mx-auto px-5 sm:px-8">
+              <h2 id="online-bookkeeping-deliverables" className="text-3xl font-bold text-slate-900 mb-4">
+                What your monthly bookkeeping reports help you understand
+              </h2>
+              <p className="text-slate-600 mb-8 max-w-3xl">
+                The reports included in your service depend on your agreed scope and the completeness of the source records.
+                They help explain business activity; they are not an audit or a substitute for tax advice.
+              </p>
+              <div className="grid md:grid-cols-3 gap-6">
+                {service.monthlyDetail.reports.map((report) => (
+                  <article key={report.heading} className="rounded-2xl bg-slate-50 border border-slate-200 p-6">
+                    <h3 className="text-xl font-semibold text-slate-900 mb-3">{report.heading}</h3>
+                    <p className="text-slate-600 leading-relaxed">{report.text}</p>
+                  </article>
+                ))}
+              </div>
+              <div className="mt-10 grid lg:grid-cols-2 gap-8 items-start">
+                <div>
+                  <h2 className="text-2xl font-bold text-slate-900 mb-4">What affects your monthly bookkeeping quote?</h2>
+                  <ul className="space-y-3">
+                    {service.monthlyDetail.pricingFactors.map((factor) => (
+                      <li key={factor} className="flex gap-3 text-slate-700">
+                        <CheckCircle2 aria-hidden="true" className="h-5 w-5 shrink-0 text-blue-700 mt-0.5" />
+                        <span>{factor}</span>
+                      </li>
+                    ))}
+                  </ul>
+                  <Link to="/estimate" className="inline-flex items-center gap-2 mt-6 font-semibold text-blue-700 underline underline-offset-4">
+                    Request a personalized bookkeeping estimate <ArrowRight aria-hidden="true" className="h-4 w-4" />
+                  </Link>
+                </div>
+                <aside className="bg-blue-50 border border-blue-100 p-6 rounded-2xl">
+                  <h3 className="text-xl font-semibold text-slate-900 mb-3">Built for owner-operated small businesses</h3>
+                  <p className="text-slate-700 leading-relaxed mb-4">
+                    Bryan has managed cleaning and handyman businesses and understands how invoices, expenses,
+                    supplies and time constraints compete for a business owner's attention.
+                    We begin with your existing records and define a practical bookkeeping scope together.
+                  </p>
+                  <Link to="/about" className="font-semibold text-blue-700 underline underline-offset-4">
+                    Learn about Bryan and Dietz Bookkeeping
+                  </Link>
+                </aside>
+              </div>
+            </div>
+          </section>
+
+          <section className="py-16 bg-slate-50" aria-labelledby="online-monthly-faq">
+            <div className="max-w-4xl mx-auto px-5 sm:px-8">
+              <h2 id="online-monthly-faq" className="text-3xl font-bold text-slate-900 mb-6">
+                Online monthly bookkeeping: common questions
+              </h2>
+              <div className="divide-y divide-slate-200 border-y border-slate-200">
+                {service.monthlyDetail.faqs.map((faq) => (
+                  <details key={faq.question} className="py-5 group">
+                    <summary className="font-semibold text-slate-900 cursor-pointer">{faq.question}</summary>
+                    <p className="mt-3 text-slate-600 leading-relaxed">{faq.answer}</p>
+                  </details>
+                ))}
+              </div>
+              <p className="mt-8 text-slate-600">
+                Behind on earlier months? See our <Link to="/tampa-cleanup-bookkeeping" className="font-semibold text-blue-700 underline underline-offset-4">cleanup bookkeeping service</Link>.
+                You can also <Link to="/schedule" className="font-semibold text-blue-700 underline underline-offset-4">schedule a free consultation</Link>.
+              </p>
+            </div>
+          </section>
+        </>
+      )}
+
+      {!service.monthlyDetail && (
       <section className="py-16 bg-slate-50">
         <div className="max-w-5xl mx-auto px-6">
           <div className="grid md:grid-cols-3 gap-8 mb-12">
@@ -117,6 +219,7 @@ const ServicePage: React.FC<ServicePageProps> = ({ service }) => {
           <details className="border-b py-4"><summary className="font-semibold cursor-pointer">Can this be part of monthly bookkeeping?</summary><p className="mt-3 text-slate-600">We can discuss including this work in an ongoing plan or defining it as a separate project. <Link to="/monthly-bookkeeping" className="text-blue-600 underline">Explore monthly bookkeeping.</Link></p></details>
         </div>
       </section>
+      )}
 
       {/* CTA Section */}
       <section className="py-20 bg-slate-900 text-white overflow-hidden relative">

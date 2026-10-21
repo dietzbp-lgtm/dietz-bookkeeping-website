@@ -23,6 +23,68 @@ export const services = [
       benefits: ['Categorize business transactions using the records you provide', 'Reconcile agreed bank and credit card accounts', 'Review profit and loss and balance sheet reports', 'Flag missing records and questions for your review'],
       details: 'Monthly bookkeeping helps keep daily business activity from turning into a year-end backlog. We review your accounting setup, discuss the accounts and transaction volume involved, and agree on a recurring scope. You provide statements, receipts and answers to transaction questions; we organize the records and prepare reports so you can see income, expenses and account balances. If earlier periods need attention, cleanup work is scoped separately before ongoing support begins.',
       cta: 'Discuss Monthly Bookkeeping'
+    },
+    monthlyDetail: {
+      process: [
+        {
+          heading: 'Review your current books',
+          text: 'We discuss your accounting software, transaction volume, bank and credit card accounts, and any months that need attention. You receive a scope-based proposal before work begins.'
+        },
+        {
+          heading: 'Arrange access without sharing passwords',
+          text: 'We agree on the accounting records and statements needed. When supported, use your software’s invited-user or accountant-access feature instead of sending credentials.'
+        },
+        {
+          heading: 'Organize transactions and reconcile accounts',
+          text: 'We categorize activity, compare agreed accounts with the available statements, and send questions about transactions that need your input.'
+        },
+        {
+          heading: 'Review monthly reports and open questions',
+          text: 'We prepare the agreed reports and explain what they show. Outstanding items, missing documents and next steps are communicated so you can make informed decisions.'
+        }
+      ],
+      reports: [
+        {
+          heading: 'Profit and loss statement',
+          text: 'Summarizes recorded revenue and expenses over a period so you can see how the business performed.'
+        },
+        {
+          heading: 'Balance sheet',
+          text: 'Shows recorded assets, liabilities and equity at a specific date; accuracy depends on complete, reconciled records.'
+        },
+        {
+          heading: 'Reconciliation and follow-up',
+          text: 'We identify outstanding differences or missing documentation for the accounts included in your agreed scope.'
+        }
+      ],
+      pricingFactors: [
+        'Monthly transaction volume and the number of bank or credit card accounts',
+        'Whether earlier months require separate catch-up or cleanup work',
+        'The accounting software in use and the condition of existing records',
+        'Additional responsibilities such as invoicing, bills or payroll coordination'
+      ],
+      faqs: [
+        {
+          question: 'Can you handle bookkeeping remotely if my business is not in Florida?',
+          answer: 'Yes. Dietz Bookkeeping is based in Tampa and works with small businesses remotely throughout the United States. We discuss access, documents and communication during the initial consultation.'
+        },
+        {
+          question: 'Do I need to use QuickBooks?',
+          answer: 'Tell us which accounting software you use today. We will review whether your current setup is appropriate for the requested work before agreeing on a service scope. Software subscriptions or migrations are discussed separately if needed.'
+        },
+        {
+          question: 'Is bookkeeping cleanup part of the monthly fee?',
+          answer: 'Not automatically. When prior periods are incomplete, we review the backlog and provide a separate cleanup scope or proposal before ongoing monthly work starts.'
+        },
+        {
+          question: 'Are tax returns, payroll and bill payments included?',
+          answer: 'Monthly bookkeeping focuses on transaction records, reconciliations and agreed financial reports. Tax advice and return filing belong with your tax professional; payroll support, accounts payable and receivable are discussed as additional services if required.'
+        },
+        {
+          question: 'How much does online monthly bookkeeping cost?',
+          answer: 'Pricing depends on the amount and condition of work involved, not a single national flat rate. We review transactions, accounts, software and any additional services before preparing a personalized estimate.'
+        }
+      ]
     }
   },
   {
