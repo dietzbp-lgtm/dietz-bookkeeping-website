@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import { ArrowRight, CheckCircle2, ReceiptText, BarChart3, FileText, Clock3, ClipboardList, Building2 } from 'lucide-react';
 import Layout from '../components/Layout';
+import Breadcrumbs from '../components/Breadcrumbs';
 
 type Industry = 'cleaning' | 'contractors' | 'realEstate';
 type Topic = { heading: string; text: string };
@@ -144,6 +145,12 @@ const visualContent: Record<Industry, {
   }
 };
 
+const industryPaths: Record<Industry, string> = {
+  cleaning: '/bookkeeping-for-cleaning-businesses',
+  contractors: '/bookkeeping-for-contractors',
+  realEstate: '/bookkeeping-for-real-estate-agents'
+};
+
 const highlightIcons = [ReceiptText, BarChart3, FileText, Clock3];
 const featureIcons = [ReceiptText, BarChart3, FileText, CheckCircle2, ClipboardList, Building2];
 
@@ -157,6 +164,7 @@ export default function IndustryPage({ industry }: { industry: Industry }) {
       <section className="bg-gradient-to-r from-blue-50 via-white to-slate-50 py-10 sm:py-14 lg:py-16">
         <div className="max-w-7xl mx-auto px-5 sm:px-8 grid lg:grid-cols-[minmax(0,1.2fr)_minmax(290px,.8fr)] gap-9 lg:gap-14 items-center">
           <div>
+            <Breadcrumbs path={industryPaths[industry]} />
             <p className="text-xs sm:text-sm font-bold tracking-wider text-blue-700 mb-5">{page.label}</p>
             <h1 className="text-4xl sm:text-5xl lg:text-[3.25rem] leading-[1.13] font-bold tracking-tight text-slate-900 mb-6">{page.heading}</h1>
             <p className="text-lg text-slate-700 leading-relaxed max-w-3xl mb-7">{page.introduction}</p>

@@ -1,6 +1,7 @@
 import fs from 'node:fs';
 import { render } from '../.prerender/entry-server.js';
 const pages = JSON.parse(fs.readFileSync('src/data/seo.json', 'utf8'));
+const breadcrumbLabels = JSON.parse(fs.readFileSync('src/data/breadcrumbs.json', 'utf8'));
 const template = fs.readFileSync('dist/index.html', 'utf8');
 const escape = s => s.replaceAll('&', '&amp;').replaceAll('"', '&quot;').replaceAll('<', '&lt;');
 // Cloudflare Pages serves dist/<route>/index.html at the trailing-slash URL.
@@ -8,6 +9,8 @@ const canonicalPath = path => path === '/' ? '/' : `${path.replace(/\/+$/, '')}/
 for (const [path, page] of Object.entries(pages)) {
   const url = `https://dietzbookkeeping.com${canonicalPath(path)}`;
   const service = path === '/monthly-bookkeeping' || path.startsWith('/tampa-') || path.startsWith('/bookkeeping-for-');
+  const breadcrumbLabel = breadcrumbLabels[path];
+  const breadcrumbSchema = breadcrumbLabel ? `<script type="application/ld+json">${JSON.stringify({'@context':'https://schema.org','@type':'BreadcrumbList',itemListElement:[{'@type':'ListItem',position:1,name:'Home',item:'https://dietzbookkeeping.com/'},{'@type':'ListItem',position:2,name:'Services',item:'https://dietzbookkeeping.com/services/'},{'@type':'ListItem',position:3,name:breadcrumbLabel,item:url}]})}</script>` : '';
   const serviceSchema = service ? `<script type="application/ld+json">${JSON.stringify({'@context':'https://schema.org','@type':'Service',name:page.title.split(' | ')[0],description:page.description,url,provider:{'@id':'https://dietzbookkeeping.com/#organization'},areaServed:{'@type':'Country',name:'United States'}})}</script>` : '';
   const html = template.replace('<div id="root"></div>', `<div id="root">${render(path)}</div>`).replace(/<title>.*?<\/title>/, `<title>${escape(page.title)}</title>`).replace(/<!-- SEO_HEAD_START -->[\s\S]*?<!-- SEO_HEAD_END -->/, `<!-- SEO_HEAD_START -->
 <meta name="description" content="${escape(page.description)}" />
@@ -18,8 +21,9 @@ for (const [path, page] of Object.entries(pages)) {
 <meta property="og:description" content="${escape(page.description)}" />
 <meta property="og:url" content="${url}" />
 <meta property="og:image" content="https://dietzbookkeeping.com/images/dietzbookeepingabout.webp" />
-<script type="application/ld+json">${JSON.stringify({'@context':'https://schema.org','@type':'Organization','@id':'https://dietzbookkeeping.com/#organization',name:'Dietz Bookkeeping',url:'https://dietzbookkeeping.com/',logo:'https://dietzbookkeeping.com/images/dietzbookkeepinglogotampafl.webp',telephone:'+1-813-419-3475',email:'bryand@dietzbookkeeping.com',areaServed:{'@type':'Country',name:'United States'}})}</script>
+<script type="application/ld+json">${JSON.stringify({'@context':'https://schema.org','@type':'Organization','@id':'https://dietzbookkeeping.com/#organization',name:'Dietz Bookkeeping',url:'https://dietzbookkeeping.com/',logo:'https://dietzbookkeeping.com/images/dietzbookkeepinglogotampafl.webp',founder:{'@type':'Person',name:'Bryan Dietz',url:'https://dietzbookkeeping.com/about/'},sameAs:['https://www.facebook.com/profile.php?id=61573021914343','https://www.instagram.com/dietzbookkeeping/'],telephone:'+1-813-419-3475',email:'bryand@dietzbookkeeping.com',areaServed:{'@type':'Country',name:'United States'}})}</script>
 ${serviceSchema}
+${breadcrumbSchema}
 <!-- SEO_HEAD_END -->`);
   const dest = path === '/' ? 'dist/index.html' : `dist${path}/index.html`;
   fs.mkdirSync(dest.slice(0, dest.lastIndexOf('/')), { recursive: true });
