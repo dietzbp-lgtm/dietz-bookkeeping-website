@@ -18,7 +18,7 @@ type IndustryContent = {
 
 const industries: Record<Industry, IndustryContent> = {
   cleaning: {
-    image: { src: '/images/industry-cleaning.webp', alt: 'Illustrative scene of a professional cleaner wiping a kitchen counter', width: 217, height: 275 },
+    image: { src: '/images/industry-cleaning.svg', alt: 'Illustration of a cleaner working in a bright kitchen with cleaning equipment and a financial report card', width: 720, height: 900 },
     label: 'BOOKKEEPING FOR CLEANING BUSINESSES · AVAILABLE NATIONWIDE',
     heading: 'Bookkeeping for Cleaning Businesses',
     introduction: 'Organize recurring cleaning revenue, deposits, supply purchases and business expenses without losing track of the work behind each visit. Dietz Bookkeeping supports owners of residential cleaning services and commercial cleaning companies remotely throughout the United States.',
@@ -48,7 +48,7 @@ const industries: Record<Industry, IndustryContent> = {
     ]
   },
   contractors: {
-    image: { src: '/images/industry-contractors.webp', alt: 'Illustrative scene of a contractor marking measurements on a woodworking project', width: 204, height: 276 },
+    image: { src: '/images/industry-contractors.svg', alt: 'Illustration of a contractor working with wood and tools alongside an accounting chart', width: 720, height: 900 },
     label: 'BOOKKEEPING FOR CONTRACTORS & HANDYMEN · AVAILABLE NATIONWIDE',
     heading: 'Bookkeeping for Contractors and Handyman Businesses',
     introduction: 'Organize customer invoices, material purchases, vendor bills and business expenses while managing a busy schedule of service calls and projects. Dietz Bookkeeping offers remote bookkeeping support for small contractors and handyman businesses across the United States.',
@@ -78,7 +78,7 @@ const industries: Record<Industry, IndustryContent> = {
     ]
   },
   realEstate: {
-    image: { src: '/images/industry-real-estate.webp', alt: 'Illustrative scene of a real estate professional reviewing papers with a laptop and a model house', width: 203, height: 275 },
+    image: { src: '/images/industry-real-estate.svg', alt: 'Illustration of a real estate professional with documents and a house graphic next to a financial chart', width: 720, height: 900 },
     label: 'BOOKKEEPING FOR REAL ESTATE AGENTS · AVAILABLE NATIONWIDE',
     heading: 'Bookkeeping for Real Estate Agents',
     introduction: 'Keep commission deposits, brokerage statements and business expenses organized between closings. Dietz Bookkeeping offers remote bookkeeping support for independent real estate agents and small real estate teams throughout the United States.',
@@ -137,7 +137,7 @@ export default function IndustryPage({ industry }: { industry: Industry }) {
                 className="w-full h-auto aspect-[4/5] object-cover"
               />
             </div>
-            <figcaption className="mt-2 text-xs text-slate-500 text-center">Illustrative industry image, not a customer photograph</figcaption>
+            <figcaption className="mt-2 text-xs text-slate-500 text-center">Original industry illustration · Not an actual client</figcaption>
           </figure>
         </div>
       </section>
