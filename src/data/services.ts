@@ -91,80 +91,80 @@ export const services = [
     id: 'bank-reconciliation',
     title: 'Bank Reconciliation',
     slug: '/tampa-bank-reconciliation',
-    description: 'Match bank and credit card statements to your books, investigate differences and keep account balances organized.',
+    description: 'Compare business bank and credit card statements with your bookkeeping records, identify unmatched activity and review differences before closing each period.',
     icon: BarChart3,
     image: '/images/tampa-bank-reconciliation.webp',
     content: {
-      heading: 'Precision in Every Transaction',
-      subheading: 'Never worry about mismatched records again.',
+      heading: 'Know why your account balances agree—or do not',
+      subheading: 'Statement-by-statement reviews for the business accounts included in your scope.',
       benefits: [
-        'Identify unmatched entries and unusual items for your review',
-        'Reconcile recorded balances against available statements',
-        'Simplify tax preparation with clean records',
-        'Understand recorded cash movements and outstanding items'
+        'Review deposits, withdrawals and account transfers against statements',
+        'Identify missing, duplicate or uncleared entries needing investigation',
+        'Reconcile agreed bank and card accounts by statement period',
+        'Document unresolved transactions and questions for your review'
       ],
-      details: `Bank reconciliation is the foundation of a healthy business. We meticulously match your internal records with your bank and credit card statements to ensure every penny is accounted for. This process not only keeps your books clean but also helps detect fraud, bank errors, or lost checks before they become major issues.`,
-      cta: 'Get Your Books in Order'
+      details: `Bank reconciliation compares recorded activity with the statement for a specific business account and period. Different balances can point to transactions recorded in the wrong month, missing activity, processor fees or earlier unreconciled items. We review the available source statements and bookkeeping file, investigate discrepancies and ask for explanations when necessary. The included accounts and periods are established before we begin; reconciliation does not replace a financial audit or guarantee fraud detection.`,
+      cta: 'Discuss Account Reconciliation'
     }
   },
   {
     id: 'cleanup-bookkeeping',
     title: 'Cleanup Bookkeeping',
     slug: '/tampa-cleanup-bookkeeping',
-    description: 'Fixing months or years of messy or incomplete books so your financials are reliable again.',
+    description: 'Catch up on unfinished bookkeeping periods with a records review, historical transaction organization and reconciliation plan tailored to your backlog.',
     icon: FileText,
     image: '/images/tampa-cleanup-bookkeeping.webp',
     content: {
-      heading: 'Restore Confidence in Your Numbers',
-      subheading: 'Messy books? We specialize in financial rescue missions.',
+      heading: 'A sensible starting point for overdue bookkeeping',
+      subheading: 'Review the backlog before committing to a cleanup scope.',
       benefits: [
-        'Catch up on months or years of backlog',
-        'Review transaction categories and supporting documents',
-        'Eliminate stress before tax season',
-        'Get a clear picture of your true financial health'
+        'Identify the months and accounts that need attention',
+        'Review unrecorded transactions and missing statements',
+        'Investigate duplicate entries, transfers and uncertain categories',
+        'Agree on historical cleanup separately from monthly bookkeeping'
       ],
-      details: `Falling behind on bookkeeping happens to the best business owners. Whether you have a few months of backlog or years of messy data, our cleanup service is designed to bring you up to date quickly and accurately. We'll organize your historical data, reconcile accounts, and give you a fresh start.`,
-      cta: 'Start Your Cleanup'
+      details: `Cleanup begins with an assessment of the accounting file, available statements and periods affected. One business may have a few months of uncategorized expenses, while another may have missing deposits or old reconciliation differences. We propose work based on the source records, accounts and questions that need attention, then work through the agreed historical periods. Complex or missing records may require additional input; tax return corrections and tax advice belong with a qualified tax professional.`,
+      cta: 'Discuss Bookkeeping Cleanup'
     }
   },
   {
     id: 'accounts-payable',
     title: 'Accounts Payable',
     slug: '/tampa-accounts-payable',
-    description: 'Tracking bills, managing due dates, and keeping vendors paid on time to protect cash flow.',
+    description: 'Organize vendor invoices, due dates and unpaid balances so Tampa-area and remote businesses can review obligations and payment approval responsibilities.',
     icon: CreditCard,
     image: '/images/tampa-accounts-payable.webp',
     content: {
-      heading: 'Streamlined Vendor Payments',
-      subheading: 'Maintain great relationships and protect your cash flow.',
+      heading: 'Track vendor bills before they become overdue',
+      subheading: 'An organized bill workflow helps owners review upcoming obligations.',
       benefits: [
-        'Avoid late fees and interest charges',
-        'Optimize cash flow by managing payment timing',
-        'Maintain positive vendor relationships',
-        'Digital record keeping for easy auditing'
+        'Maintain consistent vendor and invoice records',
+        'Track due dates, credits and unpaid balances',
+        'Identify duplicate or disputed invoices for review',
+        'Clarify who reviews and authorizes payments'
       ],
-      details: `Managing bills can be time-consuming and stressful. Our Accounts Payable service helps organize bills and payment schedules. We help you implement approval workflows, track due dates, and manage cash flow so you can review upcoming commitments. Payment authority and approvals are agreed before work begins.`,
-      cta: 'Optimize Your Payables'
+      details: `Accounts payable work starts with the vendor bills, credit notes and due dates recorded in your accounting system. We can discuss a practical way to collect documents, identify duplicate invoices, enter or review bills and prepare an aging report of open obligations. Payment release, bank access and vendor contact are not assumed: responsibilities and approval permissions must be explicitly agreed. An accurate view of payables depends on receiving complete and timely invoices from the business.`,
+      cta: 'Review Your Payables Workflow'
     }
   },
   {
     id: 'accounts-receivable',
     title: 'Accounts Receivable',
     slug: '/tampa-accounts-receivable',
-    description: 'Creating invoices, tracking customer payments, and helping businesses get paid faster.',
+    description: 'Review customer invoices, partial payments and overdue balances with an accounts receivable workflow based on your bookkeeping and payment records.',
     icon: DollarSign,
     image: '/images/tampa-accounts-receivable.webp',
     content: {
-      heading: 'Get Paid Faster',
-      subheading: 'Professional invoicing and follow-up to boost your cash flow.',
+      heading: 'Understand which customer invoices remain open',
+      subheading: 'Clear receivables records support better payment follow-up decisions.',
       benefits: [
-        'Professional, branded invoices sent promptly',
-        'Systematic follow-up on overdue payments',
-        'Reduced days sales outstanding (DSO)',
-        'Improved cash flow predictability'
+        'Review invoices, terms and customer balances',
+        'Match recorded payments, partial payments and available deposit records',
+        'Identify unapplied credits or overdue invoices needing attention',
+        'Use aging reports to discuss unpaid balances'
       ],
-      details: `Cash flow is the lifeblood of your business. We manage your entire invoicing process, from creating and sending invoices to tracking payments and following up on past-due accounts. Our goal is to shorten your payment cycle and ensure you have the cash you need to grow.`,
-      cta: 'Improve Your Cash Flow'
+      details: `Accounts receivable records connect invoices issued to customers with the payments and credits applied to them. We review the invoicing system and available deposit information, help identify unmatched or partial payments and discuss the open-balance report. Optional invoice creation, reminders and customer communication must be included in an agreed scope; we do not promise collection results. Businesses using different accounting methods may need different record-handling approaches.`,
+      cta: 'Discuss Customer Invoices'
     }
   },
   {
