@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { ArrowRight, CheckCircle2 } from 'lucide-react';
+import { ArrowRight, CheckCircle2, ReceiptText, BarChart3, FileText, Clock3, ClipboardList, Building2 } from 'lucide-react';
 import Layout from '../components/Layout';
 
 type Industry = 'cleaning' | 'contractors' | 'realEstate';
@@ -18,7 +18,7 @@ type IndustryContent = {
 
 const industries: Record<Industry, IndustryContent> = {
   cleaning: {
-    image: { src: '/images/industry-cleaning.svg', alt: 'Illustration of a cleaner working in a bright kitchen with cleaning equipment and a financial report card', width: 720, height: 900 },
+    image: { src: '/images/industry-cleaning-photo.webp', alt: 'Illustrative image of a cleaner working in a kitchen with cleaning supplies', width: 520, height: 620 },
     label: 'BOOKKEEPING FOR CLEANING BUSINESSES · AVAILABLE NATIONWIDE',
     heading: 'Bookkeeping for Cleaning Businesses',
     introduction: 'Organize recurring cleaning revenue, deposits, supply purchases and business expenses without losing track of the work behind each visit. Dietz Bookkeeping supports owners of residential cleaning services and commercial cleaning companies remotely throughout the United States.',
@@ -48,7 +48,7 @@ const industries: Record<Industry, IndustryContent> = {
     ]
   },
   contractors: {
-    image: { src: '/images/industry-contractors.svg', alt: 'Illustration of a contractor working with wood and tools alongside an accounting chart', width: 720, height: 900 },
+    image: { src: '/images/industry-contractors-photo.webp', alt: 'Illustrative image of a contractor installing interior flooring', width: 520, height: 620 },
     label: 'BOOKKEEPING FOR CONTRACTORS & HANDYMEN · AVAILABLE NATIONWIDE',
     heading: 'Bookkeeping for Contractors and Handyman Businesses',
     introduction: 'Organize customer invoices, material purchases, vendor bills and business expenses while managing a busy schedule of service calls and projects. Dietz Bookkeeping offers remote bookkeeping support for small contractors and handyman businesses across the United States.',
@@ -78,7 +78,7 @@ const industries: Record<Industry, IndustryContent> = {
     ]
   },
   realEstate: {
-    image: { src: '/images/industry-real-estate.svg', alt: 'Illustration of a real estate professional with documents and a house graphic next to a financial chart', width: 720, height: 900 },
+    image: { src: '/images/industry-real-estate-photo.webp', alt: 'Illustrative image of a real estate professional reviewing property paperwork', width: 520, height: 620 },
     label: 'BOOKKEEPING FOR REAL ESTATE AGENTS · AVAILABLE NATIONWIDE',
     heading: 'Bookkeeping for Real Estate Agents',
     introduction: 'Keep commission deposits, brokerage statements and business expenses organized between closings. Dietz Bookkeeping offers remote bookkeeping support for independent real estate agents and small real estate teams throughout the United States.',
@@ -109,76 +109,165 @@ const industries: Record<Industry, IndustryContent> = {
   }
 };
 
+
+const visualContent: Record<Industry, {
+  overviewTitle: string;
+  sectionTitle: string;
+  summary: string;
+  detailImage: string;
+  detailAlt: string;
+  highlights: [string, string, string, string];
+}> = {
+  cleaning: {
+    overviewTitle: 'Financial support for your cleaning business',
+    sectionTitle: 'How we help cleaning businesses',
+    summary: 'Whether you serve recurring residential clients or commercial properties, we can help you organize the invoices, deposits and expenses behind each job. We first review your records and agree on a service scope.',
+    detailImage: '/images/industry-cleaning-detail.webp',
+    detailAlt: 'Illustrative photograph of cleaning supplies in a blue bucket',
+    highlights: ['Organize income & expenses', 'Review business reports', 'Keep tax records organized', 'More time for customers']
+  },
+  contractors: {
+    overviewTitle: 'Bookkeeping built for contractors and handymen',
+    sectionTitle: 'How we help contractors',
+    summary: 'From customer deposits and invoices to material purchases and vendor bills, organized records can help you understand the work behind each project. Optional job-level tracking depends on your accounting software and the agreed scope.',
+    detailImage: '/images/industry-contractors-detail.webp',
+    detailAlt: 'Illustrative photograph of a measuring tape and construction plans',
+    highlights: ['Organize job expenses', 'Review invoices & payments', 'Understand your reports', 'Focus on the next project']
+  },
+  realEstate: {
+    overviewTitle: 'Financial support for real estate professionals',
+    sectionTitle: 'How we help real estate agents',
+    summary: 'Commission deposits, brokerage statements, advertising costs and operating expenses all need accurate records. We help you establish a bookkeeping routine so you can review your numbers between closings.',
+    detailImage: '/images/industry-real-estate-detail.webp',
+    detailAlt: 'Illustrative image of a residential property exterior',
+    highlights: ['Organize commission income', 'Review business expenses', 'Prepare records for your CPA', 'More time for clients']
+  }
+};
+
+const highlightIcons = [ReceiptText, BarChart3, FileText, Clock3];
+const featureIcons = [ReceiptText, BarChart3, FileText, CheckCircle2, ClipboardList, Building2];
+
 export default function IndustryPage({ industry }: { industry: Industry }) {
   const page = industries[industry];
+  const visual = visualContent[industry];
+  const featureCards = [...page.situations.slice(0, 3), ...page.records];
+
   return (
     <Layout>
-      <section className="bg-gradient-to-b from-blue-50 to-white py-12 sm:py-16 lg:py-20">
-        <div className="max-w-6xl mx-auto px-5 sm:px-8 grid lg:grid-cols-[minmax(0,1fr)_minmax(245px,370px)] gap-8 lg:gap-14 items-center">
+      <section className="bg-gradient-to-r from-blue-50 via-white to-slate-50 py-10 sm:py-14 lg:py-16">
+        <div className="max-w-7xl mx-auto px-5 sm:px-8 grid lg:grid-cols-[minmax(0,1.2fr)_minmax(290px,.8fr)] gap-9 lg:gap-14 items-center">
           <div>
             <p className="text-xs sm:text-sm font-bold tracking-wider text-blue-700 mb-5">{page.label}</p>
-            <h1 className="text-4xl sm:text-5xl font-bold leading-tight tracking-tight text-slate-900 mb-6">{page.heading}</h1>
-            <p className="text-lg sm:text-xl text-slate-700 leading-relaxed max-w-3xl mb-8">{page.introduction}</p>
+            <h1 className="text-4xl sm:text-5xl lg:text-[3.25rem] leading-[1.13] font-bold tracking-tight text-slate-900 mb-6">{page.heading}</h1>
+            <p className="text-lg text-slate-700 leading-relaxed max-w-3xl mb-7">{page.introduction}</p>
             <div className="flex flex-col sm:flex-row gap-3">
-              <Link to="/schedule" className="bg-blue-600 text-white text-center font-semibold px-6 py-3.5 rounded-xl hover:bg-blue-700 transition-colors">Book a Free Consultation</Link>
-              <Link to="/estimate" className="bg-white border border-slate-300 text-slate-900 text-center font-semibold px-6 py-3.5 rounded-xl hover:border-blue-500 transition-colors">Request an Estimate</Link>
+              <Link to="/estimate" className="bg-blue-700 text-white text-center font-semibold px-6 py-3.5 rounded-xl hover:bg-blue-800 transition-colors">Get a Free Bookkeeping Estimate</Link>
+              <Link to="/schedule" className="bg-white border border-slate-300 text-slate-900 text-center font-semibold px-6 py-3.5 rounded-xl hover:border-blue-600 transition-colors">Schedule a Call</Link>
             </div>
             <p className="mt-5 text-sm text-slate-600">Based in Tampa, Florida · Remote bookkeeping services across the United States</p>
           </div>
-          <figure className="max-w-[340px] sm:max-w-[370px] w-full mx-auto lg:mr-0 lg:ml-auto">
-            <div className="rounded-3xl overflow-hidden shadow-xl shadow-slate-200/70 border border-slate-200 bg-blue-100">
+          <figure className="w-full max-w-[430px] mx-auto lg:ml-auto lg:mr-0">
+            <div className="rounded-[1.75rem] overflow-hidden shadow-lg shadow-slate-200/70 border border-slate-200 bg-slate-100">
               <img
                 src={page.image.src}
                 alt={page.image.alt}
                 width={page.image.width}
                 height={page.image.height}
+                fetchPriority="high"
                 loading="eager"
                 decoding="async"
                 className="w-full h-auto aspect-[4/5] object-cover"
               />
             </div>
-            <figcaption className="mt-2 text-xs text-slate-500 text-center">Original industry illustration · Not an actual client</figcaption>
+            <figcaption className="mt-2 text-xs text-slate-500 text-center">Illustrative imagery · Not an actual client or staff member</figcaption>
           </figure>
         </div>
       </section>
 
-      <section className="py-16 bg-white" aria-labelledby="industry-challenges">
-        <div className="max-w-6xl mx-auto px-5 sm:px-8">
-          <h2 id="industry-challenges" className="text-3xl font-bold text-slate-900 mb-4">Bookkeeping challenges we can help you organize</h2>
-          <p className="text-slate-600 text-lg max-w-4xl mb-9">{page.industryContext}</p>
-          <div className="grid md:grid-cols-2 gap-6">
-            {page.situations.map(item => (
-              <article key={item.heading} className="rounded-2xl bg-slate-50 border border-slate-200 p-6 sm:p-7">
-                <h3 className="text-xl font-bold text-slate-900 mb-3">{item.heading}</h3>
-                <p className="text-slate-700 leading-relaxed">{item.text}</p>
-              </article>
-            ))}
+      <section className="bg-white border-y border-slate-100" aria-label="Bookkeeping benefits">
+        <div className="max-w-7xl mx-auto px-5 sm:px-8 py-7 grid grid-cols-2 lg:grid-cols-4 gap-6">
+          {visual.highlights.map((label, index) => {
+            const Icon = highlightIcons[index];
+            return (
+              <div key={label} className="flex flex-col items-center text-center gap-3">
+                <Icon aria-hidden="true" className="w-8 h-8 text-blue-700" strokeWidth={1.8} />
+                <p className="font-semibold text-sm sm:text-base text-slate-800">{label}</p>
+              </div>
+            );
+          })}
+        </div>
+      </section>
+
+      <section className="py-14 sm:py-16 bg-white" aria-labelledby="industry-overview">
+        <div className="max-w-7xl mx-auto px-5 sm:px-8 grid md:grid-cols-[minmax(230px,.85fr)_minmax(0,1.15fr)] gap-8 lg:gap-12 items-center">
+          <img
+            src={visual.detailImage}
+            alt={visual.detailAlt}
+            width={440}
+            height={315}
+            loading="lazy"
+            decoding="async"
+            className="w-full h-auto aspect-[4/3] object-cover rounded-2xl shadow-md shadow-slate-200/60"
+          />
+          <div>
+            <p className="text-sm font-bold tracking-wider text-blue-700 mb-3">BOOKKEEPING FOR YOUR INDUSTRY</p>
+            <h2 id="industry-overview" className="text-3xl sm:text-4xl font-bold text-slate-900 mb-5">{visual.overviewTitle}</h2>
+            <p className="text-lg text-slate-700 leading-relaxed mb-4">{visual.summary}</p>
+            <p className="text-slate-600 leading-relaxed">{page.industryContext}</p>
           </div>
         </div>
       </section>
 
-      <section className="py-16 bg-slate-50" aria-labelledby="industry-support">
-        <div className="max-w-6xl mx-auto px-5 sm:px-8">
-          <h2 id="industry-support" className="text-3xl font-bold text-slate-900 mb-4">What the bookkeeping process can include</h2>
-          <p className="text-slate-600 max-w-4xl mb-8">The exact accounts, reporting schedule and any extra services are defined in your personalized proposal. We do not assume your existing books are complete or that every service is included.</p>
-          <div className="grid md:grid-cols-3 gap-6">
-            {page.records.map(item => (
-              <article key={item.heading} className="rounded-2xl bg-white border border-slate-200 p-6">
-                <CheckCircle2 aria-hidden="true" className="text-blue-700 w-7 h-7 mb-4" />
-                <h3 className="text-xl font-bold text-slate-900 mb-3">{item.heading}</h3>
-                <p className="text-slate-600 leading-relaxed">{item.text}</p>
-              </article>
-            ))}
+      <section className="py-14 sm:py-16 bg-slate-50" aria-labelledby="industry-services">
+        <div className="max-w-7xl mx-auto px-5 sm:px-8">
+          <div className="text-center max-w-3xl mx-auto mb-10">
+            <p className="text-sm font-semibold tracking-widest text-blue-700 mb-3">PRACTICAL SUPPORT</p>
+            <h2 id="industry-services" className="text-3xl sm:text-4xl font-bold text-slate-900 mb-4">{visual.sectionTitle}</h2>
+            <p className="text-slate-600 text-lg">A clearer picture of your business starts with consistent records and an agreed scope.</p>
           </div>
-          <div className="rounded-2xl bg-blue-50 border border-blue-100 p-7 mt-9">
-            <h3 className="text-xl font-bold text-slate-900 mb-3">Getting started remotely</h3>
-            <p className="text-slate-700 leading-relaxed">Start with a consultation about your software, number of accounts, transaction volume and any backlog. We discuss invited-user access or other secure ways to coordinate records; never send passwords or banking credentials through a website inquiry form. You'll receive an agreed scope before work starts.</p>
-            <Link to="/monthly-bookkeeping" className="inline-flex items-center gap-2 font-semibold text-blue-700 underline underline-offset-4 mt-5">Explore our monthly bookkeeping process <ArrowRight aria-hidden="true" className="w-4 h-4" /></Link>
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+            {featureCards.map((item, index) => {
+              const Icon = featureIcons[index];
+              return (
+                <article key={item.heading} className="rounded-2xl border border-slate-200 bg-white px-6 py-7 text-center shadow-sm">
+                  <div className="mx-auto mb-5 w-12 h-12 rounded-2xl bg-blue-50 flex items-center justify-center">
+                    <Icon aria-hidden="true" className="w-6 h-6 text-blue-700" strokeWidth={1.8}/>
+                  </div>
+                  <h3 className="text-lg font-bold text-slate-900 mb-3">{item.heading}</h3>
+                  <p className="text-sm sm:text-base text-slate-600 leading-relaxed">{item.text}</p>
+                </article>
+              );
+            })}
+          </div>
+          <div className="mt-8 bg-blue-50 border border-blue-100 rounded-2xl p-6 sm:p-8">
+            <h3 className="text-lg font-bold text-slate-900 mb-2">{page.situations[3].heading}</h3>
+            <p className="text-slate-700 leading-relaxed">{page.situations[3].text}</p>
           </div>
         </div>
       </section>
 
-      <section className="py-16 bg-white" aria-labelledby="industry-faq">
+      <section className="py-14 sm:py-16 bg-white" aria-labelledby="industry-onboarding">
+        <div className="max-w-6xl mx-auto px-5 sm:px-8 grid md:grid-cols-[.9fr_1.1fr] gap-8 lg:gap-14 items-start">
+          <div>
+            <h2 id="industry-onboarding" className="text-3xl font-bold text-slate-900 mb-5">A simple way to work together</h2>
+            <p className="text-slate-600 leading-relaxed mb-5">Start with a consultation about your accounting software, transaction volume, accounts and any backlog. We agree on an appropriate service scope and price before beginning work.</p>
+            <Link to="/monthly-bookkeeping" className="inline-flex items-center gap-2 text-blue-700 font-semibold underline underline-offset-4">
+              Learn how online bookkeeping works <ArrowRight aria-hidden="true" className="w-4 h-4"/>
+            </Link>
+          </div>
+          <div className="rounded-2xl bg-slate-50 border border-slate-200 p-7 sm:p-8">
+            <h3 className="text-xl font-bold text-slate-900 mb-4">What to expect</h3>
+            <ul className="space-y-4 text-slate-700">
+              <li className="flex items-start gap-3"><CheckCircle2 aria-hidden="true" className="w-5 h-5 mt-1 shrink-0 text-blue-700" /><span>Discuss your records and the services you need.</span></li>
+              <li className="flex items-start gap-3"><CheckCircle2 aria-hidden="true" className="w-5 h-5 mt-1 shrink-0 text-blue-700" /><span>Confirm secure invited-user access where supported; never email bank passwords.</span></li>
+              <li className="flex items-start gap-3"><CheckCircle2 aria-hidden="true" className="w-5 h-5 mt-1 shrink-0 text-blue-700" /><span>Receive an estimate and agree on the scope before work starts.</span></li>
+              <li className="flex items-start gap-3"><CheckCircle2 aria-hidden="true" className="w-5 h-5 mt-1 shrink-0 text-blue-700" /><span>Review transactions, reconciliations and reports included in your plan.</span></li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <section className="py-14 sm:py-16 bg-slate-50" aria-labelledby="industry-faq">
         <div className="max-w-4xl mx-auto px-5 sm:px-8">
           <h2 id="industry-faq" className="text-3xl font-bold text-slate-900 mb-6">Frequently asked questions</h2>
           <div className="divide-y divide-slate-200 border-y border-slate-200">
@@ -189,7 +278,7 @@ export default function IndustryPage({ industry }: { industry: Industry }) {
               </details>
             ))}
           </div>
-          <h2 className="text-2xl font-bold text-slate-900 mt-11 mb-5">Related bookkeeping services</h2>
+          <h2 className="text-xl font-bold text-slate-900 mt-10 mb-5">Related bookkeeping services</h2>
           <ul className="space-y-3">
             {page.related.map(item => (
               <li key={item.to}>
@@ -200,11 +289,15 @@ export default function IndustryPage({ industry }: { industry: Industry }) {
         </div>
       </section>
 
-      <section className="bg-slate-900 text-white py-16">
-        <div className="max-w-4xl mx-auto px-5 sm:px-8 text-center">
-          <h2 className="text-3xl sm:text-4xl font-bold mb-5">A practical starting point for your books</h2>
-          <p className="text-slate-200 text-lg mb-8">Tell us where your records stand and which tasks take the most time. We'll review your needs and explain the next steps before proposing work.</p>
-          <Link to="/schedule" className="inline-flex items-center justify-center bg-white text-slate-900 rounded-xl font-semibold px-7 py-3.5 hover:bg-blue-50 transition-colors">Schedule a Free Consultation</Link>
+      <section className="bg-gradient-to-b from-blue-50 to-white py-16 sm:py-20 border-t border-blue-100">
+        <div className="max-w-5xl mx-auto px-5 sm:px-8 text-center">
+          <p className="text-xs font-bold tracking-[.18em] text-blue-700 mb-4">LET'S GET STARTED</p>
+          <h2 className="text-3xl sm:text-4xl font-bold text-slate-900 mb-5">Get a Free Bookkeeping Estimate</h2>
+          <p className="text-lg text-slate-600 mb-8">Tell us about your {industry === 'cleaning' ? 'cleaning business' : industry === 'contractors' ? 'contracting or handyman business' : 'real estate business'} and the bookkeeping support you need. We'll discuss an appropriate service scope.</p>
+          <div className="flex flex-col sm:flex-row justify-center gap-3">
+            <Link to="/estimate" className="bg-blue-700 text-white font-semibold px-8 py-4 rounded-xl hover:bg-blue-800 transition-colors">Request an Estimate</Link>
+            <Link to="/schedule" className="border border-blue-200 bg-white text-blue-800 font-semibold px-8 py-4 rounded-xl hover:border-blue-600 transition-colors">Schedule a Call</Link>
+          </div>
         </div>
       </section>
     </Layout>
