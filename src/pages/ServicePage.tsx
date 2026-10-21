@@ -2,9 +2,11 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { CheckCircle2, ArrowRight } from 'lucide-react';
 import Layout from '../components/Layout';
+import Breadcrumbs from '../components/Breadcrumbs';
 
 interface ServicePageProps {
   service: {
+    slug: string;
     title: string;
     description: string;
     icon: any;
@@ -35,6 +37,7 @@ const ServicePage: React.FC<ServicePageProps> = ({ service }) => {
         <div className="absolute inset-0 bg-gradient-to-b from-blue-50 to-white pointer-events-none" />
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="text-center max-w-3xl mx-auto">
+            <Breadcrumbs path={service.slug} />
             <div
               className="w-20 h-20 bg-blue-500 rounded-3xl flex items-center justify-center mx-auto mb-8 shadow-xl shadow-blue-500/30 text-white"
             >
