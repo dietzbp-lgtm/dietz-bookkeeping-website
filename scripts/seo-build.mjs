@@ -7,7 +7,7 @@ const escape = s => s.replaceAll('&', '&amp;').replaceAll('"', '&quot;').replace
 const canonicalPath = path => path === '/' ? '/' : `${path.replace(/\/+$/, '')}/`;
 for (const [path, page] of Object.entries(pages)) {
   const url = `https://dietzbookkeeping.com${canonicalPath(path)}`;
-  const service = path === '/monthly-bookkeeping' || path.startsWith('/tampa-');
+  const service = path === '/monthly-bookkeeping' || path.startsWith('/tampa-') || path.startsWith('/bookkeeping-for-');
   const serviceSchema = service ? `<script type="application/ld+json">${JSON.stringify({'@context':'https://schema.org','@type':'Service',name:page.title.split(' | ')[0],description:page.description,url,provider:{'@id':'https://dietzbookkeeping.com/#organization'},areaServed:{'@type':'Country',name:'United States'}})}</script>` : '';
   const html = template.replace('<div id="root"></div>', `<div id="root">${render(path)}</div>`).replace(/<title>.*?<\/title>/, `<title>${escape(page.title)}</title>`).replace(/<!-- SEO_HEAD_START -->[\s\S]*?<!-- SEO_HEAD_END -->/, `<!-- SEO_HEAD_START -->
 <meta name="description" content="${escape(page.description)}" />
