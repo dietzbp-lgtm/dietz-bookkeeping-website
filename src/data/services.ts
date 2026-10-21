@@ -171,80 +171,80 @@ export const services = [
     id: 'payroll-support',
     title: 'Payroll Support',
     slug: '/tampa-payroll-support',
-    description: 'Assisting with payroll setup, reports, and coordination so employees are paid correctly.',
+    description: "Coordinate payroll-provider reports with your bookkeeping records, review payroll journal entries and investigate unmatched payroll withdrawals.",
     icon: Users,
     image: '/images/tampa-payroll-support.webp',
     content: {
-      heading: 'Seamless Payroll Management',
-      subheading: 'Connect payroll records with your bookkeeping.',
+      heading: "Make payroll records easier to reconcile",
+      subheading: "Bookkeeping coordination alongside your designated payroll provider.",
       benefits: [
-        'Accurate and timely employee payments',
-        'Coordinate payroll records with your payroll provider',
-        'Integration with your accounting software',
-        'Detailed payroll reporting'
+        "Review provider summaries and payroll-related accounting entries",
+        "Compare payroll withdrawals with recorded wages, taxes and other amounts",
+        "Identify unexplained balances for owner or provider follow-up",
+        "Clarify payroll processing, filing and payment responsibilities in advance"
       ],
-      details: `Payroll is one area where you can't afford mistakes. We work with your payroll provider to ensure seamless integration with your bookkeeping system. From setting up new employees to reconciling payroll runs and tax filings, we ensure your team is paid correctly and discrepancies can be reviewed with your payroll provider. Filing and payment responsibilities are defined in the agreed scope.`,
-      cta: 'Simplify Payroll'
+      details: "Payroll bookkeeping support connects your payroll provider's summary reports with the accounts in your bookkeeping file. We discuss gross wages, employee deductions, employer costs and how provider withdrawals are recorded, then flag differences for appropriate review. Payroll processing, employee setup, tax deposits and payroll tax filings are separate responsibilities and are not automatically included. Sensitive employee records must be shared only through agreed secure methods.",
+      cta: "Discuss Payroll Bookkeeping Support"
     }
   },
   {
     id: 'financial-reporting',
     title: 'Financial Reporting',
     slug: '/tampa-financial-reporting',
-    description: 'Clear monthly reports (P&L, Balance Sheet, Cash Flow) to help you make data-driven decisions.',
+    description: "Understand recorded revenue, expenses and balances through agreed financial reports supported by current bookkeeping and reconciled records.",
     icon: PieChart,
     image: '/images/tampa-financial-reporting.webp',
     content: {
-      heading: 'Clarity for Better Decisions',
-      subheading: 'Turn numbers into actionable insights.',
+      heading: "Read the story behind your monthly numbers",
+      subheading: "Clear profit-and-loss and balance-sheet reports for your business discussions.",
       benefits: [
-        'Monthly Profit & Loss and Balance Sheet analysis',
-        'Customized reports for your specific KPIs',
-        'Trend analysis to spot opportunities and risks',
-        'Organized management reports for business discussions'
+        "Review recorded income and expenses over the chosen reporting period",
+        "Understand balance-sheet accounts and unresolved bookkeeping items",
+        "Compare periods when reports use consistent source records",
+        "Discuss optional cash flow or category reports where the scope allows"
       ],
-      details: `Don't drive your business blind. Our financial reporting service provides you with clear, accurate, and timely financial statements every month. We don't just send you a spreadsheet; we help you understand what the numbers mean so you can make informed decisions about hiring, investing, and growing.`,
-      cta: 'Get Clear Insights'
+      details: "A profit-and-loss statement summarizes recorded revenue and expenses, while a balance sheet shows recorded assets, liabilities and equity at a point in time. The usefulness of each report depends on the underlying bookkeeping records and their completeness. We can discuss the reports and comparisons that suit your accounting system, review major differences and flag open questions. Additional cash flow or customized views are defined in the proposal; bookkeeping reports are not independent audited or reviewed financial statements.",
+      cta: "Discuss Financial Reports"
     }
   },
   {
     id: 'tax-preparation-support',
     title: 'Tax Preparation Support',
     slug: '/tampa-tax-preparation-support',
-    description: 'Organize bookkeeping records and year-end reports for your tax professional.',
+    description: "Organize year-end bookkeeping records, statements and open questions for your tax professional without treating bookkeeping as tax advice or tax filing.",
     icon: Calculator,
     image: '/images/tampa-tax-preparation-support.webp',
     content: {
-      heading: 'Stress-Free Tax Season',
-      subheading: 'We prepare the books; your CPA loves the results.',
+      heading: "A clearer bookkeeping handoff for tax season",
+      subheading: "Organize the books and questions your tax preparer will need to review.",
       benefits: [
-        'Year-round tax readiness, not just at year-end',
-        'Organize categories and documents for your tax professional',
-        'Make records easier for your tax professional to review',
-        'Identify missing bookkeeping information before handoff'
+        "Identify missing statements and incomplete bookkeeping periods",
+        "Organize income, expenses and available supporting records",
+        "Review reconciliations and unresolved owner transactions",
+        "Prepare agreed reports and questions for your tax professional"
       ],
-      details: `Tax season doesn't have to be a nightmare. We work throughout the year to ensure your books are tax-ready at all times. By maintaining clean records and proper categorization, we make it easy for your CPA to file your returns efficiently, with organized supporting records. This service covers bookkeeping preparation; tax return preparation, tax advice and filing are handled by your tax professional.`,
-      cta: 'Prepare for Tax Season'
+      details: "Tax preparation support here means preparing bookkeeping records for a qualified tax professional. We review the state of the books, discuss outstanding bank reconciliations, organize available transaction documentation and prepare the agreed year-end reports. Your tax professional determines deductions, tax classifications, filings and deadlines. Older unreconciled periods may require a separately quoted cleanup project, and organized records do not guarantee a particular filing timeline or tax outcome.",
+      cta: "Discuss Your Year-End Bookkeeping"
     }
   },
   {
     id: 'budgeting-forecasting',
     title: 'Budgeting & Forecasting',
     slug: '/tampa-budgeting-forecasting',
-    description: 'Planning future income, expenses, and cash flow so you can grow with confidence.',
+    description: "Explore small-business budgets and cash flow scenarios using historical bookkeeping, documented assumptions and periodic comparisons.",
     icon: TrendingUp,
     image: '/images/budgeting-forecasting.webp',
     content: {
-      heading: 'Plan for Future Growth',
-      subheading: 'Stop guessing and start strategizing.',
+      heading: "Plan with assumptions you can revisit",
+      subheading: "Practical budgets and scenarios based on available business records.",
       benefits: [
-        'Create realistic budgets based on historical data',
-        'Forecast cash flow scenarios',
-        'Set and track financial goals',
-        'Identify capital requirements for growth'
+        "Review recent income, expenses and recurring obligations",
+        "Identify assumptions about seasonality, capacity and upcoming costs",
+        "Discuss budget and cash flow scenarios for different outcomes",
+        "Compare actual recorded activity with the plan when included"
       ],
-      details: `Growth requires a plan. We help you look forward with detailed budgeting and forecasting services. Whether you're planning an expansion, hiring new staff, or simply want to improve profitability, we build financial models that give you a roadmap to success.`,
-      cta: 'Plan Your Future'
+      details: "Budgets help outline expected income and expenses, while forecasts update expectations as circumstances change. We can discuss historical records, known costs, likely payment timing and owner assumptions to develop a practical plan or scenario within the agreed scope. Clear assumptions make a projection easier to revisit later. Forecasts are estimates, not guaranteed revenue, cash availability or business results, and they do not replace specialized financial advice.",
+      cta: "Discuss a Budget or Forecast"
     }
   }
 ];
