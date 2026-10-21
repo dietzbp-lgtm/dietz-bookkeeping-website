@@ -1,5 +1,6 @@
 import React from 'react';
 import Layout from '../components/Layout';
+import { Link } from 'react-router-dom';
 
 const About = () => {
   return (
@@ -33,8 +34,8 @@ const About = () => {
               className="lg:col-span-7 space-y-6"
             >
               <h1 className="text-3xl md:text-4xl font-bold text-slate-900 leading-tight">
-                Professional Bio for Bryan Dietz - <br />
-                <span className="text-blue-600">Dietz Bookkeeping</span>
+                Meet Bryan Dietz <br />
+                <span className="text-blue-600">Founder of Dietz Bookkeeping</span>
               </h1>
 
               <div className="prose prose-lg text-slate-600 space-y-6">
@@ -47,6 +48,14 @@ const About = () => {
                 <p>
                   Now, Bryan is channeling his passion for organization and numbers into <strong>Dietz Bookkeeping</strong>, where he provides tailored bookkeeping solutions designed to simplify financial management for businesses. His firsthand experience as a business owner allows him to approach bookkeeping with a unique perspective, ensuring that his clients receive not only accurate and reliable services but also practical insights to help their businesses thrive.
                 </p>
+              </div>
+              <div className="rounded-2xl border border-blue-100 bg-blue-50 p-6 sm:p-7">
+                <h2 className="text-xl font-bold text-slate-900 mb-3">Bookkeeping informed by real small-business experience</h2>
+                <p className="text-slate-700 leading-relaxed mb-4">Explore how Bryan's background running service businesses informs conversations about the records and reporting needs of different owners.</p>
+                <div className="flex flex-wrap gap-x-6 gap-y-3">
+                  <Link to="/bookkeeping-for-cleaning-businesses" className="font-semibold text-blue-700 underline underline-offset-4 hover:text-blue-900">Bookkeeping for cleaning businesses</Link>
+                  <Link to="/bookkeeping-for-contractors" className="font-semibold text-blue-700 underline underline-offset-4 hover:text-blue-900">Bookkeeping for contractors and handymen</Link>
+                </div>
               </div>
             </div>
           </div>
