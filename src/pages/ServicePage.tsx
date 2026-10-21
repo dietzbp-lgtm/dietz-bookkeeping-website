@@ -2,7 +2,6 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { CheckCircle2, ArrowRight } from 'lucide-react';
 import Layout from '../components/Layout';
-import { motion } from 'motion/react';
 
 interface ServicePageProps {
   service: {
@@ -30,14 +29,11 @@ const ServicePage: React.FC<ServicePageProps> = ({ service }) => {
         <div className="absolute inset-0 bg-gradient-to-b from-blue-50 to-white pointer-events-none" />
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="text-center max-w-3xl mx-auto">
-            <motion.div
-              initial={false}
-              animate={{ scale: 1, opacity: 1 }}
-              transition={{ duration: 0.5 }}
+            <div
               className="w-20 h-20 bg-blue-500 rounded-3xl flex items-center justify-center mx-auto mb-8 shadow-xl shadow-blue-500/30 text-white"
             >
               <Icon className="h-10 w-10" />
-            </motion.div>
+            </div>
             <h1 className="text-4xl md:text-5xl font-bold text-slate-900 tracking-tight mb-6">
               {service.title} for Small Businesses
             </h1>
@@ -53,12 +49,7 @@ const ServicePage: React.FC<ServicePageProps> = ({ service }) => {
       <section className="py-16 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-            <motion.div
-              initial={false}
-              whileInView={{ x: 0, opacity: 1 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6 }}
-            >
+            <div>
               <h2 className="text-3xl font-bold text-slate-900 mb-4">
                 {service.content.heading}
               </h2>
@@ -80,13 +71,9 @@ const ServicePage: React.FC<ServicePageProps> = ({ service }) => {
                   ))}
                 </ul>
               </div>
-            </motion.div>
+            </div>
 
-            <motion.div
-              initial={false}
-              whileInView={{ x: 0, opacity: 1 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6 }}
+            <div
               className="relative"
             >
               <div className="absolute inset-0 bg-gradient-to-tr from-blue-100 to-purple-100 rounded-[2.5rem] transform rotate-3 scale-105 opacity-50" />
@@ -112,7 +99,7 @@ const ServicePage: React.FC<ServicePageProps> = ({ service }) => {
                   </Link>
                 </div>
               </div>
-            </motion.div>
+            </div>
           </div>
         </div>
       </section>

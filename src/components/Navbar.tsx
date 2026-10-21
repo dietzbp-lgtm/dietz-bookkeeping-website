@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Menu, X, Phone, ChevronRight } from 'lucide-react';
-import { motion, AnimatePresence } from 'motion/react';
 import { cn } from '../lib/utils';
 
 const Navbar = () => {
@@ -76,12 +75,8 @@ const Navbar = () => {
       </div>
 
       {/* Mobile Menu Overlay */}
-      <AnimatePresence>
-        {isOpen && (
-          <motion.div
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: 'auto' }}
-            exit={{ opacity: 0, height: 0 }}
+      {isOpen && (
+          <div
             id="mobile-navigation"
             className="xl:hidden max-h-[calc(100dvh-5rem)] overflow-y-auto bg-white/90 backdrop-blur-xl border-b border-slate-200"
           >
@@ -116,9 +111,8 @@ const Navbar = () => {
                 </Link>
               </div>
             </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+          </div>
+      )}
     </nav>
   );
 };

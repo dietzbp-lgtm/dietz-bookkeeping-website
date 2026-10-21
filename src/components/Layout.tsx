@@ -1,7 +1,6 @@
 import React from 'react';
 import Navbar from './Navbar';
 import Footer from './Footer';
-import { motion } from 'motion/react';
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -12,14 +11,9 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
     <div className="min-h-screen flex flex-col bg-[#F2F2F7]">
       <Navbar />
       <main id="main-content" className="flex-grow min-w-0">
-        <motion.div
-          initial={false}
-          animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: -20 }}
-          transition={{ duration: 0.3 }}
-        >
+        <div>
           {children}
-        </motion.div>
+        </div>
       </main>
       <Footer />
     </div>
