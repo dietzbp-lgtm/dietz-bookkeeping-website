@@ -29,6 +29,8 @@ const Navbar = () => {
             <img
               src="/images/dietzbookkeepinglogotampafl.webp"
               alt="Dietz Bookkeeping"
+              width={1000}
+              height={389}
               className="w-[205px] sm:w-[230px] h-auto mix-blend-multiply"
             />
           </Link>
