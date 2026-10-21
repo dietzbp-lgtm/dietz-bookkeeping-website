@@ -32,7 +32,7 @@ const ServiceCard: React.FC<ServiceCardProps> = ({ title, description, icon, lin
           {description}
         </p>
         
-        <div className="flex items-center text-blue-500 font-medium text-sm mt-auto group-hover:translate-x-1 transition-transform">
+        <div className="flex items-center text-blue-700 font-medium text-sm mt-auto group-hover:translate-x-1 transition-transform">
           Learn more <ArrowRight className="ml-1 h-4 w-4" />
         </div>
       </div>
