@@ -66,5 +66,13 @@
   "/estimate": {
     "title": "Request a Bookkeeping Estimate | Dietz Bookkeeping",
     "description": "Request a bookkeeping estimate for monthly support, cleanup, or other bookkeeping services from Dietz Bookkeeping, based in Tampa and serving the U.S."
+  },
+  "/bookkeeping-for-cleaning-businesses": {
+    "title": "Bookkeeping for Cleaning Businesses Nationwide | Dietz Bookkeeping",
+    "description": "Online bookkeeping for residential and commercial cleaning businesses. Organize invoices, deposits, supplies and monthly reports with Tampa-based remote support."
+  },
+  "/bookkeeping-for-contractors": {
+    "title": "Bookkeeping for Contractors & Handymen | Dietz Bookkeeping",
+    "description": "Remote bookkeeping for contractors and handyman businesses. Organize job materials, customer invoices, vendor expenses and monthly records nationwide."
   }
 }
