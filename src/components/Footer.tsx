@@ -87,13 +87,13 @@ const Footer = () => {
         </div>
 
         <div className="mt-16 pt-8 border-t border-slate-100 flex flex-col md:flex-row justify-between items-center gap-4">
-          <p className="text-sm text-slate-400">
-            © 2024–{new Date().getFullYear()} Dietz Bookkeeping Services. All rights reserved. | Website by <a href="https://createflowmedia.com" target="_blank" rel="noopener noreferrer" className="hover:text-blue-500 transition-colors">Create Flow Media</a>
+          <p className="text-sm text-slate-600">
+            © 2024–{new Date().getFullYear()} Dietz Bookkeeping Services. All rights reserved. | Website by <a href="https://createflowmedia.com" target="_blank" rel="noopener noreferrer" className="hover:text-blue-700 transition-colors">Create Flow Media</a>
           </p>
           <div className="flex gap-4">
-            <a href="https://www.facebook.com/profile.php?id=61573021914343" aria-label="Dietz Bookkeeping on Facebook (opens in a new tab)" target="_blank" rel="noopener noreferrer" className="text-slate-400 hover:text-blue-500 transition-colors"><Facebook className="h-5 w-5" /></a>
-            <a href="https://www.instagram.com/dietzbookkeeping/" aria-label="Dietz Bookkeeping on Instagram (opens in a new tab)" target="_blank" rel="noopener noreferrer" className="text-slate-400 hover:text-blue-500 transition-colors"><Instagram className="h-5 w-5" /></a>
-            <a href="https://www.linkedin.com/in/bryan-dietz-734575350/" aria-label="Dietz Bookkeeping on LinkedIn (opens in a new tab)" target="_blank" rel="noopener noreferrer" className="text-slate-400 hover:text-blue-500 transition-colors"><Linkedin className="h-5 w-5" /></a>
+            <a href="https://www.facebook.com/profile.php?id=61573021914343" aria-label="Dietz Bookkeeping on Facebook (opens in a new tab)" target="_blank" rel="noopener noreferrer" className="text-slate-600 hover:text-blue-700 transition-colors"><Facebook className="h-5 w-5" /></a>
+            <a href="https://www.instagram.com/dietzbookkeeping/" aria-label="Dietz Bookkeeping on Instagram (opens in a new tab)" target="_blank" rel="noopener noreferrer" className="text-slate-600 hover:text-blue-700 transition-colors"><Instagram className="h-5 w-5" /></a>
+            <a href="https://www.linkedin.com/in/bryan-dietz-734575350/" aria-label="Dietz Bookkeeping on LinkedIn (opens in a new tab)" target="_blank" rel="noopener noreferrer" className="text-slate-600 hover:text-blue-700 transition-colors"><Linkedin className="h-5 w-5" /></a>
           </div>
         </div>
       </div>
