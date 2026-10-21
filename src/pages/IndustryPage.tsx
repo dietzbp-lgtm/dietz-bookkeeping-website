@@ -166,7 +166,7 @@ export default function IndustryPage({ industry }: { industry: Industry }) {
             </div>
             <p className="mt-5 text-sm text-slate-600">Based in Tampa, Florida · Remote bookkeeping services across the United States</p>
           </div>
-          <figure className="w-full max-w-[430px] mx-auto lg:ml-auto lg:mr-0">
+          <div className="w-full max-w-[430px] mx-auto lg:ml-auto lg:mr-0">
             <div className="rounded-[1.75rem] overflow-hidden shadow-lg shadow-slate-200/70 border border-slate-200 bg-slate-100">
               <img
                 src={page.image.src}
@@ -179,8 +179,7 @@ export default function IndustryPage({ industry }: { industry: Industry }) {
                 className="w-full h-auto aspect-[4/5] object-cover"
               />
             </div>
-            <figcaption className="mt-2 text-xs text-slate-500 text-center">Illustrative stock photography · Not an actual client or staff member</figcaption>
-          </figure>
+          </div>
         </div>
       </section>
 
