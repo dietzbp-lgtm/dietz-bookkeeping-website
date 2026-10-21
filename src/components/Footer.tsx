@@ -19,6 +19,8 @@ const Footer = () => {
               <img
                 src="/images/dietzbookkeepinglogotampafl.webp"
                 alt="Dietz Bookkeeping"
+                width={1000}
+                height={389}
                 className="w-[270px] h-auto rounded-lg"
               />
             </div>
@@ -89,9 +91,9 @@ const Footer = () => {
             © 2024–{new Date().getFullYear()} Dietz Bookkeeping Services. All rights reserved. | Website by <a href="https://createflowmedia.com" target="_blank" rel="noopener noreferrer" className="hover:text-blue-500 transition-colors">Create Flow Media</a>
           </p>
           <div className="flex gap-4">
-            <a href="https://www.facebook.com/profile.php?id=61573021914343" target="_blank" rel="noopener noreferrer" className="text-slate-400 hover:text-blue-500 transition-colors"><Facebook className="h-5 w-5" /></a>
-            <a href="https://www.instagram.com/dietzbookkeeping/" target="_blank" rel="noopener noreferrer" className="text-slate-400 hover:text-blue-500 transition-colors"><Instagram className="h-5 w-5" /></a>
-            <a href="https://www.linkedin.com/in/bryan-dietz-734575350/" target="_blank" rel="noopener noreferrer" className="text-slate-400 hover:text-blue-500 transition-colors"><Linkedin className="h-5 w-5" /></a>
+            <a href="https://www.facebook.com/profile.php?id=61573021914343" aria-label="Dietz Bookkeeping on Facebook (opens in a new tab)" target="_blank" rel="noopener noreferrer" className="text-slate-400 hover:text-blue-500 transition-colors"><Facebook className="h-5 w-5" /></a>
+            <a href="https://www.instagram.com/dietzbookkeeping/" aria-label="Dietz Bookkeeping on Instagram (opens in a new tab)" target="_blank" rel="noopener noreferrer" className="text-slate-400 hover:text-blue-500 transition-colors"><Instagram className="h-5 w-5" /></a>
+            <a href="https://www.linkedin.com/in/bryan-dietz-734575350/" aria-label="Dietz Bookkeeping on LinkedIn (opens in a new tab)" target="_blank" rel="noopener noreferrer" className="text-slate-400 hover:text-blue-500 transition-colors"><Linkedin className="h-5 w-5" /></a>
           </div>
         </div>
       </div>
