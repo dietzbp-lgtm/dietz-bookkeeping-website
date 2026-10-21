@@ -49,7 +49,18 @@ export default function Home() {
       <section className="py-14 sm:py-20 bg-slate-50">
         <div className="max-w-7xl mx-auto px-5 sm:px-8 grid lg:grid-cols-2 gap-10 items-start">
           <div><h2 className="text-3xl sm:text-4xl font-bold text-slate-900 mb-5">Built for owners who do a little of everything.</h2><p className="text-lg text-slate-600 leading-relaxed mb-5">Bryan’s experience running cleaning and handyman businesses brings a practical understanding of the work behind every invoice and expense.</p><p className="text-slate-600 leading-relaxed">We welcome small service businesses, independent professionals, and owner-operated companies throughout the United States.</p></div>
-          <div className="grid sm:grid-cols-2 gap-4">{['Cleaning businesses', 'Handymen & contractors', 'Independent professionals', 'Other small businesses'].map(text => <div key={text} className="p-6 rounded-2xl bg-white border border-slate-200"><CheckCircle2 className="h-5 w-5 text-blue-600 mb-3" /><h3 className="font-semibold text-slate-900">{text}</h3></div>)}</div>
+          <div className="grid sm:grid-cols-2 gap-4">{[
+            { label: 'Cleaning businesses', url: '/bookkeeping-for-cleaning-businesses' },
+            { label: 'Handymen & contractors', url: '/bookkeeping-for-contractors' },
+            { label: 'Independent professionals' },
+            { label: 'Other small businesses' }
+          ].map(item => (
+            <div key={item.label} className="p-6 rounded-2xl bg-white border border-slate-200">
+              <CheckCircle2 className="h-5 w-5 text-blue-600 mb-3" />
+              <h3 className="font-semibold text-slate-900">{item.label}</h3>
+              {item.url && <Link to={item.url} className="inline-flex items-center gap-1 mt-3 text-sm text-blue-700 underline underline-offset-4 font-semibold">Explore bookkeeping support <ArrowRight aria-hidden="true" className="w-4 h-4" /></Link>}
+            </div>
+          ))}</div>
         </div>
       </section>
 
