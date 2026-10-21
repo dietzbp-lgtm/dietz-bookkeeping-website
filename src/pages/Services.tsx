@@ -35,7 +35,7 @@ const Services = () => {
           <section className="mt-14 bg-blue-50 border border-blue-100 rounded-3xl p-7 sm:p-10" aria-labelledby="industry-services">
             <h2 id="industry-services" className="text-2xl sm:text-3xl font-bold text-slate-900 mb-3">Bookkeeping for service business owners</h2>
             <p className="text-slate-700 mb-7 max-w-3xl">Bryan's experience running cleaning and handyman businesses informs how we discuss the accounts, invoices and expenses common to service businesses. Explore industry-specific bookkeeping questions and available support.</p>
-            <div className="grid md:grid-cols-2 gap-5">
+            <div className="grid md:grid-cols-3 gap-5">
               <Link to="/bookkeeping-for-cleaning-businesses" className="block bg-white border border-slate-200 rounded-2xl p-6 hover:border-blue-500 transition-colors">
                 <h3 className="text-xl font-bold text-slate-900 mb-2">Bookkeeping for cleaning businesses</h3>
                 <p className="text-slate-600 mb-3">Recurring customers, deposits, supplies and team-related records.</p>
@@ -45,6 +45,11 @@ const Services = () => {
                 <h3 className="text-xl font-bold text-slate-900 mb-2">Bookkeeping for contractors and handymen</h3>
                 <p className="text-slate-600 mb-3">Invoices, project materials, customer payments and vendor bills.</p>
                 <span className="font-semibold text-blue-700 underline underline-offset-4">See contractor bookkeeping →</span>
+              </Link>
+              <Link to="/bookkeeping-for-real-estate-agents" className="block bg-white border border-slate-200 rounded-2xl p-6 hover:border-blue-500 transition-colors">
+                <h3 className="text-xl font-bold text-slate-900 mb-2">Bookkeeping for real estate agents</h3>
+                <p className="text-slate-600 mb-3">Commissions, brokerage deposits, marketing costs and reports.</p>
+                <span className="font-semibold text-blue-700 underline underline-offset-4">See real estate agent bookkeeping →</span>
               </Link>
             </div>
           </section>

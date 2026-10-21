@@ -50,6 +50,7 @@ function AppRoutes() {
     { path: "/resources", element: <Resources /> },
     { path: "/bookkeeping-for-cleaning-businesses", element: <IndustryPage industry="cleaning" /> },
     { path: "/bookkeeping-for-contractors", element: <IndustryPage industry="contractors" /> },
+    { path: "/bookkeeping-for-real-estate-agents", element: <IndustryPage industry="realEstate" /> },
     ...services.map(service => ({
       path: service.slug,
       element: <ServicePage service={service} />
