@@ -18,7 +18,7 @@ type IndustryContent = {
 
 const industries: Record<Industry, IndustryContent> = {
   cleaning: {
-    image: { src: '/images/industry-cleaning-photo.webp', alt: 'Illustrative image of a cleaner working in a kitchen with cleaning supplies', width: 520, height: 620 },
+    image: { src: '/images/industry-cleaning-photo.webp', alt: 'Professional cleaner wiping a kitchen stove while holding a spray bottle', width: 960, height: 1200 },
     label: 'BOOKKEEPING FOR CLEANING BUSINESSES · AVAILABLE NATIONWIDE',
     heading: 'Bookkeeping for Cleaning Businesses',
     introduction: 'Organize recurring cleaning revenue, deposits, supply purchases and business expenses without losing track of the work behind each visit. Dietz Bookkeeping supports owners of residential cleaning services and commercial cleaning companies remotely throughout the United States.',
@@ -48,7 +48,7 @@ const industries: Record<Industry, IndustryContent> = {
     ]
   },
   contractors: {
-    image: { src: '/images/industry-contractors-photo.webp', alt: 'Illustrative image of a contractor installing interior flooring', width: 520, height: 620 },
+    image: { src: '/images/industry-contractors-photo.webp', alt: 'Contractor measuring flooring during an interior renovation', width: 960, height: 1200 },
     label: 'BOOKKEEPING FOR CONTRACTORS & HANDYMEN · AVAILABLE NATIONWIDE',
     heading: 'Bookkeeping for Contractors and Handyman Businesses',
     introduction: 'Organize customer invoices, material purchases, vendor bills and business expenses while managing a busy schedule of service calls and projects. Dietz Bookkeeping offers remote bookkeeping support for small contractors and handyman businesses across the United States.',
@@ -78,7 +78,7 @@ const industries: Record<Industry, IndustryContent> = {
     ]
   },
   realEstate: {
-    image: { src: '/images/industry-real-estate-photo.webp', alt: 'Illustrative image of a real estate professional reviewing property paperwork', width: 520, height: 620 },
+    image: { src: '/images/industry-real-estate-photo.webp', alt: 'Business professional reviewing documents beside a laptop', width: 960, height: 1200 },
     label: 'BOOKKEEPING FOR REAL ESTATE AGENTS · AVAILABLE NATIONWIDE',
     heading: 'Bookkeeping for Real Estate Agents',
     introduction: 'Keep commission deposits, brokerage statements and business expenses organized between closings. Dietz Bookkeeping offers remote bookkeeping support for independent real estate agents and small real estate teams throughout the United States.',
@@ -123,7 +123,7 @@ const visualContent: Record<Industry, {
     sectionTitle: 'How we help cleaning businesses',
     summary: 'Whether you serve recurring residential clients or commercial properties, we can help you organize the invoices, deposits and expenses behind each job. We first review your records and agree on a service scope.',
     detailImage: '/images/industry-cleaning-detail.webp',
-    detailAlt: 'Illustrative photograph of cleaning supplies in a blue bucket',
+    detailAlt: 'Cleaning sprays and supplies arranged in a bucket',
     highlights: ['Organize income & expenses', 'Review business reports', 'Keep tax records organized', 'More time for customers']
   },
   contractors: {
@@ -131,7 +131,7 @@ const visualContent: Record<Industry, {
     sectionTitle: 'How we help contractors',
     summary: 'From customer deposits and invoices to material purchases and vendor bills, organized records can help you understand the work behind each project. Optional job-level tracking depends on your accounting software and the agreed scope.',
     detailImage: '/images/industry-contractors-detail.webp',
-    detailAlt: 'Illustrative photograph of a measuring tape and construction plans',
+    detailAlt: 'Architectural plans and measurement tools on a work surface',
     highlights: ['Organize job expenses', 'Review invoices & payments', 'Understand your reports', 'Focus on the next project']
   },
   realEstate: {
@@ -139,7 +139,7 @@ const visualContent: Record<Industry, {
     sectionTitle: 'How we help real estate agents',
     summary: 'Commission deposits, brokerage statements, advertising costs and operating expenses all need accurate records. We help you establish a bookkeeping routine so you can review your numbers between closings.',
     detailImage: '/images/industry-real-estate-detail.webp',
-    detailAlt: 'Illustrative image of a residential property exterior',
+    detailAlt: 'Residential home with a for-sale sign outside',
     highlights: ['Organize commission income', 'Review business expenses', 'Prepare records for your CPA', 'More time for clients']
   }
 };
@@ -179,7 +179,7 @@ export default function IndustryPage({ industry }: { industry: Industry }) {
                 className="w-full h-auto aspect-[4/5] object-cover"
               />
             </div>
-            <figcaption className="mt-2 text-xs text-slate-500 text-center">Illustrative imagery · Not an actual client or staff member</figcaption>
+            <figcaption className="mt-2 text-xs text-slate-500 text-center">Illustrative stock photography · Not an actual client or staff member</figcaption>
           </figure>
         </div>
       </section>
