@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import {
   ArrowRight, CheckCircle2, ChevronRight, ClipboardList, FileText,
-  Layers3, PackageCheck, ShieldCheck, TrendingUp, Truck, Wrench
+  Layers3, ShieldCheck, TrendingUp, Truck, Wrench
 } from 'lucide-react';
 import Layout from '../components/Layout';
 
