@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import {
   ArrowRight, BarChart3, Building2, CheckCircle2, ChevronRight, ClipboardList,
-  CreditCard, FileCheck2, Landmark, ReceiptText, ShieldCheck, WalletCards
+  CreditCard, Landmark, ShieldCheck, WalletCards
 } from 'lucide-react';
 import Layout from '../components/Layout';
 
