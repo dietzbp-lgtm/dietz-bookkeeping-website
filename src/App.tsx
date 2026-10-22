@@ -14,6 +14,7 @@ import Services from './pages/Services';
 import ServiceAreas from './pages/ServiceAreas';
 import OrlandoBookkeeping from './pages/OrlandoBookkeeping';
 import MiamiBookkeeping from './pages/MiamiBookkeeping';
+import AtlantaBookkeeping from './pages/AtlantaBookkeeping';
 import Contact from './pages/Contact';
 import Schedule from './pages/Schedule';
 import Estimate from './pages/Estimate';
@@ -48,6 +49,7 @@ function AppRoutes() {
     { path: "/service-areas", element: <ServiceAreas /> },
     { path: "/orlando-bookkeeping", element: <OrlandoBookkeeping /> },
     { path: "/miami-bookkeeping", element: <MiamiBookkeeping /> },
+    { path: "/atlanta-bookkeeping", element: <AtlantaBookkeeping /> },
     { path: "/contact", element: <Contact /> },
     { path: "/schedule", element: <Schedule /> },
     { path: "/estimate", element: <Estimate /> },
