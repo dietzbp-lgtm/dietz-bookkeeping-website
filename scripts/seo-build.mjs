@@ -5,7 +5,8 @@ const breadcrumbLabels = JSON.parse(fs.readFileSync('src/data/breadcrumbs.json',
 // Add city service guides individually, with verified visible city content and no implied local office.
 const cityGuides = {
   '/orlando-bookkeeping': { name: 'Orlando', state: 'Florida' },
-  '/miami-bookkeeping': { name: 'Miami', state: 'Florida' }
+  '/miami-bookkeeping': { name: 'Miami', state: 'Florida' },
+  '/atlanta-bookkeeping': { name: 'Atlanta', state: 'Georgia' }
 };
 const template = fs.readFileSync('dist/index.html', 'utf8');
 const escape = s => s.replaceAll('&', '&amp;').replaceAll('"', '&quot;').replaceAll('<', '&lt;');
