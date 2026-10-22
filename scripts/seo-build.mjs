@@ -2,16 +2,22 @@ import fs from 'node:fs';
 import { render } from '../.prerender/entry-server.js';
 const pages = JSON.parse(fs.readFileSync('src/data/seo.json', 'utf8'));
 const breadcrumbLabels = JSON.parse(fs.readFileSync('src/data/breadcrumbs.json', 'utf8'));
+// Add city service guides individually, with verified visible city content and no implied local office.
+const cityGuides = {
+  '/orlando-bookkeeping': { name: 'Orlando', state: 'Florida' },
+  '/miami-bookkeeping': { name: 'Miami', state: 'Florida' }
+};
 const template = fs.readFileSync('dist/index.html', 'utf8');
 const escape = s => s.replaceAll('&', '&amp;').replaceAll('"', '&quot;').replaceAll('<', '&lt;');
 // Cloudflare Pages serves dist/<route>/index.html at the trailing-slash URL.
 const canonicalPath = path => path === '/' ? '/' : `${path.replace(/\/+$/, '')}/`;
 for (const [path, page] of Object.entries(pages)) {
   const url = `https://dietzbookkeeping.com${canonicalPath(path)}`;
-  const cityPage = path === '/orlando-bookkeeping';
+  const cityGuide = cityGuides[path];
+  const cityPage = Boolean(cityGuide);
   const service = path === '/monthly-bookkeeping' || path.startsWith('/tampa-') || path.startsWith('/bookkeeping-for-') || cityPage;
   const breadcrumbLabel = breadcrumbLabels[path];
-  const cityBreadcrumbLabel = cityPage ? 'Orlando, Florida' : null;
+  const cityBreadcrumbLabel = cityPage ? `${cityGuide.name}, ${cityGuide.state}` : null;
   const breadcrumbTrail = breadcrumbLabel
     ? [{ name: 'Home', url: 'https://dietzbookkeeping.com/' }, { name: 'Services', url: 'https://dietzbookkeeping.com/services/' }, { name: breadcrumbLabel, url }]
     : cityBreadcrumbLabel
@@ -19,7 +25,7 @@ for (const [path, page] of Object.entries(pages)) {
       : null;
   const breadcrumbSchema = breadcrumbTrail ? `<script type="application/ld+json">${JSON.stringify({'@context':'https://schema.org','@type':'BreadcrumbList',itemListElement:breadcrumbTrail.map((item,index)=>({'@type':'ListItem',position:index+1,name:item.name,item:item.url}))})}</script>` : '';
   const serviceArea = cityPage
-    ? {'@type':'City',name:'Orlando',containedInPlace:{'@type':'State',name:'Florida'}}
+    ? {'@type':'City',name:cityGuide.name,containedInPlace:{'@type':'State',name:cityGuide.state}}
     : {'@type':'Country',name:'United States'};
   const serviceSchema = service ? `<script type="application/ld+json">${JSON.stringify({'@context':'https://schema.org','@type':'Service',name:page.title.split(' | ')[0],description:page.description,url,provider:{'@id':'https://dietzbookkeeping.com/#organization'},areaServed:serviceArea})}</script>` : '';
   const html = template.replace('<div id="root"></div>', `<div id="root">${render(path)}</div>`).replace(/<title>.*?<\/title>/, `<title>${escape(page.title)}</title>`).replace(/<!-- SEO_HEAD_START -->[\s\S]*?<!-- SEO_HEAD_END -->/, `<!-- SEO_HEAD_START -->
