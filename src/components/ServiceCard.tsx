@@ -14,7 +14,7 @@ interface ServiceCardProps {
 const ServiceCard: React.FC<ServiceCardProps> = ({ title, description, icon, link, color = "bg-blue-500" }) => {
   return (
     <Link 
-      to={link}
+      to={link.endsWith('/') ? link : `${link}/`}
       className="group block h-full"
     >
       <div className="h-full bg-white rounded-3xl p-6 shadow-sm hover:shadow-md transition-all duration-300 border border-slate-100 flex flex-col relative overflow-hidden">
@@ -33,7 +33,7 @@ const ServiceCard: React.FC<ServiceCardProps> = ({ title, description, icon, lin
         </p>
         
         <div className="flex items-center text-blue-700 font-medium text-sm mt-auto group-hover:translate-x-1 transition-transform">
-          Learn more <ArrowRight className="ml-1 h-4 w-4" />
+          Explore {title} <ArrowRight className="ml-1 h-4 w-4" />
         </div>
       </div>
     </Link>
