@@ -5,8 +5,8 @@ import ServiceCard from '../components/ServiceCard';
 import { services } from '../data/services';
 
 const primaryServices = [
-  { title: 'Monthly bookkeeping', text: 'Keep transactions organized, accounts reconciled, and financial reports ready for your next decision.', link: '/monthly-bookkeeping', label: 'Explore monthly bookkeeping', icon: BarChart3, Star, Quote },
-  { title: 'Cleanup & catch-up', text: 'Behind on your books? Start with a review of your records and a practical plan to bring them up to date.', link: '/tampa-cleanup-bookkeeping', label: 'Explore cleanup services', icon: RefreshCw },
+  { title: 'Monthly bookkeeping', text: 'Keep transactions organized, accounts reconciled, and financial reports ready for your next decision.', link: '/monthly-bookkeeping/', label: 'Explore monthly bookkeeping', icon: BarChart3, Star, Quote },
+  { title: 'Cleanup & catch-up', text: 'Behind on your books? Start with a review of your records and a practical plan to bring them up to date.', link: '/tampa-cleanup-bookkeeping/', label: 'Explore cleanup services', icon: RefreshCw },
 ];
 
 export default function Home() {
@@ -19,15 +19,15 @@ export default function Home() {
             <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-slate-900 tracking-tight leading-[1.1] mb-6">Clear books.<br /><span className="text-blue-600">More time for your business.</span></h1>
             <p className="text-lg text-slate-600 leading-relaxed max-w-xl mb-8">Monthly bookkeeping and cleanup support for small business owners. Work directly with Bryan Dietz to organize your records, understand your numbers, and get your books ready for your tax professional.</p>
             <div className="flex flex-col sm:flex-row gap-3">
-              <Link to="/schedule" className="bg-blue-600 text-white px-6 py-3.5 rounded-xl font-semibold text-center hover:bg-blue-700 transition-colors">Book a Free Consultation</Link>
-              <Link to="/estimate" className="bg-white text-slate-800 border border-slate-300 px-6 py-3.5 rounded-xl font-semibold text-center hover:bg-slate-50 transition-colors">Request an Estimate</Link>
+              <Link to="/schedule/" className="bg-blue-600 text-white px-6 py-3.5 rounded-xl font-semibold text-center hover:bg-blue-700 transition-colors">Book a Free Consultation</Link>
+              <Link to="/estimate/" className="bg-white text-slate-800 border border-slate-300 px-6 py-3.5 rounded-xl font-semibold text-center hover:bg-slate-50 transition-colors">Request an Estimate</Link>
             </div>
             <p className="text-sm text-slate-500 mt-5">Remote service across the U.S. · Local Tampa meetings by appointment</p>
           </div>
           <div className="max-w-md w-full mx-auto lg:ml-auto">
             <div className="rounded-3xl overflow-hidden bg-white border border-slate-200 shadow-xl shadow-slate-200/60">
               <img src="/images/dietzbookeepingabout.webp" alt="Bryan Dietz, founder of Dietz Bookkeeping" width="800" height="800" decoding="async" className="w-full aspect-square object-cover" />
-              <div className="p-5 sm:p-6"><p className="font-bold text-xl text-slate-900">Your business. Your bookkeeper.</p><p className="text-slate-600 mt-2">Meet Bryan Dietz — a fellow business owner who understands how much you have on your plate.</p><Link to="/about" className="inline-flex items-center gap-2 text-blue-700 font-semibold mt-4">Get to know Bryan <ArrowRight className="w-4 h-4" /></Link></div>
+              <div className="p-5 sm:p-6"><p className="font-bold text-xl text-slate-900">Your business. Your bookkeeper.</p><p className="text-slate-600 mt-2">Meet Bryan Dietz — a fellow business owner who understands how much you have on your plate.</p><Link to="/about/" className="inline-flex items-center gap-2 text-blue-700 font-semibold mt-4">Get to know Bryan <ArrowRight className="w-4 h-4" /></Link></div>
             </div>
           </div>
         </div>
@@ -50,16 +50,16 @@ export default function Home() {
         <div className="max-w-7xl mx-auto px-5 sm:px-8 grid lg:grid-cols-2 gap-10 items-start">
           <div><h2 className="text-3xl sm:text-4xl font-bold text-slate-900 mb-5">Built for owners who do a little of everything.</h2><p className="text-lg text-slate-600 leading-relaxed mb-5">Bryan’s experience running cleaning and handyman businesses brings a practical understanding of the work behind every invoice and expense.</p><p className="text-slate-600 leading-relaxed">We welcome small service businesses, independent professionals, and owner-operated companies throughout the United States.</p></div>
           <div className="grid sm:grid-cols-2 gap-4">{[
-            { label: 'Cleaning businesses', url: '/bookkeeping-for-cleaning-businesses' },
-            { label: 'Handymen & contractors', url: '/bookkeeping-for-contractors' },
-            { label: 'Real estate agents', url: '/bookkeeping-for-real-estate-agents' },
-            { label: 'Independent professionals' },
-            { label: 'Other small businesses' }
+            { label: 'Cleaning businesses', url: '/bookkeeping-for-cleaning-businesses/' },
+            { label: 'Handymen & contractors', url: '/bookkeeping-for-contractors/' },
+            { label: 'Real estate agents', url: '/bookkeeping-for-real-estate-agents/' },
+            { label: 'Independent professionals', url: '/monthly-bookkeeping/', action: 'Explore monthly bookkeeping' },
+            { label: 'Other small businesses', url: '/services/', action: 'Browse bookkeeping services' }
           ].map(item => (
             <div key={item.label} className="p-6 rounded-2xl bg-white border border-slate-200">
               <CheckCircle2 className="h-5 w-5 text-blue-600 mb-3" />
               <h3 className="font-semibold text-slate-900">{item.label}</h3>
-              {item.url && <Link to={item.url} className="inline-flex items-center gap-1 mt-3 text-sm text-blue-700 underline underline-offset-4 font-semibold">Explore bookkeeping support <ArrowRight aria-hidden="true" className="w-4 h-4" /></Link>}
+              {item.url && <Link to={item.url} className="inline-flex items-center gap-1 mt-3 text-sm text-blue-700 underline underline-offset-4 font-semibold">{item.action || 'Explore bookkeeping support'} <ArrowRight aria-hidden="true" className="w-4 h-4" /></Link>}
             </div>
           ))}</div>
         </div>
@@ -135,7 +135,7 @@ export default function Home() {
         ['Do you prepare my tax return?', 'Our tax preparation support focuses on organizing bookkeeping records for your tax professional. Tax return preparation is not included in that bookkeeping service.'],
       ].map(([question,answer]) => <details key={question} className="py-5"><summary className="cursor-pointer font-semibold text-lg text-slate-900 pr-5">{question}</summary><p className="mt-3 text-slate-600 leading-relaxed">{answer}</p></details>)}</div></div></section>
 
-      <section className="py-14 sm:py-20 bg-slate-900 text-white"><div className="max-w-3xl mx-auto px-5 text-center"><h2 className="text-3xl sm:text-4xl font-bold mb-5">Let’s get your books working for you.</h2><p className="text-lg text-slate-300 mb-8">Tell us what you need help with. We’ll talk through a practical next step.</p><div className="flex flex-col sm:flex-row gap-3 justify-center"><Link to="/schedule" className="rounded-xl bg-blue-600 px-6 py-3.5 font-semibold hover:bg-blue-500">Book a Free Consultation</Link><Link to="/estimate" className="rounded-xl border border-slate-500 px-6 py-3.5 font-semibold hover:bg-slate-800">Request an Estimate</Link></div></div></section>
+      <section className="py-14 sm:py-20 bg-slate-900 text-white"><div className="max-w-3xl mx-auto px-5 text-center"><h2 className="text-3xl sm:text-4xl font-bold mb-5">Let’s get your books working for you.</h2><p className="text-lg text-slate-300 mb-8">Tell us what you need help with. We’ll talk through a practical next step.</p><div className="flex flex-col sm:flex-row gap-3 justify-center"><Link to="/schedule/" className="rounded-xl bg-blue-600 px-6 py-3.5 font-semibold hover:bg-blue-500">Book a Free Consultation</Link><Link to="/estimate/" className="rounded-xl border border-slate-500 px-6 py-3.5 font-semibold hover:bg-slate-800">Request an Estimate</Link></div></div></section>
     </Layout>
   );
 }
