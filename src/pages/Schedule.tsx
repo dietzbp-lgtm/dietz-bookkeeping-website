@@ -1,10 +1,31 @@
 import Layout from '../components/Layout';
-import { InlineWidget } from 'react-calendly';
+import { InlineWidget, useCalendlyEventListener } from 'react-calendly';
+import { useRef } from 'react';
+import { getCalendlyScheduledEventUri } from '../lib/calendlyBooking';
 import { Link } from 'react-router-dom';
 
 const calendarUrl = 'https://calendly.com/dietzbookkeeping/30min';
 
 export default function Schedule() {
+  // The event URI is retained only in memory to deduplicate messages.
+  const recordedBookings = useRef(new Set<string>());
+
+  useCalendlyEventListener({
+    onEventScheduled: message => {
+      const bookingUri = getCalendlyScheduledEventUri(message);
+      if (!bookingUri || recordedBookings.current.has(bookingUri)) return;
+
+      const gtag = (window as Window & {
+        gtag?: (command: 'event', eventName: string, params: Record<string, string>) => void;
+      }).gtag;
+      if (!gtag) return;
+
+      recordedBookings.current.add(bookingUri);
+      // Never send invitee information or the event URI to Google Analytics.
+      gtag('event', 'consultation_booked', { booking_source: 'calendly_inline' });
+    },
+  });
+
   return <Layout>
     <section className="bg-gradient-to-b from-blue-50 to-white py-12 sm:py-16">
       <div className="max-w-3xl mx-auto px-5 sm:px-6 text-center">
@@ -21,7 +42,7 @@ export default function Schedule() {
         <p className="text-center text-sm text-slate-600 mt-6">
           Having trouble with the calendar? <a href={calendarUrl} target="_blank" rel="noopener noreferrer" className="text-blue-700 font-semibold underline">Open Calendly in a new tab</a>.
         </p>
-        <p className="text-center text-sm text-slate-600 mt-4">Prefer to describe your project first? <Link to="/estimate" className="text-blue-700 underline font-semibold">Request an estimate</Link>.</p>
+        <p className="text-center text-sm text-slate-600 mt-4">Prefer to describe your project first? <Link to="/estimate/" className="text-blue-700 underline font-semibold">Request an estimate</Link>.</p>
       </div>
     </section>
   </Layout>;
