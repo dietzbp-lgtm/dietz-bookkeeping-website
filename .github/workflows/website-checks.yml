@@ -24,5 +24,7 @@ jobs:
         run: npm ci
       - name: TypeScript check
         run: npm run lint
+      - name: Calendly tracking tests
+        run: npx tsx --test src/lib/calendlyBooking.test.ts
       - name: Production build and SEO generation
         run: npm run build
