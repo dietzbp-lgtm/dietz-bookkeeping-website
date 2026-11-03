@@ -74,6 +74,15 @@ const ServicePage: React.FC<ServicePageProps> = ({ service }) => {
           </div>
         </section>
       )}
+      {service.slug === '/tampa-financial-reporting' && (
+        <section className="bg-blue-50 py-8">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 className="text-xl font-bold text-slate-900 mb-2">Reading your QuickBooks Profit and Loss report?</h2>
+            <p className="text-slate-700 mb-3">See a practical example and learn how report dates, cash versus accrual, and unusual expenses affect what the numbers mean.</p>
+            <Link to="/quickbooks-profit-and-loss-report/" className="font-semibold text-blue-700 underline underline-offset-4">Read our QuickBooks Profit and Loss guide</Link>
+          </div>
+        </section>
+      )}
       {/* Content Section */}
       <section className="py-16 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
