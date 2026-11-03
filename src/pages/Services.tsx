@@ -35,6 +35,11 @@ const Services = () => {
               />
             ))}
           </div>
+          <section className="mt-12 bg-white border border-slate-200 rounded-3xl p-7 sm:p-9" aria-labelledby="quickbooks-support">
+            <h2 id="quickbooks-support" className="text-2xl font-bold text-slate-900 mb-3">Bookkeeping support for QuickBooks Online</h2>
+            <p className="text-slate-600 leading-relaxed mb-4">Using QuickBooks Online? Learn how our remote bookkeeping work can include reconciliations, historical cleanup and monthly reporting within an agreed scope.</p>
+            <Link to="/quickbooks-online-bookkeeping/" className="font-semibold text-blue-700 underline underline-offset-4">Explore QuickBooks Online bookkeeping services</Link>
+          </section>
           <section className="mt-14 bg-blue-50 border border-blue-100 rounded-3xl p-7 sm:p-10" aria-labelledby="industry-services">
             <h2 id="industry-services" className="text-2xl sm:text-3xl font-bold text-slate-900 mb-3">Bookkeeping for service business owners</h2>
             <p className="text-slate-700 mb-7 max-w-3xl">Bryan's experience running cleaning and handyman businesses informs how we discuss the accounts, invoices and expenses common to service businesses. Explore industry-specific bookkeeping questions and available support.</p>
