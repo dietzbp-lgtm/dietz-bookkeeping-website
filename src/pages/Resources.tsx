@@ -8,7 +8,7 @@ const checklists = [
 ];
 export default function Resources() {
  return <Layout>
-  <section className="bg-blue-50 py-20"><div className="max-w-4xl mx-auto px-6"><h1 className="text-4xl md:text-5xl font-bold mb-6">A clearer starting point for your books.</h1><p className="text-xl text-slate-600">Practical checklists, a QuickBooks access tutorial and existing client forms—all in one place.</p></div></section>
+  <section className="bg-blue-50 py-20"><div className="max-w-4xl mx-auto px-6"><h1 className="text-4xl md:text-5xl font-bold mb-6">A clearer starting point for your books.</h1><p className="text-xl text-slate-600">Original QuickBooks how-to guides, practical checklists, an accountant-access tutorial and existing client forms—all in one place.</p></div></section>
   <section className="py-14 sm:py-16 bg-white"><div className="max-w-6xl mx-auto px-6">
     <p className="text-sm font-bold tracking-wide text-blue-700 mb-3">ORIGINAL QUICKBOOKS GUIDE</p>
     <h2 className="text-3xl sm:text-4xl font-bold text-slate-900 mb-5">Learn how to reconcile your accounts</h2>
@@ -17,6 +17,15 @@ export default function Resources() {
       <p className="text-slate-700 leading-relaxed max-w-3xl mb-5">Follow the statement-by-statement process, understand why the ending balance may not agree and see what to review before finishing a reconciliation.</p>
       <Link to="/quickbooks-bank-reconciliation-guide/" className="inline-flex items-center rounded-xl bg-blue-600 hover:bg-blue-700 text-white px-5 py-3 font-semibold">Read the step-by-step guide →</Link>
       <p className="text-sm text-slate-600 mt-4">General educational guidance based on official Intuit documentation; not a substitute for reviewing your actual records.</p>
+    </div>
+  </div></section>
+  <section className="py-10 sm:py-12 bg-white"><div className="max-w-6xl mx-auto px-6">
+    <div className="rounded-3xl border border-slate-200 bg-slate-50 p-7 sm:p-9">
+      <p className="text-sm font-bold tracking-wide text-blue-700 mb-3">ORIGINAL QUICKBOOKS GUIDE</p>
+      <h2 className="text-2xl sm:text-3xl font-bold text-slate-900 mb-4">How to clean up months of overdue bookkeeping in QuickBooks Online</h2>
+      <p className="text-slate-700 leading-relaxed max-w-3xl mb-5">Find the oldest unfinished month, gather historical statements, review duplicate transactions and reconcile forward—without guessing at old adjustments.</p>
+      <Link to="/quickbooks-overdue-bookkeeping-cleanup/" className="inline-flex items-center rounded-xl bg-blue-600 hover:bg-blue-700 text-white px-5 py-3 font-semibold">Read the cleanup guide →</Link>
+      <p className="text-sm text-slate-600 mt-4">Educational guidance using official Intuit references, not a promise that every file can be corrected without professional review.</p>
     </div>
   </div></section>
   <section className="py-16"><div className="max-w-6xl mx-auto px-6"><h2 className="text-3xl font-bold mb-8">Bookkeeping checklists</h2><div className="grid lg:grid-cols-3 gap-6">{checklists.map(list=><article key={list.title} className="bg-slate-50 p-7 rounded-3xl"><h3 className="text-xl font-bold mb-5">{list.title}</h3><ul className="space-y-4 text-slate-600">{list.items.map(item=><li key={item} className="flex gap-3"><span aria-hidden="true" className="text-blue-600">✓</span><span>{item}</span></li>)}</ul></article>)}</div><p className="mt-6"><a href="https://drive.google.com/uc?export=download&amp;id=1Vm9n9Jt6VpP4yXcU6wME2M8ahjb_VesB" target="_blank" rel="noopener noreferrer" className="text-blue-600 underline">Open the existing tax documentation guide on Google Drive</a></p><p className="text-sm text-slate-500 mt-6">These checklists help organize your records. Your tax professional determines tax treatment and filing requirements for your situation.</p></div></section>
