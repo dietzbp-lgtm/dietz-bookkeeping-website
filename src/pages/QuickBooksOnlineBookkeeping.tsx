@@ -128,6 +128,11 @@ export default function QuickBooksOnlineBookkeeping() {
       <section className="bg-slate-50 py-16 sm:py-20">
         <div className="max-w-4xl mx-auto px-5 sm:px-8">
           <h2 className="text-3xl sm:text-4xl font-bold text-slate-900 mb-8">QuickBooks Online bookkeeping questions</h2>
+          <div className="rounded-2xl border border-blue-100 bg-blue-50 p-6 mb-8">
+            <p className="font-semibold text-slate-900 mb-2">Trying to reconcile your accounts yourself?</p>
+            <p className="text-slate-700 mb-3">Our original guide explains the monthly bank reconciliation process and what to check when QuickBooks does not match your statement.</p>
+            <Link to="/quickbooks-bank-reconciliation-guide/" className="font-semibold text-blue-700 underline underline-offset-4">Read the QuickBooks Online bank reconciliation guide</Link>
+          </div>
           <div className="divide-y divide-slate-200 border-y border-slate-200">
             {faqs.map(item => <details key={item.question} className="py-5"><summary className="cursor-pointer font-semibold text-slate-900 pr-5">{item.question}</summary><p className="mt-3 text-slate-700 leading-relaxed">{item.answer}</p></details>)}
           </div>

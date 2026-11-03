@@ -56,6 +56,15 @@ const ServicePage: React.FC<ServicePageProps> = ({ service }) => {
         </div>
       </section>
 
+      {service.slug === '/tampa-bank-reconciliation' && (
+        <section className="bg-blue-50 py-8">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 className="text-xl font-bold text-slate-900 mb-2">Learning to reconcile in QuickBooks Online?</h2>
+            <p className="text-slate-700 mb-3">See a step-by-step guide to matching statements and understanding reconciliation differences.</p>
+            <Link to="/quickbooks-bank-reconciliation-guide/" className="font-semibold text-blue-700 underline underline-offset-4">Read the QuickBooks bank reconciliation guide</Link>
+          </div>
+        </section>
+      )}
       {/* Content Section */}
       <section className="py-16 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
