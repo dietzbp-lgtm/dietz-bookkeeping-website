@@ -102,5 +102,9 @@
   "/quickbooks-overdue-bookkeeping-cleanup": {
     "title": "How to Clean Up Overdue QuickBooks Bookkeeping | Dietz Bookkeeping",
     "description": "Behind on QuickBooks Online bookkeeping? Learn how to review missing months, identify duplicates, reconcile accounts and plan a safe cleanup."
+  },
+  "/quickbooks-profit-and-loss-report": {
+    "title": "QuickBooks Profit and Loss Report Guide | Dietz Bookkeeping",
+    "description": "Learn how to read a QuickBooks Online Profit and Loss report, compare cash vs. accrual, understand net income, and review small-business expenses."
   }
 }
