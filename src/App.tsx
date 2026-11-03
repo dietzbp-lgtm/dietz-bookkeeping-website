@@ -21,6 +21,7 @@ import Estimate from './pages/Estimate';
 import Resources from './pages/Resources';
 import ServicePage from './pages/ServicePage';
 import QuickBooksOnlineBookkeeping from './pages/QuickBooksOnlineBookkeeping';
+import QuickBooksBankReconciliationGuide from './pages/QuickBooksBankReconciliationGuide';
 import IndustryPage from './pages/IndustryPage';
 import { services } from './data/services';
 import ChatbotEmbed from './components/ChatbotEmbed';
@@ -56,6 +57,7 @@ function AppRoutes() {
     { path: "/estimate", element: <Estimate /> },
     { path: "/resources", element: <Resources /> },
     { path: "/quickbooks-online-bookkeeping", element: <QuickBooksOnlineBookkeeping /> },
+    { path: "/quickbooks-bank-reconciliation-guide", element: <QuickBooksBankReconciliationGuide /> },
     { path: "/bookkeeping-for-cleaning-businesses", element: <IndustryPage industry="cleaning" /> },
     { path: "/bookkeeping-for-contractors", element: <IndustryPage industry="contractors" /> },
     { path: "/bookkeeping-for-real-estate-agents", element: <IndustryPage industry="realEstate" /> },
