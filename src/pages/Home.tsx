@@ -75,6 +75,18 @@ export default function Home() {
 
       <section className="py-14 sm:py-20 bg-slate-50"><div className="max-w-7xl mx-auto px-5 sm:px-8"><h2 className="text-3xl sm:text-4xl font-bold text-slate-900 mb-4">Support for the details, too.</h2><p className="text-lg text-slate-600 max-w-2xl mb-9">Explore the services that can form part of your bookkeeping plan.</p><div className="grid sm:grid-cols-2 xl:grid-cols-4 gap-5">{services.map(service => <ServiceCard key={service.id} title={service.title} description={service.description} icon={<service.icon className="h-6 w-6" />} link={service.slug} color="bg-blue-600" />)}</div></div></section>
 
+      <section className="bg-white py-10 sm:py-12">
+        <div className="max-w-7xl mx-auto px-5 sm:px-8">
+          <div className="rounded-2xl bg-blue-50 border border-blue-100 p-7 sm:p-9 flex flex-col md:flex-row md:items-center gap-6 justify-between">
+            <div className="max-w-2xl">
+              <h2 className="text-2xl sm:text-3xl font-bold text-slate-900 mb-2">Using QuickBooks Online for your business?</h2>
+              <p className="text-slate-700">Explore personal support for QuickBooks Online transaction reviews, reconciliations, monthly reporting and catch-up bookkeeping.</p>
+            </div>
+            <Link to="/quickbooks-online-bookkeeping/" className="shrink-0 inline-flex justify-center items-center gap-2 rounded-xl bg-blue-600 text-white px-6 py-3.5 font-semibold hover:bg-blue-700">Explore QuickBooks bookkeeping <ArrowRight className="h-4 w-4" aria-hidden="true" /></Link>
+          </div>
+        </div>
+      </section>
+
       {/* Testimonials */}
       <section className="py-14 sm:py-20 bg-white overflow-hidden">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
