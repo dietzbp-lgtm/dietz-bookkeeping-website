@@ -115,6 +115,7 @@ export default function QuickBooksOnlineBookkeeping() {
             <h2 className="text-xl font-bold text-slate-900 mb-3">Cleanup and catch-up</h2>
             <p className="text-slate-600 mb-4">For historical periods with missing entries, unreviewed transactions or unreconciled balances.</p>
             <Link to="/tampa-cleanup-bookkeeping/" className="text-blue-700 font-semibold underline underline-offset-4">Cleanup service details</Link>
+            <p className="mt-3"><Link to="/quickbooks-overdue-bookkeeping-cleanup/" className="text-blue-700 font-semibold underline underline-offset-4">Read our overdue QuickBooks cleanup guide</Link></p>
           </article>
           <article className="border border-slate-200 rounded-2xl p-7">
             <MessagesSquare className="h-8 w-8 text-blue-700 mb-4" aria-hidden="true" />
