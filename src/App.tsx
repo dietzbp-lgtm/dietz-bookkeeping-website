@@ -23,6 +23,7 @@ import ServicePage from './pages/ServicePage';
 import QuickBooksOnlineBookkeeping from './pages/QuickBooksOnlineBookkeeping';
 import QuickBooksBankReconciliationGuide from './pages/QuickBooksBankReconciliationGuide';
 import QuickBooksOverdueBookkeepingGuide from './pages/QuickBooksOverdueBookkeepingGuide';
+import QuickBooksProfitLossGuide from './pages/QuickBooksProfitLossGuide';
 import IndustryPage from './pages/IndustryPage';
 import { services } from './data/services';
 import ChatbotEmbed from './components/ChatbotEmbed';
@@ -60,6 +61,7 @@ function AppRoutes() {
     { path: "/quickbooks-online-bookkeeping", element: <QuickBooksOnlineBookkeeping /> },
     { path: "/quickbooks-bank-reconciliation-guide", element: <QuickBooksBankReconciliationGuide /> },
     { path: "/quickbooks-overdue-bookkeeping-cleanup", element: <QuickBooksOverdueBookkeepingGuide /> },
+    { path: "/quickbooks-profit-and-loss-report", element: <QuickBooksProfitLossGuide /> },
     { path: "/bookkeeping-for-cleaning-businesses", element: <IndustryPage industry="cleaning" /> },
     { path: "/bookkeeping-for-contractors", element: <IndustryPage industry="contractors" /> },
     { path: "/bookkeeping-for-real-estate-agents", element: <IndustryPage industry="realEstate" /> },
