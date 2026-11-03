@@ -5,7 +5,8 @@ const breadcrumbLabels = JSON.parse(fs.readFileSync('src/data/breadcrumbs.json',
 // Add city service guides individually, with verified visible city content and no implied local office.
 const articleGuides = {
   '/quickbooks-bank-reconciliation-guide': { headline: 'How to reconcile bank accounts in QuickBooks Online', breadcrumb: 'QuickBooks bank reconciliation guide' },
-  '/quickbooks-overdue-bookkeeping-cleanup': { headline: 'How to clean up months of overdue bookkeeping in QuickBooks Online', breadcrumb: 'Overdue QuickBooks cleanup guide' }
+  '/quickbooks-overdue-bookkeeping-cleanup': { headline: 'How to clean up months of overdue bookkeeping in QuickBooks Online', breadcrumb: 'Overdue QuickBooks cleanup guide' },
+  '/quickbooks-profit-and-loss-report': { headline: 'How to read a Profit and Loss report in QuickBooks Online', breadcrumb: 'QuickBooks Profit and Loss report guide' }
 };
 const cityGuides = {
   '/orlando-bookkeeping': { name: 'Orlando', state: 'Florida' },
