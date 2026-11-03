@@ -133,6 +133,7 @@ export default function QuickBooksOnlineBookkeeping() {
             <p className="font-semibold text-slate-900 mb-2">Trying to reconcile your accounts yourself?</p>
             <p className="text-slate-700 mb-3">Our original guide explains the monthly bank reconciliation process and what to check when QuickBooks does not match your statement.</p>
             <Link to="/quickbooks-bank-reconciliation-guide/" className="font-semibold text-blue-700 underline underline-offset-4">Read the QuickBooks Online bank reconciliation guide</Link>
+            <p className="mt-3"><Link to="/quickbooks-profit-and-loss-report/" className="font-semibold text-blue-700 underline underline-offset-4">Learn how to read your QuickBooks Profit and Loss report</Link></p>
           </div>
           <div className="divide-y divide-slate-200 border-y border-slate-200">
             {faqs.map(item => <details key={item.question} className="py-5"><summary className="cursor-pointer font-semibold text-slate-900 pr-5">{item.question}</summary><p className="mt-3 text-slate-700 leading-relaxed">{item.answer}</p></details>)}
