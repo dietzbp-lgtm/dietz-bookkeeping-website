@@ -16,8 +16,8 @@ export default function Home() {
         <div className="max-w-7xl mx-auto px-5 sm:px-8 grid lg:grid-cols-2 gap-10 lg:gap-16 items-center">
           <div>
             <p className="text-sm font-semibold tracking-wide text-blue-700 mb-5">BASED IN TAMPA · SERVING BUSINESSES NATIONWIDE</p>
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-slate-900 tracking-tight leading-[1.1] mb-6">Clear books.<br /><span className="text-blue-600">More time for your business.</span></h1>
-            <p className="text-lg text-slate-600 leading-relaxed max-w-xl mb-8">Monthly bookkeeping and cleanup support for small business owners. Work directly with Bryan Dietz to organize your records, understand your numbers, and get your books ready for your tax professional.</p>
+            <h1 className="text-4xl sm:text-5xl lg:text-[3.35rem] font-bold text-slate-900 tracking-tight leading-[1.1] mb-6">Monthly bookkeeping for <span className="text-blue-600">growing service businesses.</span></h1>
+            <p className="text-lg text-slate-600 leading-relaxed max-w-xl mb-8">Keep accounts reconciled, expenses organized, and financial reports ready for decisions. Work directly with Bryan Dietz for monthly bookkeeping or catch-up support for your cleaning, contracting, or other small business.</p>
             <div className="flex flex-col sm:flex-row gap-3">
               <Link to="/schedule/" className="bg-blue-600 text-white px-6 py-3.5 rounded-xl font-semibold text-center hover:bg-blue-700 transition-colors">Book a Free Consultation</Link>
               <Link to="/estimate/" className="bg-white text-slate-800 border border-slate-300 px-6 py-3.5 rounded-xl font-semibold text-center hover:bg-slate-50 transition-colors">Request an Estimate</Link>
@@ -27,7 +27,7 @@ export default function Home() {
           <div className="max-w-md w-full mx-auto lg:ml-auto">
             <div className="rounded-3xl overflow-hidden bg-white border border-slate-200 shadow-xl shadow-slate-200/60">
               <img src="/images/dietzbookeepingabout.webp" alt="Bryan Dietz, founder of Dietz Bookkeeping" width="800" height="800" decoding="async" className="w-full aspect-square object-cover" />
-              <div className="p-5 sm:p-6"><p className="font-bold text-xl text-slate-900">Your business. Your bookkeeper.</p><p className="text-slate-600 mt-2">Meet Bryan Dietz — a fellow business owner who understands how much you have on your plate.</p><Link to="/about/" className="inline-flex items-center gap-2 text-blue-700 font-semibold mt-4">Get to know Bryan <ArrowRight className="w-4 h-4" /></Link></div>
+              <div className="p-5 sm:p-6"><p className="font-bold text-xl text-slate-900">Your business. Your bookkeeper.</p><p className="text-slate-600 mt-2">Meet Bryan Dietz — a fellow business owner with firsthand experience managing cleaning and handyman operations.</p><Link to="/about/" className="inline-flex items-center gap-2 text-blue-700 font-semibold mt-4">Get to know Bryan <ArrowRight className="w-4 h-4" /></Link></div>
             </div>
           </div>
         </div>
@@ -35,7 +35,7 @@ export default function Home() {
 
       <section className="bg-white border-y border-slate-100">
         <div className="max-w-7xl mx-auto px-5 sm:px-8 py-6 grid sm:grid-cols-3 gap-4">
-          {['Work directly with Bryan', 'Monthly & catch-up support', 'Remote service nationwide'].map(text => <div key={text} className="flex gap-3 items-center text-slate-700 font-medium"><CheckCircle2 className="h-5 w-5 text-blue-600 shrink-0" />{text}</div>)}
+          {['Real cleaning & handyman business experience', 'Work directly with Bryan', 'Tampa-based · Nationwide remote service'].map(text => <div key={text} className="flex gap-3 items-center text-slate-700 font-medium"><CheckCircle2 className="h-5 w-5 text-blue-600 shrink-0" />{text}</div>)}
         </div>
       </section>
 
@@ -48,7 +48,7 @@ export default function Home() {
 
       <section className="py-14 sm:py-20 bg-slate-50">
         <div className="max-w-7xl mx-auto px-5 sm:px-8 grid lg:grid-cols-2 gap-10 items-start">
-          <div><h2 className="text-3xl sm:text-4xl font-bold text-slate-900 mb-5">Built for owners who do a little of everything.</h2><p className="text-lg text-slate-600 leading-relaxed mb-5">Bryan’s experience running cleaning and handyman businesses brings a practical understanding of the work behind every invoice and expense.</p><p className="text-slate-600 leading-relaxed">We welcome small service businesses, independent professionals, and owner-operated companies throughout the United States.</p></div>
+          <div><h2 className="text-3xl sm:text-4xl font-bold text-slate-900 mb-5">Bookkeeping grounded in real service-business experience.</h2><p className="text-lg text-slate-600 leading-relaxed mb-5">Bryan has managed cleaning and handyman businesses, so he understands the day-to-day work behind customer invoices, materials, operating expenses, and cash flow questions.</p><p className="text-slate-600 leading-relaxed">We support established owner-operated teams, independent professionals, and other small businesses throughout the United States.</p></div>
           <div className="grid sm:grid-cols-2 gap-4">{[
             { label: 'Cleaning businesses', url: '/bookkeeping-for-cleaning-businesses/' },
             { label: 'Handymen & contractors', url: '/bookkeeping-for-contractors/' },
