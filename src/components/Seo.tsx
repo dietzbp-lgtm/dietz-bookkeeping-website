@@ -20,6 +20,12 @@ export default function Seo() {
     meta('og:title', document.title, true);
     meta('og:description', page?.description || 'Page not found.', true);
     meta('og:url', canonicalUrl, true);
+    // Keep social share previews consistent after client-side navigation.
+    meta('og:image', 'https://dietzbookkeeping.com/images/dietzbookkeeping-social-1200x630.jpg', true);
+    meta('og:image:alt', 'Dietz Bookkeeping: monthly bookkeeping for growing service businesses, featuring founder Bryan Dietz.', true);
+    meta('twitter:card', 'summary_large_image');
+    meta('twitter:image', 'https://dietzbookkeeping.com/images/dietzbookkeeping-social-1200x630.jpg');
+    meta('twitter:image:alt', 'Dietz Bookkeeping: monthly bookkeeping for growing service businesses, featuring founder Bryan Dietz.');
     let canonical = document.head.querySelector('link[rel="canonical"]');
     if (!page) { canonical?.remove(); return; }
     if (!canonical) { canonical = document.createElement('link'); canonical.setAttribute('rel', 'canonical'); document.head.appendChild(canonical); }
