@@ -9,6 +9,29 @@ const primaryServices = [
   { title: 'Cleanup & catch-up', text: 'Behind on your books? Start with a review of your records and a practical plan to bring them up to date.', link: '/tampa-cleanup-bookkeeping/', label: 'Explore cleanup services', icon: RefreshCw },
 ];
 
+const googleQuickBooksReviews = [
+  {
+    name: 'Poliane Navarro',
+    date: 'March 6, 2025',
+    focus: 'QuickBooks setup & reporting',
+    summary: 'Described personalized QuickBooks setup, clear explanations of each step, and guidance for understanding business reports.'
+  },
+  {
+    name: 'Idany Ruiz',
+    date: 'March 5, 2025',
+    focus: 'QuickBooks consulting',
+    summary: 'Highlighted chart-of-accounts improvements, a more organized invoicing process, corrected errors, and clearer financial reporting.'
+  },
+  {
+    name: 'Joice Kelly',
+    date: 'March 4, 2025',
+    focus: 'QuickBooks training',
+    summary: 'Praised patient, step-by-step QuickBooks instruction covering reports, expenses, and reconciliation with a focus on building confidence.'
+  }
+];
+
+const googleMapsReviewsUrl = 'https://www.google.com/maps/search/?api=1&query=Dietz+Bookkeeping&query_place_id=ChIJqw1AUmrrwogRvadgtkjixu0';
+
 export default function Home() {
   return (
     <Layout>
@@ -136,6 +159,41 @@ export default function Home() {
               <p className="text-slate-700">Explore personal support for QuickBooks Online transaction reviews, reconciliations, monthly reporting and catch-up bookkeeping.</p>
             </div>
             <Link to="/quickbooks-online-bookkeeping/" className="shrink-0 inline-flex justify-center items-center gap-2 rounded-xl bg-blue-600 text-white px-6 py-3.5 font-semibold hover:bg-blue-700">Explore QuickBooks bookkeeping <ArrowRight className="h-4 w-4" aria-hidden="true" /></Link>
+          </div>
+        </div>
+      </section>
+
+
+      {/* Summaries of verified Google review screenshots; deliberately not verbatim quotes.
+          The link opens the business's Google Maps listing, not a specific review.
+          Individual "Share review" URLs can be added after owner provides them. */}
+      <section className="bg-slate-50 py-14 sm:py-20" aria-labelledby="quickbooks-google-reviews-title">
+        <div className="max-w-7xl mx-auto px-5 sm:px-8">
+          <div className="max-w-3xl mb-9">
+            <p className="text-sm font-semibold tracking-wide text-blue-700 mb-3">QUICKBOOKS CLIENT FEEDBACK</p>
+            <h2 id="quickbooks-google-reviews-title" className="text-3xl sm:text-4xl font-bold text-slate-900 mb-4">What clients say about QuickBooks support</h2>
+            <p className="text-lg text-slate-600 leading-relaxed">Three business owners shared their experiences with QuickBooks guidance and training on Google.</p>
+          </div>
+          <div className="grid md:grid-cols-3 gap-5">
+            {googleQuickBooksReviews.map(review => (
+              <article key={review.name} className="flex flex-col rounded-2xl border border-slate-200 bg-white p-6 sm:p-7 shadow-sm">
+                <div className="flex gap-1 text-yellow-500 mb-5" aria-label="Rated 5 out of 5 stars on Google">
+                  {[...Array(5)].map((_, i) => <Star key={i} aria-hidden="true" className="w-5 h-5 fill-current" />)}
+                </div>
+                <h3 className="text-xl font-bold text-slate-900">{review.focus}</h3>
+                <p className="text-slate-600 text-sm leading-relaxed mt-3 flex-grow">{review.summary}</p>
+                <div className="mt-6 pt-5 border-t border-slate-100">
+                  <p className="font-semibold text-slate-900">{review.name}</p>
+                  <p className="text-sm text-slate-500">Google review · {review.date}</p>
+                </div>
+              </article>
+            ))}
+          </div>
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mt-7">
+            <p className="text-sm text-slate-500 max-w-2xl">These are summaries of the reviewers' experiences, not direct quotations. Ratings and dates reflect the reviews shown on Google.</p>
+            <a href={googleMapsReviewsUrl} target="_blank" rel="noopener noreferrer" className="inline-flex shrink-0 items-center gap-2 font-semibold text-blue-700 hover:text-blue-800 underline underline-offset-4">
+              See reviews on Google Maps <ArrowRight aria-hidden="true" className="w-4 h-4" />
+            </a>
           </div>
         </div>
       </section>
