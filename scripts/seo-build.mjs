@@ -46,7 +46,15 @@ for (const [path, page] of Object.entries(pages)) {
 <meta property="og:title" content="${escape(page.title)}" />
 <meta property="og:description" content="${escape(page.description)}" />
 <meta property="og:url" content="${url}" />
-<meta property="og:image" content="https://dietzbookkeeping.com/images/dietzbookeepingabout.webp" />
+<meta property="og:image" content="https://dietzbookkeeping.com/images/dietzbookkeeping-social-1200x630.jpg" />
+<meta property="og:image:secure_url" content="https://dietzbookkeeping.com/images/dietzbookkeeping-social-1200x630.jpg" />
+<meta property="og:image:type" content="image/jpeg" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:image:alt" content="Dietz Bookkeeping: monthly bookkeeping for growing service businesses, featuring founder Bryan Dietz." />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:image" content="https://dietzbookkeeping.com/images/dietzbookkeeping-social-1200x630.jpg" />
+<meta name="twitter:image:alt" content="Dietz Bookkeeping: monthly bookkeeping for growing service businesses, featuring founder Bryan Dietz." />
 <script type="application/ld+json">${JSON.stringify({'@context':'https://schema.org','@type':'Organization','@id':'https://dietzbookkeeping.com/#organization',name:'Dietz Bookkeeping',url:'https://dietzbookkeeping.com/',logo:'https://dietzbookkeeping.com/images/dietzbookkeepinglogotampafl.webp',founder:{'@type':'Person',name:'Bryan Dietz',url:'https://dietzbookkeeping.com/about/'},sameAs:['https://www.facebook.com/profile.php?id=61573021914343','https://www.instagram.com/dietzbookkeeping/'],telephone:'+1-813-419-3475',email:'bryand@dietzbookkeeping.com',areaServed:{'@type':'Country',name:'United States'}})}</script>
 ${serviceSchema}
 ${articleSchema}
