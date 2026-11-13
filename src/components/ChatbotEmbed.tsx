@@ -1,75 +1,82 @@
-import { useState } from 'react';
-import { LoaderCircle, MessageCircle } from 'lucide-react';
+import { useEffect, useState } from 'react';
 
-// Loading this embed on initial page load used several seconds of mobile CPU
-// time and downloaded resources a visitor may never need. Only load it after
-// the visitor explicitly asks to chat.
+// Jotform provides the native Keily avatar and opens the chat on its first tap.
+// Load its existing embed after the initial page has finished loading and the
+// browser has idle time, so the agent doesn't block the homepage's first paint.
+// Do not invent private Jotform APIs or simulate clicks on its third-party UI.
 const SCRIPT_ID = 'jotform-chatbot-script';
 const SCRIPT_URL = 'https://cdn.jotfor.ms/agent/embedjs/019d0b8be1307d5c86b2c57a733934f3e592/embed.js';
 
-type ChatState = 'idle' | 'loading' | 'initializing' | 'ready' | 'error';
-
 export default function ChatbotEmbed() {
-  const [status, setStatus] = useState<ChatState>('idle');
+  const [loadFailed, setLoadFailed] = useState(false);
+  const [retryCount, setRetryCount] = useState(0);
 
-  const startChat = () => {
-    if (status === 'loading' || status === 'initializing' || status === 'ready') return;
+  useEffect(() => {
+    let disposed = false;
+    let idleId: number | null = null;
+    let timeoutId: number | null = null;
 
-    // Don't insert duplicate Jotform embeds if the visitor navigates around
-    // the SPA, or another script has already initialized the agent.
-    if (document.getElementById(SCRIPT_ID)) {
-      setStatus('ready');
-      return;
+    const loadAgent = () => {
+      // Preserve the widget across route changes and React effect reruns.
+      if (disposed || document.getElementById(SCRIPT_ID)) return;
+
+      const script = document.createElement('script');
+      script.id = SCRIPT_ID;
+      script.src = SCRIPT_URL;
+      script.async = true;
+      script.onerror = () => {
+        script.remove();
+        if (!disposed) setLoadFailed(true);
+      };
+      document.body.appendChild(script);
+    };
+
+    const scheduleAgent = () => {
+      // A deliberate retry should happen right away.
+      if (retryCount > 0) {
+        loadAgent();
+      } else if (typeof window.requestIdleCallback === 'function') {
+        // The timeout bounds the wait if the browser stays busy.
+        idleId = window.requestIdleCallback(loadAgent, { timeout: 2000 });
+      } else {
+        // Safari and older browsers without requestIdleCallback.
+        timeoutId = window.setTimeout(loadAgent, 800);
+      }
+    };
+
+    if (document.readyState === 'complete') {
+      scheduleAgent();
+    } else {
+      window.addEventListener('load', scheduleAgent, { once: true });
     }
 
-    setStatus('loading');
-    const script = document.createElement('script');
-    script.id = SCRIPT_ID;
-    script.src = SCRIPT_URL;
-    script.async = true;
-
-    script.onload = () => {
-      // This event confirms the embed loader arrived, not that its own
-      // additional scripts and Jotform bubble are finished initializing.
-      setStatus('initializing');
-      window.setTimeout(() => setStatus('ready'), 6000);
+    return () => {
+      disposed = true;
+      window.removeEventListener('load', scheduleAgent);
+      if (idleId !== null) window.cancelIdleCallback(idleId);
+      if (timeoutId !== null) window.clearTimeout(timeoutId);
+      // Jotform owns its injected widget after loading; do not tear it down.
     };
-    script.onerror = () => {
-      script.remove();
-      setStatus('error');
-    };
+  }, [retryCount]);
 
-    document.body.appendChild(script);
-  };
-
-  // The official embed takes over the chat UI once its loader initializes.
-  if (status === 'ready') return null;
-
-  if (status === 'initializing') {
-    return (
-      <div role="status" aria-live="polite" className="fixed bottom-24 right-4 z-[60] max-w-[min(18rem,calc(100vw-2rem))] rounded-xl border border-blue-100 bg-white p-3 text-sm text-slate-700 shadow-lg">
-        Opening Keily. Tap the chat bubble when it appears.
-      </div>
-    );
-  }
+  // Jotform's single, branded avatar is the only normal chat launcher.
+  // Show our own control exclusively as a recovery path for load failures.
+  if (!loadFailed) return null;
 
   return (
-    <div className="fixed bottom-4 right-4 z-[60] flex flex-col items-end gap-2 lg:bottom-5 lg:right-5">
-      {status === 'error' && (
-        <p role="alert" className="max-w-64 rounded-lg bg-white p-3 text-sm text-red-700 shadow-md">
-          Chat couldn't load. Please try again.
-        </p>
-      )}
+    <div className="fixed bottom-4 right-4 z-[60] flex flex-col items-end gap-2">
+      <p role="alert" className="max-w-64 rounded-lg bg-white p-3 text-sm text-red-700 shadow-md">
+        Keily couldn't load. Please try again.
+      </p>
       <button
         type="button"
-        onClick={startChat}
-        disabled={status === 'loading'}
-        aria-label="Chat with Keily, our virtual bookkeeping assistant"
-        className="flex min-h-12 items-center justify-center gap-1.5 rounded-full bg-blue-600 px-3 py-2.5 text-sm font-semibold text-white shadow-lg shadow-slate-900/20 transition-colors hover:bg-blue-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600 disabled:cursor-wait disabled:opacity-80 lg:gap-2 lg:px-4 lg:py-3"
+        onClick={() => {
+          setLoadFailed(false);
+          setRetryCount(count => count + 1);
+        }}
+        className="min-h-12 rounded-full bg-blue-600 px-4 py-3 text-sm font-semibold text-white shadow-lg hover:bg-blue-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600"
       >
-        {status === 'loading' ? <LoaderCircle size={20} aria-hidden="true" className="animate-spin" /> : <MessageCircle size={20} aria-hidden="true" />}
-        <span className="lg:hidden">{status === 'loading' ? 'Opening…' : 'Keily'}</span>
-        <span className="hidden lg:inline">{status === 'loading' ? 'Opening Keily…' : 'Chat with Keily'}</span>
+        Retry Keily chat
       </button>
     </div>
   );
