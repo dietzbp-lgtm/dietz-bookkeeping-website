@@ -14,19 +14,22 @@ const googleQuickBooksReviews = [
     name: 'Poliane Navarro',
     date: 'March 6, 2025',
     focus: 'QuickBooks setup & reporting',
-    summary: 'Described personalized QuickBooks setup, clear explanations of each step, and guidance for understanding business reports.'
+    summary: 'Described personalized QuickBooks setup, clear explanations of each step, and guidance for understanding business reports.',
+    reviewUrl: 'https://maps.app.goo.gl/aX84HkjikELhTkkF7'
   },
   {
     name: 'Idany Ruiz',
     date: 'March 5, 2025',
     focus: 'QuickBooks consulting',
-    summary: 'Highlighted chart-of-accounts improvements, a more organized invoicing process, corrected errors, and clearer financial reporting.'
+    summary: 'Highlighted chart-of-accounts improvements, a more organized invoicing process, corrected errors, and clearer financial reporting.',
+    reviewUrl: 'https://maps.app.goo.gl/Mfk8b7qoBt7RuLQY7'
   },
   {
     name: 'Joice Kelly',
     date: 'March 4, 2025',
     focus: 'QuickBooks training',
-    summary: 'Praised patient, step-by-step QuickBooks instruction covering reports, expenses, and reconciliation with a focus on building confidence.'
+    summary: 'Praised patient, step-by-step QuickBooks instruction covering reports, expenses, and reconciliation with a focus on building confidence.',
+    reviewUrl: 'https://maps.app.goo.gl/NyzvNdjv48oabiEs8'
   }
 ];
 
@@ -164,9 +167,9 @@ export default function Home() {
       </section>
 
 
-      {/* Summaries of verified Google review screenshots; deliberately not verbatim quotes.
-          The link opens the business's Google Maps listing, not a specific review.
-          Individual "Share review" URLs can be added after owner provides them. */}
+      {/* Summaries of owner-supplied Google review screenshots; deliberately not verbatim quotes.
+          Each reviewer links to the owner-supplied Google Maps review share URL.
+          The separate section footer links to the business listing. */}
       <section className="bg-slate-50 py-14 sm:py-20" aria-labelledby="quickbooks-google-reviews-title">
         <div className="max-w-7xl mx-auto px-5 sm:px-8">
           <div className="max-w-3xl mb-9">
@@ -183,8 +186,11 @@ export default function Home() {
                 <h3 className="text-xl font-bold text-slate-900">{review.focus}</h3>
                 <p className="text-slate-600 text-sm leading-relaxed mt-3 flex-grow">{review.summary}</p>
                 <div className="mt-6 pt-5 border-t border-slate-100">
-                  <p className="font-semibold text-slate-900">{review.name}</p>
+                  <a href={review.reviewUrl} target="_blank" rel="noopener noreferrer" className="inline-flex font-semibold text-blue-700 hover:text-blue-800 underline underline-offset-4 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600">{review.name}<span className="sr-only"> — open Google review in a new tab</span></a>
                   <p className="text-sm text-slate-500">Google review · {review.date}</p>
+                  <a href={review.reviewUrl} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 mt-3 text-sm font-semibold text-blue-700 hover:text-blue-800 underline underline-offset-4 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600">
+                    Read review on Google <ArrowRight aria-hidden="true" className="w-4 h-4" />
+                  </a>
                 </div>
               </article>
             ))}
