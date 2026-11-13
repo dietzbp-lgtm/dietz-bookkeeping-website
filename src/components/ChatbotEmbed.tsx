@@ -54,7 +54,7 @@ export default function ChatbotEmbed() {
   }
 
   return (
-    <div className="fixed bottom-5 right-5 z-[60] flex flex-col items-end gap-2">
+    <div className="fixed bottom-4 right-4 z-[60] flex flex-col items-end gap-2 lg:bottom-5 lg:right-5">
       {status === 'error' && (
         <p role="alert" className="max-w-64 rounded-lg bg-white p-3 text-sm text-red-700 shadow-md">
           Chat couldn't load. Please try again.
@@ -65,10 +65,11 @@ export default function ChatbotEmbed() {
         onClick={startChat}
         disabled={status === 'loading'}
         aria-label="Chat with Keily, our virtual bookkeeping assistant"
-        className="flex min-h-12 items-center gap-2 rounded-full bg-blue-600 px-4 py-3 text-sm font-semibold text-white shadow-lg shadow-slate-900/20 transition-colors hover:bg-blue-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600 disabled:cursor-wait disabled:opacity-80"
+        className="flex min-h-12 items-center justify-center gap-1.5 rounded-full bg-blue-600 px-3 py-2.5 text-sm font-semibold text-white shadow-lg shadow-slate-900/20 transition-colors hover:bg-blue-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600 disabled:cursor-wait disabled:opacity-80 lg:gap-2 lg:px-4 lg:py-3"
       >
         {status === 'loading' ? <LoaderCircle size={20} aria-hidden="true" className="animate-spin" /> : <MessageCircle size={20} aria-hidden="true" />}
-        <span>{status === 'loading' ? 'Opening Keily…' : 'Chat with Keily'}</span>
+        <span className="lg:hidden">{status === 'loading' ? 'Opening…' : 'Keily'}</span>
+        <span className="hidden lg:inline">{status === 'loading' ? 'Opening Keily…' : 'Chat with Keily'}</span>
       </button>
     </div>
   );
