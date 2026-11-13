@@ -1,0 +1,24 @@
+{
+  "source": "Public production https://dietzbookkeeping.com",
+  "html_bytes": 57974,
+  "tags": {
+    "og:image": "https://dietzbookkeeping.com/images/dietzbookkeeping-social-1200x630.jpg",
+    "og:image:secure_url": "https://dietzbookkeeping.com/images/dietzbookkeeping-social-1200x630.jpg",
+    "og:image:width": "1200",
+    "og:image:height": "630",
+    "og:image:type": "image/jpeg",
+    "og:image:alt": "Dietz Bookkeeping: monthly bookkeeping for growing service businesses, featuring founder Bryan Dietz.",
+    "twitter:card": "summary_large_image",
+    "twitter:image": "https://dietzbookkeeping.com/images/dietzbookkeeping-social-1200x630.jpg",
+    "twitter:image:alt": "Dietz Bookkeeping: monthly bookkeeping for growing service businesses, featuring founder Bryan Dietz."
+  },
+  "canonical": "https://dietzbookkeeping.com/",
+  "review_section_present": false,
+  "hero_present": true,
+  "image_size_bytes": 116799,
+  "image_first4_hex": "ffd8ffe0",
+  "image_dimensions": [
+    1200,
+    630
+  ]
+}
