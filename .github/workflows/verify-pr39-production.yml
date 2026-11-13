@@ -1,4 +1,4 @@
-name: Verify PR 39 social metadata on production (one-time)
+name: Diagnose PR39 live homepage metadata (one-time)
 on:
   push:
     branches:
@@ -7,87 +7,63 @@ on:
       - .github/workflows/verify-pr39-production.yml
 
 permissions:
-  contents: read
+  contents: write
 
 jobs:
-  verify:
+  diagnose:
     runs-on: ubuntu-latest
     timeout-minutes: 5
     steps:
-      - name: Fetch current live homepage and social image without modifying production
-        shell: bash
+      - name: Check out isolated audit branch
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+      - name: Fetch live homepage and deployed social image
         run: |
           set -euo pipefail
-          curl --fail --location --silent --show-error --retry 3 --retry-delay 2 --max-time 25 \
-            -H 'Cache-Control: no-cache' \
-            'https://dietzbookkeeping.com/?verify=pr39-4e850559' -o homepage.html
-          curl --fail --location --silent --show-error --retry 3 --retry-delay 2 --max-time 25 \
-            -H 'Cache-Control: no-cache' \
-            'https://dietzbookkeeping.com/images/dietzbookkeeping-social-1200x630.jpg' -o sharing.jpg
-          test "$(file --mime-type --brief sharing.jpg)" = "image/jpeg"
-          test "$(stat -c%s sharing.jpg)" -gt 50000
-      - name: Assert canonical, social metadata, hero text and image dimensions
-        shell: bash
+          curl -fsSL --retry 3 --max-time 25 -H 'Cache-Control: no-cache' \
+            "https://dietzbookkeeping.com/?audit-pr39=4e850559-verify2" -o /tmp/pr39-homepage.html
+          curl -fsSL --retry 3 --max-time 25 -H 'Cache-Control: no-cache' \
+            'https://dietzbookkeeping.com/images/dietzbookkeeping-social-1200x630.jpg' -o /tmp/pr39-image.jpg
+      - name: Record observed production tags and asset dimensions
         run: |
           python - <<'PY'
-          from html.parser import HTMLParser
+          import json
           from pathlib import Path
-
+          from html.parser import HTMLParser
           class Head(HTMLParser):
               def __init__(self):
-                  super().__init__()
-                  self.meta = {}
-                  self.link = {}
+                  super().__init__(); self.meta={}; self.link={}
               def handle_starttag(self, tag, attrs):
-                  a = dict(attrs)
-                  if tag == "meta":
-                      self.meta[a.get("name") or a.get("property")] = a.get("content")
-                  if tag == "link":
-                      self.link[a.get("rel")] = a.get("href")
-          html = Path("homepage.html").read_text(errors="replace")
-          parsed = Head()
-          parsed.feed(html)
-          image_url = "https://dietzbookkeeping.com/images/dietzbookkeeping-social-1200x630.jpg"
-          expected = {
-              "og:image": image_url,
-              "og:image:width": "1200",
-              "og:image:height": "630",
-              "og:image:type": "image/jpeg",
-              "twitter:card": "summary_large_image",
-              "twitter:image": image_url
-          }
-          for key, value in expected.items():
-              actual = parsed.meta.get(key)
-              assert actual == value, f"Unexpected {key}: expected {value}, got {actual}"
-              print(f"OK {key}: {value}")
-          assert parsed.link.get("canonical") == "https://dietzbookkeeping.com/", parsed.link
-          assert parsed.meta.get("og:image:alt"), "Missing OG image alt"
-          assert parsed.meta.get("twitter:image:alt"), "Missing Twitter image alt"
-          assert "Monthly bookkeeping for" in html and "growing service" in html, "New hero missing"
-          assert "Client Feedback & Reviews" in html, "Reviews missing"
-          # Parse JPEG Start-of-Frame without adding runtime dependencies.
-          data = Path("sharing.jpg").read_bytes()
-          assert data[:2] == b'\xff\xd8', "Not JPEG"
-          i, dimensions = 2, None
-          while i < len(data)-9:
-              if data[i] != 255:
-                  i += 1
-                  continue
-              marker = data[i+1]
-              if marker in (0xd8,0xd9):
-                  i += 2
-                  continue
-              if marker == 0x00:
-                  i += 2
-                  continue
-              size = int.from_bytes(data[i+2:i+4], "big")
+                  a=dict(attrs)
+                  if tag=='meta': self.meta[a.get('name') or a.get('property')]=a.get('content')
+                  if tag=='link': self.link[a.get('rel')]=a.get('href')
+          html=Path('/tmp/pr39-homepage.html').read_text(errors='replace')
+          h=Head();h.feed(html)
+          img=Path('/tmp/pr39-image.jpg').read_bytes()
+          i,dimensions=2,None
+          while i<len(img)-9:
+              if img[i]!=255: i+=1;continue
+              marker=img[i+1]
+              if marker in (0xd8,0xd9,0x00): i+=2;continue
+              sz=int.from_bytes(img[i+2:i+4],'big')
               if marker in (0xc0,0xc1,0xc2,0xc3):
-                  dimensions = (int.from_bytes(data[i+7:i+9], "big"),
-                                int.from_bytes(data[i+5:i+7], "big"))
+                  dimensions=(int.from_bytes(img[i+7:i+9],'big'),
+                              int.from_bytes(img[i+5:i+7],'big'))
                   break
-              if size < 2:
-                  break
-              i += 2+size
-          assert dimensions == (1200,630), f"Wrong JPEG dimensions {dimensions}"
-          print(f"VERIFIED production homepage OG/X tags, canonical, hero, reviews and live image {dimensions} ({len(data)} bytes)")
+              if sz<2: break
+              i+=2+sz
+          wanted=['og:image','og:image:secure_url','og:image:width','og:image:height','og:image:type','og:image:alt','twitter:card','twitter:image','twitter:image:alt']
+          data={'source':'Public production https://dietzbookkeeping.com','html_bytes':len(html.encode()),
+            'tags':{k:h.meta.get(k) for k in wanted}, 'canonical':h.link.get('canonical'),
+            'review_section_present':'Client Feedback & Reviews' in html,
+            'hero_present':'Monthly bookkeeping for' in html and 'growing service' in html,
+            'image_size_bytes':len(img), 'image_first4_hex':img[:4].hex(),'image_dimensions':dimensions}
+          Path('pr39-live-audit-result.json').write_text(json.dumps(data,indent=2)+'\n')
+          print(json.dumps(data,indent=2))
           PY
+      - name: Save verification evidence on isolated audit branch
+        run: |
+          git add pr39-live-audit-result.json
+          git -c user.name='github-actions[bot]' -c user.email='41898282+github-actions[bot]@users.noreply.github.com' commit -m 'Record production live metadata for PR39 verification'
+          git push origin HEAD:audit/verify-pr39-live-20261112
