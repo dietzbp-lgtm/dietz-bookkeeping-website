@@ -13,7 +13,7 @@
     "twitter:image:alt": "Dietz Bookkeeping: monthly bookkeeping for growing service businesses, featuring founder Bryan Dietz."
   },
   "canonical": "https://dietzbookkeeping.com/",
-  "review_section_present": false,
+  "review_section_present": true,
   "hero_present": true,
   "image_size_bytes": 116799,
   "image_first4_hex": "ffd8ffe0",
