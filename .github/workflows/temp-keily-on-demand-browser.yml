@@ -1,0 +1,80 @@
+name: Temporary Keily one-tap browser compatibility audit
+
+on:
+  push:
+    branches: [audit/keily-on-demand-browser-20261113]
+
+permissions:
+  contents: read
+
+jobs:
+  inspect:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 8
+    steps:
+      - name: Install Puppeteer browser driver
+        run: npm install -g puppeteer-core@24
+      - name: Inspect actual Jotform frame and one-tap behavior
+        shell: bash
+        run: |
+          NODE_PATH="$(npm root -g)" node <<'JS'
+          const puppeteer = require('puppeteer-core');
+          const sleep = ms => new Promise(resolve=>setTimeout(resolve,ms));
+          const url='https://preview-keily-one-tap-launch.dietz-bookkeeping-website.pages.dev/';
+          (async()=>{
+            const browser=await puppeteer.launch({headless:true,executablePath:'/usr/bin/google-chrome',args:['--no-sandbox','--disable-dev-shm-usage','--disable-gpu']});
+            for (const device of ['mobile','desktop']) {
+              const page=await browser.newPage();
+              const mobile=device==='mobile';
+              await page.setViewport(mobile?{width:390,height:844,deviceScaleFactor:1,isMobile:true,hasTouch:true}:{width:1440,height:900,deviceScaleFactor:1});
+              let jotRequests=0;let firstJotRequest=null;let agentResponses=[];
+              let time=Date.now();
+              page.on('request',req=>{
+                if(/jotform.com|jotfor.ms/.test(req.url())){jotRequests++;if(firstJotRequest===null)firstJotRequest=Date.now()-time;}
+              });
+              page.on('response',resp=>{if(/jotform.com\/agent\//.test(resp.url()))agentResponses.push({url:resp.url(),status:resp.status()})});
+              page.on('console',msg=>{if(msg.type()==='error')console.log('CONSOLE_ERROR',device,msg.text().slice(0,180));});
+              page.on('pageerror',error=>console.log('PAGE_ERROR',device,error.message.slice(0,250)));
+              await page.goto(url,{waitUntil:'load',timeout:30000});
+              await sleep(2500);
+              const launcher=await page.$('button[aria-label="Chat with Keily"]');
+              console.log('PRECLICK',device,'jotRequests',jotRequests,'hasLauncher',!!launcher,'iframeCount',await page.evaluate(()=>document.querySelectorAll('iframe').length),'elapsed',Date.now()-time);
+              if(!launcher||jotRequests!==0)throw new Error(device+' initial unexpected Jotform load');
+              await launcher.click();
+              await sleep(9500);
+              const frame = page.frames().find(f=>/www\.jotform\.com\/agent\//.test(f.url()));
+              const iframeState=await page.evaluate(()=>{
+                const iframe=document.querySelector('iframe[title="Keily AI bookkeeping assistant chat"]');
+                const dialog=document.querySelector('[role="dialog"][aria-label="Chat with Keily"]');
+                const rect=iframe?.getBoundingClientRect();
+                return {iframe:!!iframe,iframeSrc:iframe?.src,iframeSize:rect&&{width:rect.width,height:rect.height},dialogVisible:dialog?.getAttribute('aria-hidden')==='false',spinner:document.body.innerText.includes('Connecting to Keily')};
+              });
+              let agent={error:'missing frame'};
+              if(frame)try{
+                agent=await frame.evaluate(()=>({
+                  url:location.href,title:document.title,
+                  body:document.body?.innerText.slice(0,900),
+                  textarea:document.querySelectorAll('textarea').length,
+                  contentEditable:document.querySelectorAll('[contenteditable="true"]').length,
+                  inputs:document.querySelectorAll('input:not([type="hidden"])').length,
+                  buttons:document.querySelectorAll('button').length,
+                  rootChildren:document.body?.children.length,
+                }));
+              }catch(e){agent={error:String(e)}}
+              console.log('OPENED',device,'jotRequests',jotRequests,'firstJotRequestMs',firstJotRequest,'agentResponses',JSON.stringify(agentResponses),'iframe',JSON.stringify(iframeState),'agent',JSON.stringify(agent));
+              const close=await page.$('button[aria-label="Close Keily chat"]');
+              await close.click();
+              const closed=await page.evaluate(()=>({dialogHidden:document.querySelector('[role="dialog"]')?.getAttribute('aria-hidden'),iframeStillMounted:!!document.querySelector('iframe[title="Keily AI bookkeeping assistant chat"]')}));
+              await page.click('button[aria-label="Chat with Keily"]');
+              const reopened=await page.evaluate(()=>document.querySelector('[role="dialog"]')?.getAttribute('aria-hidden'));
+              console.log('TOGGLE',device,'closed',JSON.stringify(closed),'reopenedHidden',reopened);
+              if(!iframeState.iframe||!iframeState.dialogVisible||!iframeState.iframeSize.width||!frame)throw new Error('Iframe/panel did not open on one click for '+device);
+              if(agent.error)throw new Error('Agent iframe did not render: '+agent.error);
+              if(agent.rootChildren===0)throw new Error('Agent iframe empty');
+              if(!closed.iframeStillMounted||reopened!=='false')throw new Error('Open/close failed');
+              await page.close();
+            }
+            await browser.close();
+            console.log('KEILY ONE-TAP BROWSER PASS');
+          })().catch(e=>{console.error('TEST_ERROR',e.stack||String(e));process.exitCode=1});
+          JS
