@@ -96,13 +96,13 @@ export default function ChatbotEmbed() {
         onClick={toggleChat}
         aria-expanded={open}
         aria-controls={everOpened ? panelId : undefined}
-        aria-label={open ? 'Close Keily chat' : 'Chat with Keily'}
+        aria-label={open ? 'Keily · Ask a question — Close chat' : 'Keily · Ask a question — Open chat'}
         className="group flex min-h-14 items-center gap-3 rounded-full bg-blue-600 px-4 py-3 text-white shadow-[0_9px_35px_rgba(37,99,235,0.32)] transition-colors hover:bg-blue-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-blue-600"
       >
         <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-white/20" aria-hidden="true">
           {open ? <X className="h-5 w-5" /> : <MessageCircle className="h-5 w-5" />}
         </span>
-        <span className="text-sm font-semibold">Keily <span className="font-normal text-blue-100">· Ask a question</span></span>
+        <span className="text-sm font-semibold">Keily <span className="font-normal text-white">· Ask a question</span></span>
       </button>
     </aside>
   );
