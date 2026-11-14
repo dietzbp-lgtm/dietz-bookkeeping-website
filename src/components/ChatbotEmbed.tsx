@@ -1,10 +1,13 @@
 import { useEffect, useState } from 'react';
 
 // Jotform provides the native Keily avatar and opens the chat on its first tap.
-// Load its existing embed after the initial page has finished loading and the
-// browser has idle time, so the agent doesn't block the homepage's first paint.
+// Experiment: load the exact same native widget after a short window-load
+// grace period, or earlier if the visitor interacts with the page.
+// Keily still opens with one tap once her native avatar is visible.
+// Note: a delay may also postpone the avatar's first appearance.
 // Do not invent private Jotform APIs or simulate clicks on its third-party UI.
 const SCRIPT_ID = 'jotform-chatbot-script';
+const DELAY_MS = 6000; // Preview experiment only; not approved for production.
 const SCRIPT_URL = 'https://cdn.jotfor.ms/agent/embedjs/019d0b8be1307d5c86b2c57a733934f3e592/embed.js';
 
 export default function ChatbotEmbed() {
@@ -13,8 +16,8 @@ export default function ChatbotEmbed() {
 
   useEffect(() => {
     let disposed = false;
-    let idleId: number | null = null;
     let timeoutId: number | null = null;
+    let scheduled = false;
 
     const loadAgent = () => {
       // Preserve the widget across route changes and React effect reruns.
@@ -31,16 +34,26 @@ export default function ChatbotEmbed() {
       document.body.appendChild(script);
     };
 
+    const startEarly = () => {
+      // Load at the first intentional click/key interaction rather than
+      // making an already-engaged visitor wait for the full grace period.
+      if (timeoutId !== null) {
+        window.clearTimeout(timeoutId);
+        timeoutId = null;
+      }
+      loadAgent();
+    };
+
     const scheduleAgent = () => {
-      // A deliberate retry should happen right away.
+      if (scheduled || disposed) return;
+      scheduled = true;
+      // Retry is always immediate. The delay only affects first navigation.
       if (retryCount > 0) {
         loadAgent();
-      } else if (typeof window.requestIdleCallback === 'function') {
-        // The timeout bounds the wait if the browser stays busy.
-        idleId = window.requestIdleCallback(loadAgent, { timeout: 2000 });
       } else {
-        // Safari and older browsers without requestIdleCallback.
-        timeoutId = window.setTimeout(loadAgent, 800);
+        timeoutId = window.setTimeout(loadAgent, DELAY_MS);
+        window.addEventListener('pointerdown', startEarly, { once: true, passive: true });
+        window.addEventListener('keydown', startEarly, { once: true });
       }
     };
 
@@ -53,7 +66,8 @@ export default function ChatbotEmbed() {
     return () => {
       disposed = true;
       window.removeEventListener('load', scheduleAgent);
-      if (idleId !== null) window.cancelIdleCallback(idleId);
+      window.removeEventListener('pointerdown', startEarly);
+      window.removeEventListener('keydown', startEarly);
       if (timeoutId !== null) window.clearTimeout(timeoutId);
       // Jotform owns its injected widget after loading; do not tear it down.
     };
