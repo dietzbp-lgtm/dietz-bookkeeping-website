@@ -35,7 +35,7 @@ jobs:
           }
           for k,v in tests.items():print('CHECK',k,v)
           assert all(tests.values()), 'Consultation functionality regression'
-          with urllib.request.urlopen('https://dietzbookkeeping.com/',timeout=25) as response:
+          with urllib.request.urlopen(urllib.request.Request('https://dietzbookkeeping.com/', headers={'User-Agent':'Mozilla/5.0 (compatible; DietzProductionAudit/1.0)'}),timeout=25) as response:
             content=response.read().decode('utf-8','replace')
             print('Homepage HTTP',response.status)
           assert 'Monthly bookkeeping for' in content
