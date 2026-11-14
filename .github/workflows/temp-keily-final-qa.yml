@@ -1,0 +1,65 @@
+name: Final Keily prototype a11y and one-tap verification
+
+on:
+  push:
+    branches: [audit/keily-launcher-final-20261113]
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 8
+    steps:
+      - name: Install Lighthouse and browser driver
+        run: npm install -g lighthouse@12 puppeteer-core@24
+      - name: Verify fresh preview performance and accessibility
+        shell: bash
+        run: |
+          lighthouse "https://d2c4c2ef.dietz-bookkeeping-website.pages.dev/" --chrome-flags="--headless=new --no-sandbox --disable-dev-shm-usage" --only-categories=performance,accessibility,seo --throttling-method=simulate --output=json --output-path=/tmp/lh.json --quiet
+          python3 - <<'PY'
+          import json
+          data=json.load(open('/tmp/lh.json'))
+          print('SCORES',[(k,round(v['score']*100) if v['score'] is not None else None) for k,v in data['categories'].items()])
+          for cat in ('accessibility','seo'):
+            for ref in data['categories'][cat]['auditRefs']:
+              item=data['audits'][ref['id']]
+              if item.get('score') is not None and item['score']<1:
+                print('FAIL',cat,ref['id'])
+          a=data['audits']
+          assert a['color-contrast']['score']==1, 'New Keily button has a contrast regression'
+          assert a['label-content-name-mismatch']['score']==1, 'Keily button accessible name mismatch'
+          assert round(data['categories']['performance']['score']*100)>=85, 'Performance goal not met'
+          print('KEILY ACCESSIBILITY PERFORMANCE PASS')
+          PY
+      - name: Verify one-click loads real Keily chat
+        shell: bash
+        run: |
+          NODE_PATH="$(npm root -g)" node <<'JS'
+          const p=require('puppeteer-core');
+          const sleep=ms=>new Promise(r=>setTimeout(r,ms));
+          (async()=>{
+            const b=await p.launch({headless:true,executablePath:'/usr/bin/google-chrome',args:['--no-sandbox','--disable-dev-shm-usage']});
+            const page=await b.newPage();
+            await page.setViewport({width:390,height:844,deviceScaleFactor:1,isMobile:true,hasTouch:true});
+            let reqs=0;
+            page.on('request',r=>{if(/jotform.com|jotfor.ms/.test(r.url()))reqs++;});
+            await page.goto('https://d2c4c2ef.dietz-bookkeeping-website.pages.dev/',{waitUntil:'load'});
+            await sleep(1800);
+            console.log('BEFORE_TAP',reqs);
+            if(reqs!==0)throw new Error('Jotform was preloaded');
+            const trigger=await page.$('button[aria-label="Keily · Ask a question — Open chat"]');
+            if(!trigger)throw new Error('Accessible Keily trigger missing');
+            await trigger.click();
+            await sleep(7000);
+            const frame=page.frames().find(x=>x.url().startsWith('https://www.jotform.com/agent/'));
+            if(!frame)throw new Error('Agent iframe not mounted');
+            const x=await frame.evaluate(()=>({title:document.title,text:document.body?.innerText.slice(0,400),textareas:document.querySelectorAll('textarea').length}));
+            const panel=await page.evaluate(()=>document.querySelector('[role="dialog"]')?.getAttribute('aria-hidden'));
+            console.log('AFTER_TAP','jotRequests',reqs,'agent',JSON.stringify(x),'panelHidden',panel);
+            if(!x.text?.includes('Keily')||x.textareas<1||panel!=='false')throw new Error('Agent was not usable');
+            await b.close();
+            console.log('KEILY FIRST TAP PASS');
+          })().catch(e=>{console.error(e);process.exitCode=1});
+          JS
