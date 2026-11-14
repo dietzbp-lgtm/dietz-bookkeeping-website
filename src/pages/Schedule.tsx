@@ -1,30 +1,26 @@
 import Layout from '../components/Layout';
-import { InlineWidget, useCalendlyEventListener } from 'react-calendly';
-import { useRef } from 'react';
-import { getCalendlyScheduledEventUri } from '../lib/calendlyBooking';
+import { useEffect, useState, type ComponentType } from 'react';
 import { Link } from 'react-router-dom';
 
 const calendarUrl = 'https://calendly.com/dietzbookkeeping/30min';
 
 export default function Schedule() {
-  // The event URI is retained only in memory to deduplicate messages.
-  const recordedBookings = useRef(new Set<string>());
+  const [Widget, setWidget] = useState<ComponentType | null>(null);
+  const [loadFailed, setLoadFailed] = useState(false);
 
-  useCalendlyEventListener({
-    onEventScheduled: message => {
-      const bookingUri = getCalendlyScheduledEventUri(message);
-      if (!bookingUri || recordedBookings.current.has(bookingUri)) return;
-
-      const gtag = (window as Window & {
-        gtag?: (command: 'event', eventName: string, params: Record<string, string>) => void;
-      }).gtag;
-      if (!gtag) return;
-
-      recordedBookings.current.add(bookingUri);
-      // Never send invitee information or the event URI to Google Analytics.
-      gtag('event', 'consultation_booked', { booking_source: 'calendly_inline' });
-    },
-  });
+  useEffect(() => {
+    let active = true;
+    // Avoid loading Calendly's React library on the homepage and other routes.
+    // Starting in an effect preserves server-rendered HTML and hydration.
+    import('../components/CalendlyBookingWidget')
+      .then(module => {
+        if (active) setWidget(() => module.default);
+      })
+      .catch(() => {
+        if (active) setLoadFailed(true);
+      });
+    return () => { active = false; };
+  }, []);
 
   return <Layout>
     <section className="bg-gradient-to-b from-blue-50 to-white py-12 sm:py-16">
@@ -37,12 +33,17 @@ export default function Schedule() {
     <section className="bg-white pb-16 sm:pb-20">
       <div className="max-w-5xl mx-auto px-4 sm:px-6">
         <div className="border border-slate-200 rounded-2xl bg-white overflow-hidden shadow-sm">
-          <InlineWidget url={calendarUrl} styles={{ height: '780px', width: '100%', minWidth: '0' }} />
+          {Widget ? <Widget /> : <div
+            className="flex h-[780px] w-full items-center justify-center px-6 text-center text-slate-600"
+            role="status"
+          >
+            {loadFailed ? 'The calendar could not load. Use the direct Calendly link below.' : 'Loading available consultation times…'}
+          </div>}
         </div>
         <p className="text-center text-sm text-slate-600 mt-6">
           Having trouble with the calendar? <a href={calendarUrl} target="_blank" rel="noopener noreferrer" className="text-blue-700 font-semibold underline">Open Calendly in a new tab</a>.
         </p>
-        <p className="text-center text-sm text-slate-600 mt-4">Prefer to describe your project first? <Link to="/estimate/" className="text-blue-700 underline font-semibold">Request an estimate</Link>.</p>
+        <p className="text-center text-sm text-slate-600 mt-4">Prefer to describe your project first? <Link to="/estimate/" className="text-blue-700 underline">Request an estimate</Link>.</p>
       </div>
     </section>
   </Layout>;
