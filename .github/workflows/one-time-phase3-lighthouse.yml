@@ -1,0 +1,79 @@
+name: One-time mobile Lighthouse baseline (do not merge)
+
+on:
+  push:
+    branches: [audit/phase3-lighthouse-20261113]
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 18
+    steps:
+      - name: Install Lighthouse and verify Chrome
+        shell: bash
+        run: |
+          node --version
+          command -v google-chrome || true
+          google-chrome --version || true
+          npm install --global lighthouse@12
+          lighthouse --version
+      - name: Run representative live site audits
+        shell: bash
+        run: |
+          set -u
+          mkdir -p lighthouse-reports
+          run() {
+            label="$1"
+            url="$2"
+            mode="$3"
+            echo "=== AUDIT START $label $url $mode ==="
+            flags=""
+            if [ "$mode" = desktop ]; then flags="--preset=desktop"; fi
+            timeout 155s lighthouse "$url" --chrome-flags="--headless=new --no-sandbox --disable-dev-shm-usage" --only-categories=performance,accessibility,best-practices,seo --throttling-method=simulate --output=json --output-path="lighthouse-reports/$label.json" --quiet $flags || echo "AUDIT_COMMAND_FAILED $label"
+            echo "=== AUDIT FINISH $label ==="
+          }
+          run home-mobile "https://dietzbookkeeping.com/" mobile
+          run estimate-mobile "https://dietzbookkeeping.com/estimate/" mobile
+          run schedule-mobile "https://dietzbookkeeping.com/schedule/" mobile
+          run home-desktop "https://dietzbookkeeping.com/" desktop
+      - name: Summarize lab scores and performance opportunities
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          import glob,json,os
+          reports=glob.glob('lighthouse-reports/*.json')
+          if not reports: raise SystemExit('NO LIGHTHOUSE REPORTS')
+          for fn in sorted(reports):
+              data=json.load(open(fn))
+              print('\\n### REPORT',os.path.basename(fn))
+              print('URL',data.get('finalDisplayedUrl'), 'version',data.get('lighthouseVersion'))
+              print('scores:',[(k,round(v.get('score',0)*100) if v.get('score') is not None else None) for k,v in data.get('categories',{}).items()])
+              audits=data.get('audits',{})
+              for key in ('first-contentful-paint','largest-contentful-paint','speed-index','total-blocking-time','cumulative-layout-shift','server-response-time','interactive'):
+                  a=audits.get(key,{})
+                  print('METRIC',key,a.get('displayValue'),a.get('numericValue'))
+              for k,v in audits.items():
+                  if v.get('score') is None or v.get('score',1)>=0.9:continue
+                  score=v.get('score',1)
+                  if v.get('details',{}).get('type')=='opportunity' or k in ('render-blocking-resources','unused-javascript','unused-css-rules','modern-image-formats','uses-optimized-images','uses-responsive-images','largest-contentful-paint-element','lcp-discovery-insight','font-display','uses-long-cache-ttl','image-delivery-insight','network-dependency-tree-insight','forced-reflow-insight','third-parties-insight'):
+                      print('OPPORTUNITY',k,'score',score,'savingsMs',v.get('details',{}).get('overallSavingsMs'), 'display',v.get('displayValue'))
+              items=audits.get('network-requests',{}).get('details',{}).get('items',[])
+              print('NETWORK',len(items),'totalKB',round(sum(i.get('transferSize',0) for i in items)/1024))
+              for i in sorted(items,key=lambda x:x.get('transferSize',0),reverse=True)[:12]:
+                  print('HEAVY',round(i.get('transferSize',0)/1024),'KB',i.get('resourceType'),str(i.get('url',''))[:150])
+              for key in ('errors-in-console','is-crawlable','viewport','tap-targets'):
+                  a=audits.get(key,{})
+                  if a and a.get('score') != 1:
+                      print('OTHER',key,a.get('score'),a.get('displayValue'))
+          PY
+      - name: Save detailed reports for audit review
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: dietz-phase3-lighthouse-reports
+          path: lighthouse-reports/*.json
+          if-no-files-found: warn
+          retention-days: 2
