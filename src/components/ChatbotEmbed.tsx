@@ -1,11 +1,10 @@
 import { useEffect, useId, useState } from 'react';
 import { MessageCircle, X, ExternalLink } from 'lucide-react';
 
-// Phase 3 EXPERIMENT: lightweight first-party launcher with a genuine, public
-// Jotform AI agent loaded only when the visitor taps the chat button.
-// No private Jotform APIs, synthetic clicks, copied avatar assets, or preload.
-// Jotform's published direct agent page powers the embedded conversation.
-// This is an alternative UI prototype, NOT the production native chatbot.
+// Phase 3 preview: show a small, always-visible Keily launcher while keeping
+// the full Jotform agent unloaded until the visitor's first tap.
+// The agent's own branded interface provides the greeting and conversation.
+// Never rely on undocumented Jotform APIs, synthetic clicks or copied assets.
 const AGENT_URL = 'https://www.jotform.com/agent/019d0b8be1307d5c86b2c57a733934f3e592?skipWelcome=1';
 
 export default function ChatbotEmbed() {
@@ -14,11 +13,9 @@ export default function ChatbotEmbed() {
   const [iframeLoaded, setIframeLoaded] = useState(false);
   const panelId = useId();
 
-  function toggleChat() {
-    setOpen(previous => {
-      if (!previous) setEverOpened(true);
-      return !previous;
-    });
+  function openChat() {
+    setEverOpened(true);
+    setOpen(true);
   }
 
   useEffect(() => {
@@ -31,9 +28,9 @@ export default function ChatbotEmbed() {
   }, [open]);
 
   return (
-    <aside className="fixed bottom-4 right-4 z-[70] flex flex-col items-end gap-3" aria-label="Keily bookkeeping assistance">
-      {/* The iframe remains mounted after its first open, preserving the
-          conversation when the visitor temporarily closes the panel. */}
+    <aside className="fixed bottom-4 right-4 z-[70] flex flex-col items-end" aria-label="Keily bookkeeping assistance">
+      {/* Preserve the iframe across close/reopen to keep the ongoing conversation.
+          The section is fully hidden until the visitor opens the launcher. */}
       {everOpened && (
         <section
           id={panelId}
@@ -41,26 +38,32 @@ export default function ChatbotEmbed() {
           aria-modal="false"
           aria-label="Chat with Keily"
           aria-hidden={!open}
-          className={`${open ? 'flex' : 'hidden'} w-[min(385px,calc(100vw-2rem))] h-[min(680px,calc(100dvh-7rem))] min-h-[300px] flex-col overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-[0_20px_75px_rgba(15,23,42,0.24)]`}
+          className={`${open ? 'flex' : 'hidden'} h-[min(680px,calc(100dvh-2rem))] w-[min(385px,calc(100vw-2rem))] min-h-[300px] flex-col overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-[0_20px_75px_rgba(15,23,42,0.24)]`}
         >
-          <header className="flex h-16 shrink-0 items-center justify-between gap-3 border-b border-slate-200 bg-white px-4">
-            <div className="flex items-center gap-3">
-              <div className="flex h-10 w-10 items-center justify-center rounded-full bg-blue-600 text-white" aria-hidden="true">
-                <MessageCircle className="h-5 w-5" />
-              </div>
-              <div>
-                <p className="text-base font-semibold leading-tight text-slate-900">Keily</p>
-                <p className="text-xs text-slate-600">Dietz Bookkeeping AI assistant</p>
-              </div>
+          {/* Only a compact action bar: Jotform's own agent already shows
+              Keily's name, avatar, AI disclosure and chat navigation. */}
+          <header className="flex h-11 shrink-0 items-center justify-between gap-2 border-b border-slate-200 bg-white px-3">
+            <p className="text-sm font-semibold text-slate-800">Keily chat</p>
+            <div className="flex items-center gap-1">
+              <a
+                href={AGENT_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Open Keily chat in a new tab"
+                title="Open full chat"
+                className="rounded-full p-2 text-blue-700 hover:bg-blue-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600"
+              >
+                <ExternalLink className="h-4 w-4" aria-hidden="true" />
+              </a>
+              <button
+                type="button"
+                onClick={() => setOpen(false)}
+                aria-label="Close Keily chat"
+                className="rounded-full p-2 text-slate-700 hover:bg-slate-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600"
+              >
+                <X className="h-5 w-5" aria-hidden="true" />
+              </button>
             </div>
-            <button
-              type="button"
-              onClick={() => setOpen(false)}
-              aria-label="Close Keily chat"
-              className="rounded-full p-2 text-slate-600 hover:bg-slate-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600"
-            >
-              <X className="h-5 w-5" />
-            </button>
           </header>
           <div className="relative min-h-0 flex-1">
             {!iframeLoaded && (
@@ -77,33 +80,26 @@ export default function ChatbotEmbed() {
               className="h-full w-full border-0"
             />
           </div>
-          <footer className="flex shrink-0 items-center justify-between gap-2 border-t border-slate-200 bg-white px-4 py-2">
-            <p className="text-xs text-slate-500">Powered by Jotform</p>
-            <a
-              href={AGENT_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-1 text-xs font-medium text-blue-700 underline underline-offset-2"
-            >
-              Open full chat <ExternalLink className="h-3.5 w-3.5" aria-hidden="true" />
-            </a>
-          </footer>
         </section>
       )}
 
-      <button
-        type="button"
-        onClick={toggleChat}
-        aria-expanded={open}
-        aria-controls={everOpened ? panelId : undefined}
-        aria-label={open ? 'Keily · Ask a question — Close chat' : 'Keily · Ask a question — Open chat'}
-        className="group flex min-h-14 items-center gap-3 rounded-full bg-blue-600 px-4 py-3 text-white shadow-[0_9px_35px_rgba(37,99,235,0.32)] transition-colors hover:bg-blue-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-blue-600"
-      >
-        <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-white/20" aria-hidden="true">
-          {open ? <X className="h-5 w-5" /> : <MessageCircle className="h-5 w-5" />}
-        </span>
-        <span className="text-sm font-semibold">Keily <span className="font-normal text-white">· Ask a question</span></span>
-      </button>
+      {/* Keep the launcher compact. Once chat opens, only the top-right
+          close button remains, giving Jotform the full vertical space. */}
+      {!open && (
+        <button
+          type="button"
+          onClick={openChat}
+          aria-expanded={false}
+          aria-controls={everOpened ? panelId : undefined}
+          aria-label="Chat with Keily"
+          className="group flex min-h-12 items-center gap-2 rounded-full bg-blue-600 px-3 py-2 text-white shadow-[0_9px_35px_rgba(37,99,235,0.32)] transition-colors hover:bg-blue-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-blue-600"
+        >
+          <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-white/20" aria-hidden="true">
+            <MessageCircle className="h-4 w-4" />
+          </span>
+          <span className="text-sm font-semibold">Keily</span>
+        </button>
+      )}
     </aside>
   );
 }
