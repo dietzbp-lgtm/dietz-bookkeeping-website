@@ -1,0 +1,45 @@
+name: Temporary Keily delay A/B Lighthouse audit
+
+on:
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  compare:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 14
+    steps:
+      - name: Install Lighthouse
+        run: npm install --global lighthouse@12
+      - name: Compare production and Keily-delay preview on mobile
+        shell: bash
+        run: |
+          set -u
+          mkdir -p /tmp/lh
+          preview='https://experiment-keily-deferred-lo.dietz-bookkeeping-website.pages.dev/'
+          prod='https://dietzbookkeeping.com/'
+          for spec in "prod-1 $prod" "preview-1 $preview" "prod-2 $prod" "preview-2 $preview"; do
+            label="${spec%% *}"
+            url="${spec#* }"
+            echo "TEST BEGIN $label $url"
+            timeout 130s lighthouse "$url" --chrome-flags="--headless=new --no-sandbox --disable-dev-shm-usage" --only-categories=performance,accessibility,best-practices,seo --throttling-method=simulate --output=json --output-path="/tmp/lh/$label.json" --quiet || echo "TEST FAILED $label"
+            echo "TEST END $label"
+          done
+      - name: Summarize measured results
+        run: |
+          python3 - <<'PY'
+          import glob,json,os
+          paths=sorted(glob.glob('/tmp/lh/*.json'))
+          if len(paths)<4:raise SystemExit(f'Expected 4 Lighthouse runs; found {len(paths)}')
+          for path in paths:
+            d=json.load(open(path))
+            a=d['audits']; print('RESULT',os.path.basename(path), d['finalUrl'],'performance',round(100*d['categories']['performance']['score']), 'LCP',a['largest-contentful-paint']['displayValue'],'TBT',a['total-blocking-time']['displayValue'],'CLS',a['cumulative-layout-shift']['displayValue'])
+            net=a.get('network-requests',{}).get('details',{}).get('items',[])
+            allbytes=sum(x.get('transferSize',0) for x in net)
+            jotbytes=sum(x.get('transferSize',0) for x in net if 'jotform.com' in x.get('url','') or 'jotfor.ms' in x.get('url',''))
+            print('NETWORK',os.path.basename(path),'allKiB',round(allbytes/1024),'jotformKiB',round(jotbytes/1024),'requests',len(net))
+          print('TESTS COMPLETE')
+          PY
