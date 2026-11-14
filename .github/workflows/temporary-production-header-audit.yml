@@ -58,7 +58,7 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          url='https://audit-security-headers-20261113.dietz-bookkeeping-website.pages.dev/'
+          url='https://audit-security-headers-20261.dietz-bookkeeping-website.pages.dev/'
           ready=0
           for i in $(seq 1 14); do
             echo "Preview verification attempt $i"
@@ -86,7 +86,7 @@ jobs:
           PY
           while read -r path; do
             echo "VERIFY ASSET $path"
-            curl --silent --show-error --fail --location --max-time 25 --dump-header /tmp/asset-headers.txt --output /dev/null "https://audit-security-headers-20261113.dietz-bookkeeping-website.pages.dev$path"
+            curl --silent --show-error --fail --location --max-time 25 --dump-header /tmp/asset-headers.txt --output /dev/null "https://audit-security-headers-20261.dietz-bookkeeping-website.pages.dev$path"
             grep -iq '^cache-control: public, max-age=31536000, immutable' /tmp/asset-headers.txt
           done < /tmp/assets-list.txt
           echo 'PREVIEW SECURITY AND CACHE HEADERS PASS'
