@@ -1,0 +1,43 @@
+name: One-time PR43 live consultation check
+
+on:
+  push:
+    branches: [verify/pr43-live-calendar-20261113]
+
+permissions:
+  contents: read
+
+jobs:
+  smoke:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - name: Check production HTML and consultation iframe
+        shell: bash
+        run: |
+          set -euo pipefail
+          url='https://dietzbookkeeping.com/schedule/'
+          for attempt in $(seq 1 10); do
+            echo "Production attempt $attempt"
+            google-chrome --headless=new --no-sandbox --disable-dev-shm-usage --disable-gpu --disable-background-networking --virtual-time-budget=16000 --dump-dom "$url" > /tmp/live-dom.html 2>/tmp/chrome-stderr.txt || true
+            if grep -q "calendly.com" /tmp/live-dom.html && grep -q '<iframe' /tmp/live-dom.html; then break; fi
+            sleep 8
+          done
+          python3 - <<'PY'
+          import re,urllib.request
+          html=open('/tmp/live-dom.html').read()
+          print('Production DOM chars:',len(html))
+          tests={
+            'consultation heading':'Schedule a free bookkeeping consultation' in html,
+            'calendar iframe': bool(re.search(r'<iframe[^>]+(?:calendly.com|calendly)',html,re.I)),
+            'booking fallback':'Open Calendly in a new tab' in html,
+            'loading state cleared':'Loading available consultation times' not in html,
+          }
+          for k,v in tests.items():print('CHECK',k,v)
+          assert all(tests.values()), 'Consultation functionality regression'
+          with urllib.request.urlopen('https://dietzbookkeeping.com/',timeout=25) as response:
+            content=response.read().decode('utf-8','replace')
+            print('Homepage HTTP',response.status)
+          assert 'Monthly bookkeeping for' in content
+          print('PR43 LIVE SMOKE PASS')
+          PY
