@@ -1,0 +1,53 @@
+name: One-time Keily on-demand launcher mobile Lighthouse comparison
+
+on:
+  push:
+    branches: [audit/keily-launcher-lighthouse-20261113]
+
+permissions:
+  contents: read
+
+jobs:
+  benchmark:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 14
+    steps:
+      - name: Install Lighthouse
+        run: npm install --global lighthouse@12
+      - name: Compare production and on-demand chat preview
+        shell: bash
+        run: |
+          set -u
+          mkdir -p /tmp/lh
+          for test in "production-a https://dietzbookkeeping.com/" "preview-a https://42f841c9.dietz-bookkeeping-website.pages.dev/" "production-b https://dietzbookkeeping.com/" "preview-b https://42f841c9.dietz-bookkeeping-website.pages.dev/"; do
+            name="${test%% *}"
+            url="${test#* }"
+            echo "START $name"
+            timeout 135s lighthouse "$url" --chrome-flags="--headless=new --no-sandbox --disable-dev-shm-usage" --only-categories=performance,accessibility,best-practices,seo --throttling-method=simulate --output=json --output-path="/tmp/lh/$name.json" --quiet || echo "FAILED $name"
+            echo "END $name"
+          done
+      - name: Summarize A/B
+        run: |
+          python3 - <<'PY'
+          import json,glob,os
+          files=sorted(glob.glob('/tmp/lh/*.json'))
+          if len(files)!=4:raise SystemExit(f'Only {len(files)} reports generated')
+          for fn in files:
+            a=json.load(open(fn))
+            audits=a.get('audits',{})
+            cats=a.get('categories',{})
+            net=audits.get('network-requests',{}).get('details',{}).get('items',[])
+            total=sum(x.get('transferSize',0) for x in net)
+            third=sum(x.get('transferSize',0) for x in net if 'jotform.com' in x.get('url','') or 'jotfor.ms' in x.get('url',''))
+            print('RESULT',os.path.basename(fn),'url',a.get('finalDisplayedUrl'),
+            'scores',[(k,round(v['score']*100) if v['score'] is not None else None) for k,v in cats.items()],
+            'LCP',audits.get('largest-contentful-paint',{}).get('displayValue'),
+            'TBT',audits.get('total-blocking-time',{}).get('displayValue'),
+            'CLS',audits.get('cumulative-layout-shift',{}).get('displayValue'),
+            'JotformKB',round(third/1024),'TotalKB',round(total/1024),'requests',len(net))
+            if 'preview' in fn:
+              print('PREVIEW_AUDITS', 'viewport',audits.get('viewport',{}).get('score'),
+               'tap-targets',audits.get('tap-targets',{}).get('score'),
+               'color-contrast',audits.get('color-contrast',{}).get('score'))
+          print('COMPARISON COMPLETE')
+          PY
