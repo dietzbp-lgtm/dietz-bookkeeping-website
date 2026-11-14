@@ -1,0 +1,63 @@
+name: One-time live PR42 security verification
+
+on:
+  push:
+    branches:
+      - verify/pr42-live-headers-20261113
+
+permissions:
+  contents: read
+
+jobs:
+  live-verification:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Verify live security and cache headers after PR42 deployment
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          import re, time, urllib.request
+          base="https://dietzbookkeeping.com"
+          def load(path):
+              with urllib.request.urlopen(urllib.request.Request(base+path,headers={'User-Agent':'DietzBookkeeping-PR42-Live-Verify/1.0'}),timeout=25) as res:
+                  h={k.lower():v for k,v in res.headers.items()}
+                  body=res.read(1200000) if "text/html" in h.get("content-type","") else b""
+                  return res.status,h,body
+          success=False
+          for i in range(18):
+              status,h,body=load("/")
+              print("Attempt",i+1,"status",status)
+              print("HSTS:",h.get("strict-transport-security","ABSENT"))
+              if h.get("strict-transport-security")=="max-age=15552000":
+                  success=True
+                  break
+              time.sleep(10)
+          assert success, "Production HSTS not yet visible"
+          assert status==200
+          expected={
+              "strict-transport-security":"max-age=15552000",
+              "x-frame-options":"SAMEORIGIN",
+              "content-security-policy":"frame-ancestors 'self'; base-uri 'self'; object-src 'none'",
+              "permissions-policy":"geolocation=(), usb=()",
+              "cache-control":"public, max-age=0, must-revalidate",
+              "x-content-type-options":"nosniff",
+          }
+          for key,value in expected.items():
+              print("HOME",key,h.get(key))
+              assert h.get(key)==value, f"Home {key} mismatch"
+          for path in ["/services/","/sitemap.xml","/robots.txt"]:
+              code,headers,_=load(path)
+              print("PAGE",path,code,"HSTS",headers.get("strict-transport-security"),"cache",headers.get("cache-control"))
+              assert code==200
+              assert headers.get("strict-transport-security")=="max-age=15552000"
+          paths=list(dict.fromkeys(re.findall(rb"/assets/[A-Za-z0-9._-]+[.](?:js|css)",body)))
+          print("VERSIONED_ASSETS",[x.decode() for x in paths])
+          assert any(x.endswith(b".js") for x in paths) and any(x.endswith(b".css") for x in paths)
+          for path in paths:
+              code,headers,_=load(path.decode())
+              print("ASSET",path.decode(),"code",code,"cache",headers.get("cache-control"),"HSTS",headers.get("strict-transport-security"))
+              assert code==200
+              assert headers.get("cache-control")=="public, max-age=31536000, immutable"
+              assert headers.get("x-frame-options")=="SAMEORIGIN"
+          print("PR42 LIVE PRODUCTION HEADER VERIFICATION PASS")
+          PY
