@@ -46,8 +46,9 @@ jobs:
           check(domain+'/services/')
           check(domain+'/sitemap.xml')
           check(domain+'/robots.txt')
-          assets=list(dict.fromkeys(re.findall(r'(/assets/[^"\\s<>]+?\\.(?:js|css))(?=["?\\s<>])',html)))
-          print('\\nASSETS FOUND',len(assets),assets[:6])
+          print('HTML length',len(html), 'has assets', '/assets/' in html)
+          assets=list(dict.fromkeys(re.findall(r'/assets/[A-Za-z0-9._-]+[.](?:js|css)',html)))
+          print('ASSETS FOUND',len(assets),assets[:6])
           for a in assets[:4]:
               check(domain+a)
           print('\\nAUDIT COMPLETED')
