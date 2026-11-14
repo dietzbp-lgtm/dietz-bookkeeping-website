@@ -1,0 +1,113 @@
+{
+  "context": "Public response headers (read-only), not Cloudflare dashboard settings",
+  "tests": [
+    {
+      "name": "home",
+      "url": "https://dietzbookkeeping.com/",
+      "status": 200,
+      "headers": {
+        "cache-control": "public, max-age=0, must-revalidate",
+        "age": null,
+        "cf-cache-status": "DYNAMIC",
+        "etag": null,
+        "last-modified": null,
+        "expires": null,
+        "content-type": "text/html; charset=utf-8",
+        "strict-transport-security": null,
+        "x-content-type-options": "nosniff",
+        "referrer-policy": "strict-origin-when-cross-origin",
+        "content-security-policy": null
+      }
+    },
+    {
+      "name": "portrait",
+      "url": "https://dietzbookkeeping.com/images/dietzbookeepingabout.webp",
+      "status": 200,
+      "headers": {
+        "cache-control": "public, max-age=14400, must-revalidate",
+        "age": null,
+        "cf-cache-status": "MISS",
+        "etag": "\"2ed6161d69f8be22ae592a33951014a7\"",
+        "last-modified": null,
+        "expires": null,
+        "content-type": "image/webp",
+        "strict-transport-security": null,
+        "x-content-type-options": "nosniff",
+        "referrer-policy": "strict-origin-when-cross-origin",
+        "content-security-policy": null
+      }
+    },
+    {
+      "name": "social-image",
+      "url": "https://dietzbookkeeping.com/images/dietzbookkeeping-social-1200x630.jpg",
+      "status": 200,
+      "headers": {
+        "cache-control": "public, max-age=14400, must-revalidate",
+        "age": null,
+        "cf-cache-status": "MISS",
+        "etag": "\"b9e7a06989a994aada6c6d0318e9b386\"",
+        "last-modified": null,
+        "expires": null,
+        "content-type": "image/jpeg",
+        "strict-transport-security": null,
+        "x-content-type-options": "nosniff",
+        "referrer-policy": "strict-origin-when-cross-origin",
+        "content-security-policy": null
+      }
+    },
+    {
+      "name": "sitemap",
+      "url": "https://dietzbookkeeping.com/sitemap.xml",
+      "status": 200,
+      "headers": {
+        "cache-control": "public, max-age=0, must-revalidate",
+        "age": null,
+        "cf-cache-status": "DYNAMIC",
+        "etag": "\"a32263a0ea9a6a22573243f9b6c6afa6\"",
+        "last-modified": null,
+        "expires": null,
+        "content-type": "application/xml",
+        "strict-transport-security": null,
+        "x-content-type-options": "nosniff",
+        "referrer-policy": "strict-origin-when-cross-origin",
+        "content-security-policy": null
+      }
+    },
+    {
+      "name": "fingerprinted-js",
+      "url": "https://dietzbookkeeping.com/assets/index-CY3n9-h7.js",
+      "status": 200,
+      "headers": {
+        "cache-control": "public, max-age=14400, must-revalidate",
+        "age": null,
+        "cf-cache-status": "MISS",
+        "etag": "\"ec2af0b09bd20bf23d8fa72f7afa4767\"",
+        "last-modified": null,
+        "expires": null,
+        "content-type": "application/javascript",
+        "strict-transport-security": null,
+        "x-content-type-options": "nosniff",
+        "referrer-policy": "strict-origin-when-cross-origin",
+        "content-security-policy": null
+      }
+    },
+    {
+      "name": "fingerprinted-css",
+      "url": "https://dietzbookkeeping.com/assets/index-BXT-YoWb.css",
+      "status": 200,
+      "headers": {
+        "cache-control": "public, max-age=14400, must-revalidate",
+        "age": null,
+        "cf-cache-status": "MISS",
+        "etag": "\"8420b63e9b06c84469f57e91cde44487\"",
+        "last-modified": null,
+        "expires": null,
+        "content-type": "text/css; charset=utf-8",
+        "strict-transport-security": null,
+        "x-content-type-options": "nosniff",
+        "referrer-policy": "strict-origin-when-cross-origin",
+        "content-security-policy": null
+      }
+    }
+  ]
+}
