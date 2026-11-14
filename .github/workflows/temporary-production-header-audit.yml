@@ -53,3 +53,40 @@ jobs:
               check(domain+a)
           print('\\nAUDIT COMPLETED')
           PY
+
+      - name: Assert new security headers on Cloudflare branch preview
+        shell: bash
+        run: |
+          set -euo pipefail
+          url='https://audit-security-headers-20261113.dietz-bookkeeping-website.pages.dev/'
+          ready=0
+          for i in $(seq 1 14); do
+            echo "Preview verification attempt $i"
+            if curl --silent --show-error --fail --location --connect-timeout 10 --max-time 25 --dump-header /tmp/headers.txt --output /tmp/home.html "$url"; then
+              cat /tmp/headers.txt | grep -i -E '^(HTTP/|cache-control:|strict-transport-security:|content-security-policy:|x-frame-options:|permissions-policy:)'
+              if grep -iq '^strict-transport-security: max-age=15552000' /tmp/headers.txt &&
+                 grep -iq '^x-frame-options: SAMEORIGIN' /tmp/headers.txt &&
+                 grep -iq "^content-security-policy: frame-ancestors 'self'; base-uri 'self'; object-src 'none'" /tmp/headers.txt &&
+                 grep -iq '^permissions-policy: geolocation=(), usb=()' /tmp/headers.txt &&
+                 grep -iq '^cache-control: public, max-age=0, must-revalidate' /tmp/headers.txt; then
+                ready=1
+                break
+              fi
+            fi
+            sleep 9
+          done
+          test "$ready" = 1
+          python3 - <<'PY'
+          import re
+          html=open('/tmp/home.html').read()
+          files=list(dict.fromkeys(re.findall(r'/assets/[A-Za-z0-9._-]+[.](?:js|css)',html)))
+          print('Preview asset files:',files)
+          assert any(x.endswith('.js') for x in files) and any(x.endswith('.css') for x in files)
+          open('/tmp/assets-list.txt','w').write('\\n'.join(files))
+          PY
+          while read -r path; do
+            echo "VERIFY ASSET $path"
+            curl --silent --show-error --fail --location --max-time 25 --dump-header /tmp/asset-headers.txt --output /dev/null "https://audit-security-headers-20261113.dietz-bookkeeping-website.pages.dev$path"
+            grep -iq '^cache-control: public, max-age=31536000, immutable' /tmp/asset-headers.txt
+          done < /tmp/assets-list.txt
+          echo 'PREVIEW SECURITY AND CACHE HEADERS PASS'
