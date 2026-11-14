@@ -1,0 +1,39 @@
+name: One-time Keily preview accessibility and indexing audit
+
+on:
+  push:
+    branches: [audit/keily-launcher-a11y-seo-20261113]
+
+permissions:
+  contents: read
+
+jobs:
+  inspect:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 7
+    steps:
+      - name: Install Lighthouse
+        run: npm install -g lighthouse@12
+      - name: Inspect preview and production response headers
+        run: |
+          for url in https://42f841c9.dietz-bookkeeping-website.pages.dev/ https://dietzbookkeeping.com/; do
+            echo "SITE $url"
+            curl -I -sS "$url" | grep -i -E 'HTTP/|x-robots-tag|content-type|content-security-policy|cache-control|link:'
+          done
+      - name: Run preview accessibility and SEO audits
+        run: |
+          lighthouse "https://42f841c9.dietz-bookkeeping-website.pages.dev/" --chrome-flags="--headless=new --no-sandbox --disable-dev-shm-usage" --only-categories=accessibility,seo --throttling-method=simulate --output=json --output-path="/tmp/lh.json" --quiet
+          python3 - <<'PY'
+          import json
+          d=json.load(open('/tmp/lh.json'))
+          for cat in ['accessibility','seo']:
+            print('CATEGORY',cat, d['categories'][cat]['score'])
+            for entry in d['categories'][cat]['auditRefs']:
+              key=entry['id'];a=d['audits'].get(key,{})
+              if a.get('score') is not None and a.get('score')<1:
+                print('AUDIT_FAIL',cat,key,'score',a.get('score'),'title',a.get('title'),'description',a.get('description','')[:180])
+                details=a.get('details',{})
+                for item in details.get('items',[])[:5]:
+                  node=item.get('node',{})
+                  print('ITEM',key,'selector',node.get('selector'),'html',str(node.get('snippet',''))[:280],'details',str(item)[:450])
+          PY
