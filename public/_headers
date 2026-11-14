@@ -1,7 +1,14 @@
-# Vite emits hashed JS/CSS filenames to /assets/ (e.g. index-ABC123.js).
-# When a file's contents change, Vite changes its URL, making long browser
-# caching safe. Do not cache HTML, sitemap, robots, images, or API routes here.
-#
-# The Cloudflare Pages _headers format applies only to static asset responses.
+# Apply conservative browser security protections to Cloudflare Pages static responses.
+# CSP limits who may frame OUR website, not the Calendly/Jotform iframes
+# displayed inside it. Avoid restrictive script-src, frame-src or microphone
+# policies until third-party integrations have been separately audited.
+# Pages Functions responses do not inherit this file's security headers.
+/*
+  Strict-Transport-Security: max-age=15552000
+  X-Frame-Options: SAMEORIGIN
+  Content-Security-Policy: frame-ancestors 'self'; base-uri 'self'; object-src 'none'
+  Permissions-Policy: geolocation=(), usb=()
+
+# Keep long-term caching limited to Vite's fingerprinted assets.
 /assets/*
   Cache-Control: public, max-age=31536000, immutable
