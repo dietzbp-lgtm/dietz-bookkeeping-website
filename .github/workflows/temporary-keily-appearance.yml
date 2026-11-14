@@ -1,0 +1,67 @@
+name: One-time native Keily appearance timing check
+
+on:
+  push:
+    branches: [audit/keily-appearance-test-20261113]
+
+permissions:
+  contents: read
+
+jobs:
+  timing:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 6
+    steps:
+      - name: Install browser driver
+        run: npm install -g puppeteer-core@24
+      - name: Observe Keily script and iframe appearance in real browser time
+        shell: bash
+        run: |
+          NODE_PATH="$(npm root -g)" node <<'JS'
+          const puppeteer=require('puppeteer-core');
+          const sleep=(ms)=>new Promise(resolve=>setTimeout(resolve,ms));
+          (async()=>{
+            const browser=await puppeteer.launch({headless:true,executablePath:'/usr/bin/google-chrome',args:['--no-sandbox','--disable-dev-shm-usage','--disable-gpu']});
+            const targets=[
+              ['production','https://dietzbookkeeping.com/'],
+              ['preview','https://experiment-keily-deferred-lo.dietz-bookkeeping-website.pages.dev/']
+            ];
+            for(const [name,url] of targets){
+              const page=await browser.newPage();
+              await page.setViewport({width:390,height:844,deviceScaleFactor:1,isMobile:true,hasTouch:true});
+              let firstJotformRequestMs=null,bytes=0,jotRequests=0;
+              let t=Date.now();
+              page.on('request',req=>{
+                const u=req.url();
+                if(/jotform.com|jotfor.ms/i.test(u)){
+                  jotRequests++;
+                  if(firstJotformRequestMs===null)firstJotformRequestMs=Date.now()-t;
+                }
+              });
+              page.on('response',async response=>{
+                if(/jotform.com|jotfor.ms/i.test(response.url())){
+                  const len=Number(response.headers()['content-length']||'0');
+                  if(len>0) bytes+=len;
+                }
+              });
+              try{await page.goto(url,{waitUntil:'load',timeout:35000});}catch(e){console.log('NAV WARN',name,e.message);}
+              console.log('LOADED',name,'afterMs',Date.now()-t);
+              for(const at of [2,5,8,12,18]){
+                await sleep(Math.max(0,at*1000-(Date.now()-t)));
+                const state=await page.evaluate(()=>{
+                  const frames=[...document.querySelectorAll('iframe')].filter(x=>/jotform.com|jotfor.ms/i.test(x.src||''));
+                  return {script:!!document.querySelector('#jotform-chatbot-script'),frames:frames.length,iframeDimensions:frames.slice(0,3).map(x=>({w:Math.round(x.getBoundingClientRect().width),h:Math.round(x.getBoundingClientRect().height)}))};
+                });
+                console.log('APPEARANCE',name,'tSec',at,'elapsedMs',Date.now()-t,'jotRequests',jotRequests,'firstJotformRequestMs',firstJotformRequestMs,'state',JSON.stringify(state));
+              }
+              const before=await page.evaluate(()=>[...document.querySelectorAll('iframe')].filter(x=>/jotform.com|jotfor.ms/i.test(x.src||'')).map(x=>({w:x.getBoundingClientRect().width,h:x.getBoundingClientRect().height})));
+              await page.mouse.click(352,799);
+              await sleep(4000);
+              const after=await page.evaluate(()=>[...document.querySelectorAll('iframe')].filter(x=>/jotform.com|jotfor.ms/i.test(x.src||'')).map(x=>({w:x.getBoundingClientRect().width,h:x.getBoundingClientRect().height})));
+              console.log('ONE_CLICK_ATTEMPT',name,'before',JSON.stringify(before),'after',JSON.stringify(after),'jotRequests',jotRequests,'byteHeaders',bytes);
+              await page.close();
+            }
+            await browser.close();
+            console.log('TIMING COMPLETE');
+          })().catch(err=>{console.error('ERROR',err);process.exit(1)});
+          JS
