@@ -171,6 +171,9 @@ export default function QuickBooksBankReconciliationGuide() {
             <p className="text-slate-700 leading-relaxed">
               Reconciliation supports accurate bookkeeping, but it does not by itself prove every transaction was correctly classified, that the financial statements are audited, or that fraud has been ruled out.
             </p>
+            <p className="text-slate-700 leading-relaxed mt-5">
+              If you want help making account reviews part of a regular bookkeeping routine, see our <Link to="/quickbooks-online-bookkeeping/" className="font-semibold text-blue-700 underline underline-offset-4">QuickBooks Online bookkeeping service</Link>. We can discuss the records involved, reconciliations and reports before agreeing on a monthly scope.
+            </p>
           </section>
 
           <section className="py-12 sm:py-14 border-b border-slate-200" aria-labelledby="faq-heading">
