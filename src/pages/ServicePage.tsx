@@ -62,6 +62,7 @@ const ServicePage: React.FC<ServicePageProps> = ({ service }) => {
             <h2 className="text-xl font-bold text-slate-900 mb-2">Learning to reconcile in QuickBooks Online?</h2>
             <p className="text-slate-700 mb-3">See a step-by-step guide to matching statements and understanding reconciliation differences.</p>
             <Link to="/quickbooks-bank-reconciliation-guide/" className="font-semibold text-blue-700 underline underline-offset-4">Read the QuickBooks bank reconciliation guide</Link>
+            <p className="mt-4 text-slate-700">Need help reviewing more than one month's transactions and reports? <Link to="/quickbooks-online-bookkeeping/" className="font-semibold text-blue-700 underline underline-offset-4">Explore QuickBooks Online bookkeeping support</Link> for reconciliations and ongoing records.</p>
           </div>
         </section>
       )}
@@ -71,6 +72,7 @@ const ServicePage: React.FC<ServicePageProps> = ({ service }) => {
             <h2 className="text-xl font-bold text-slate-900 mb-2">Months behind in QuickBooks Online?</h2>
             <p className="text-slate-700 mb-3">Learn how to identify the first incomplete month, check missing statements and reconcile older accounts safely.</p>
             <Link to="/quickbooks-overdue-bookkeeping-cleanup/" className="font-semibold text-blue-700 underline underline-offset-4">Read the overdue QuickBooks cleanup guide</Link>
+            <p className="mt-4 text-slate-700">Once earlier periods are reviewed, ongoing work can be discussed separately. <Link to="/monthly-bookkeeping/" className="font-semibold text-blue-700 underline underline-offset-4">See monthly bookkeeping support</Link>.</p>
           </div>
         </section>
       )}
@@ -231,6 +233,9 @@ const ServicePage: React.FC<ServicePageProps> = ({ service }) => {
               <p className="mt-8 text-slate-600">
                 Behind on earlier months? See our <Link to="/tampa-cleanup-bookkeeping" className="font-semibold text-blue-700 underline underline-offset-4">cleanup bookkeeping service</Link>.
                 You can also <Link to="/schedule" className="font-semibold text-blue-700 underline underline-offset-4">schedule a free consultation</Link>.
+              </p>
+              <p className="mt-4 text-slate-600">
+                Already using QuickBooks Online? <Link to="/quickbooks-online-bookkeeping/" className="font-semibold text-blue-700 underline underline-offset-4">See how QuickBooks bookkeeping support works</Link>, including reconciliations, monthly reporting and separately scoped cleanup.
               </p>
             </div>
           </section>
