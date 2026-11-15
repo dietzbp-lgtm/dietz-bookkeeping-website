@@ -1,0 +1,44 @@
+name: One-time production robots.txt diagnosis
+
+on:
+  push:
+    branches: [audit/post-pr45-lighthouse-20261114]
+
+permissions:
+  contents: read
+
+jobs:
+  inspect:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 8
+    steps:
+      - name: Inspect live Cloudflare robots response
+        shell: bash
+        run: |
+          set -eu
+          url='https://dietzbookkeeping.com/robots.txt'
+          curl -sSL --max-time 25 -D /tmp/robots-headers.txt "$url" -o /tmp/robots.txt
+          echo '=== HEADERS ==='
+          grep -i -E 'HTTP/|content-type:|server:|cf-|x-robots-tag:|cache-control:' /tmp/robots-headers.txt || true
+          echo '=== FIRST 90 LINES (NUMBERED) ==='
+          head -90 /tmp/robots.txt | cat -n
+          echo '=== FILE BYTES ==='
+          wc -c /tmp/robots.txt
+          echo '=== REQUIRED ALLOW/SITEMAP CHECKS ==='
+          grep -Ei '^User-agent:|^Disallow:|^Allow:|^Sitemap:|^Content-signal:|^License:|^Agentmap:' /tmp/robots.txt | head -80 || true
+      - name: Compare modern Lighthouse robots audit result
+        shell: bash
+        run: |
+          npm install -g lighthouse@13
+          lighthouse --version
+          timeout 130s lighthouse https://dietzbookkeeping.com/ --chrome-flags="--headless=new --no-sandbox --disable-dev-shm-usage" --only-categories=seo --throttling-method=simulate --output=json --output-path=/tmp/lh-robots.json --quiet
+          python3 - <<'PY'
+          import json
+          d=json.load(open('/tmp/lh-robots.json'))
+          a=d['audits'].get('robots-txt',{})
+          print('LIGHTHOUSE_VERSION',d.get('lighthouseVersion'))
+          print('ROBOTS_AUDIT_SCORE',a.get('score'))
+          print('ROBOTS_DISPLAY',a.get('displayValue'))
+          for x in a.get('details',{}).get('items',[])[:30]: print('ROBOTS_ISSUE',json.dumps(x,ensure_ascii=False)[:1000])
+          print('SEO_SCORE',d['categories']['seo']['score'])
+          PY
