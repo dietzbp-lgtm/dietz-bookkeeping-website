@@ -55,7 +55,7 @@ const Navbar = () => {
             </a>
             <Link
               to="/schedule"
-              className="ios-btn bg-blue-500 text-white px-5 py-2 rounded-full text-sm font-medium shadow-lg shadow-blue-500/20 hover:bg-blue-600"
+              className="ios-btn bg-blue-700 text-white px-5 py-2 rounded-full text-sm font-medium shadow-lg shadow-blue-700/20 hover:bg-blue-800"
             >
               Consultation
             </Link>
@@ -107,7 +107,7 @@ const Navbar = () => {
                 </a>
                 <Link
                   to="/schedule"
-                  className="ios-btn block w-full text-center bg-blue-500 text-white px-5 py-3 rounded-xl text-base font-medium shadow-lg shadow-blue-500/20"
+                  className="ios-btn block w-full text-center bg-blue-700 text-white px-5 py-3 rounded-xl text-base font-medium shadow-lg shadow-blue-700/20"
                 >
                   Book Consultation
                 </Link>
