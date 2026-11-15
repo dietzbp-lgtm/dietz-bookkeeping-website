@@ -30,7 +30,7 @@ const Footer = () => {
           </div>
 
           <div>
-            <h3 className="font-semibold text-slate-900 mb-4">Services</h3>
+            <h2 className="font-semibold text-slate-900 mb-4">Services</h2>
             <ul className="space-y-2 text-sm text-slate-500">
               <li><Link to="/tampa-bank-reconciliation" className="hover:text-blue-600 transition-colors">Bank Reconciliation</Link></li>
               <li><Link to="/tampa-cleanup-bookkeeping" className="hover:text-blue-600 transition-colors">Cleanup Bookkeeping</Link></li>
@@ -40,7 +40,7 @@ const Footer = () => {
           </div>
 
           <div>
-            <h3 className="font-semibold text-slate-900 mb-4">Company</h3>
+            <h2 className="font-semibold text-slate-900 mb-4">Company</h2>
             <ul className="space-y-2 text-sm text-slate-500">
               <li><Link to="/about" className="hover:text-blue-600 transition-colors">About Us</Link></li>
               <li><Link to="/service-areas" className="hover:text-blue-600">Service Areas</Link></li>
@@ -68,7 +68,7 @@ const Footer = () => {
           </div>
 
           <div>
-            <h3 className="font-semibold text-slate-900 mb-4">Contact</h3>
+            <h2 className="font-semibold text-slate-900 mb-4">Contact</h2>
             <ul className="space-y-3 text-sm text-slate-500">
               <li className="flex items-start gap-3">
                 <MapPin className="h-5 w-5 text-blue-500 shrink-0" />
