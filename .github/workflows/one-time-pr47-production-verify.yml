@@ -1,0 +1,46 @@
+name: One-time PR47 live production SEO verification
+on:
+  push:
+    branches: [verify/pr47-production-20261115]
+permissions:
+  contents: read
+jobs:
+  audit:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 8
+    steps:
+      - name: Confirm PR47 on production with canonical and links
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          import urllib.request,re,time,html
+          root='https://dietzbookkeeping.com'
+          pages={
+           '/monthly-bookkeeping/':('Monthly Bookkeeping Services | Tampa & Nationwide | Dietz Bookkeeping','See how QuickBooks bookkeeping support works'),
+           '/tampa-bank-reconciliation/':('Bank Reconciliation Services in Tampa, FL | Dietz Bookkeeping','Explore QuickBooks Online bookkeeping support'),
+           '/tampa-cleanup-bookkeeping/':('Tampa Bookkeeping Cleanup & Catch-Up | Dietz Bookkeeping','See monthly bookkeeping support'),
+           '/quickbooks-online-bookkeeping/':('QuickBooks Online Bookkeeping Services | Dietz Bookkeeping','QuickBooks questions for cleaning and contracting businesses'),
+           '/quickbooks-bank-reconciliation-guide/':('How to Reconcile in QuickBooks Online | Dietz Bookkeeping','QuickBooks Online bookkeeping service')
+          }
+          for attempt in range(25):
+           with urllib.request.urlopen(root+'/quickbooks-online-bookkeeping/',timeout=25) as res:
+            body=res.read().decode('utf-8','replace')
+           if 'QuickBooks questions for cleaning and contracting businesses' in body:break
+           print('AWAIT_PROD_UPDATE',attempt+1)
+           time.sleep(8)
+          else: raise AssertionError('PR47 has not reached production')
+          for path,(title,phrase) in pages.items():
+           with urllib.request.urlopen(root+path,timeout=25) as res:
+            status=res.status
+            content=res.read().decode('utf-8','replace')
+            headers=str(res.headers).lower()
+           canonical=re.search(r'<link rel="canonical"[^>]*>',content,re.I)
+           titleTag=re.search(r'<title>(.*?)</title>',content,re.I|re.S)
+           assert status==200,(path,status)
+           assert titleTag and html.unescape(titleTag.group(1))==title,(path,titleTag.group(1) if titleTag else 'missing')
+           assert phrase in content,'Missing PR47 content on '+path
+           assert canonical and root+path in canonical.group(0),'Canonical mismatch on '+path
+           assert 'noindex' not in headers,'Prod X-Robots-Tag blocks indexing '+path
+           print('PRODUCTION_PAGE_PASS',path,'status',status,'title',title)
+          print('PR47_PRODUCTION_VERIFIED')
+          PY
