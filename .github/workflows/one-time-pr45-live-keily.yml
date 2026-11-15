@@ -1,0 +1,56 @@
+name: One-time PR45 live Keily verification
+on:
+  push:
+    branches: [verify/pr45-live-keily-20261114]
+permissions:
+  contents: read
+jobs:
+  live:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 8
+    steps:
+      - name: Install browser driver
+        run: npm install -g puppeteer-core@24
+      - name: Verify live Keily first-tap and responsive launcher
+        shell: bash
+        run: |
+          NODE_PATH="$(npm root -g)" node <<'JS'
+          const puppeteer=require('puppeteer-core');
+          const sleep=ms=>new Promise(resolve=>setTimeout(resolve,ms));
+          (async()=>{
+            const browser=await puppeteer.launch({headless:true,executablePath:'/usr/bin/google-chrome',args:['--no-sandbox','--disable-dev-shm-usage','--disable-gpu']});
+            for(const device of [{name:'phone',width:390,height:844,mobile:true},{name:'fold-wide',width:752,height:880,mobile:false}]){
+              const page=await browser.newPage();
+              await page.setViewport({width:device.width,height:device.height,isMobile:device.mobile,hasTouch:device.mobile,deviceScaleFactor:1});
+              let reqs=0;
+              page.on('request',req=>{if(/jotform\.com|jotfor\.ms/.test(req.url()))reqs++});
+              const response=await page.goto('https://dietzbookkeeping.com/',{waitUntil:'load',timeout:35000});
+              await sleep(1800);
+              const before=await page.evaluate(()=>{
+                const b=document.querySelector('button[aria-label="Chat with Keily"]');
+                const label=b?.querySelector('span.text-sm');
+                const rect=b?.getBoundingClientRect();
+                return {button:!!b,buttonW:rect?.width,buttonH:rect?.height,visibleText:label?getComputedStyle(label).display!=='none':false,frameCount:document.querySelectorAll('iframe').length,homepage:document.body.innerText.includes('Monthly bookkeeping for')};
+              });
+              console.log('BEFORE',device.name,'HTTP',response.status(),JSON.stringify(before),'jotRequests',reqs);
+              if(response.status()!==200||!before.homepage||!before.button||reqs!==0||before.frameCount!==0)throw new Error('Production pre-click regression '+device.name);
+              if(device.mobile && (Math.abs(before.buttonW-48)>1||Math.abs(before.buttonH-48)>1||before.visibleText))throw new Error('Wrong mobile circle '+device.name);
+              if(!device.mobile && (before.buttonW<85||!before.visibleText))throw new Error('Wrong wider pill '+device.name);
+              await page.click('button[aria-label="Chat with Keily"]');
+              await sleep(8500);
+              const frame=page.frames().find(f=>f.url().startsWith('https://www.jotform.com/agent/'));
+              const agent=frame?await frame.evaluate(()=>({title:document.title,greeting:document.body?.innerText.includes('Hi! I’m Keily'),textareas:document.querySelectorAll('textarea').length})):null;
+              const ui=await page.evaluate(()=>({panelOpen:document.querySelector('section[role="dialog"]')?.getAttribute('aria-hidden')==='false',launcherGone:!document.querySelector('button[aria-label="Chat with Keily"]')}));
+              console.log('OPEN',device.name,JSON.stringify({agent,ui,jotRequests:reqs}));
+              if(!agent?.greeting||!agent.textareas||!ui.panelOpen||!ui.launcherGone)throw new Error('Keily chat did not open '+device.name);
+              await page.click('button[aria-label="Close Keily chat"]');
+              const back=!!await page.$('button[aria-label="Chat with Keily"]');
+              console.log('CLOSE',device.name,'launcherReturned',back);
+              if(!back)throw new Error('Keily launcher did not return');
+              await page.close();
+              console.log('PASS',device.name);
+            }
+            await browser.close();
+            console.log('PR45 LIVE KEILY VERIFICATION PASS');
+          })().catch(err=>{console.error('TEST_FAILURE',err.stack||String(err));process.exitCode=1});
+          JS
