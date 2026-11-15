@@ -1,0 +1,39 @@
+name: One-time production accessibility audit diagnosis
+
+on:
+  push:
+    branches: [audit/a11y-lighthouse-diagnosis-20261114]
+
+permissions:
+  contents: read
+
+jobs:
+  inspect:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 9
+    steps:
+      - name: Install Lighthouse
+        shell: bash
+        run: |
+          npm install -g lighthouse@13
+          lighthouse --version
+      - name: Inspect desktop homepage and mobile consultation accessibility
+        shell: bash
+        run: |
+          set -u
+          timeout 125s lighthouse https://dietzbookkeeping.com/ --preset=desktop --chrome-flags="--headless=new --no-sandbox --disable-dev-shm-usage" --only-categories=accessibility --throttling-method=simulate --output=json --output-path=/tmp/desktop-home.json --quiet
+          timeout 125s lighthouse https://dietzbookkeeping.com/schedule/ --chrome-flags="--headless=new --no-sandbox --disable-dev-shm-usage" --only-categories=accessibility --throttling-method=simulate --output=json --output-path=/tmp/mobile-schedule.json --quiet
+          python3 - <<'PY'
+          import json
+          for path in ['/tmp/desktop-home.json','/tmp/mobile-schedule.json']:
+            d=json.load(open(path))
+            print('REPORT',path,'LH_VERSION',d.get('lighthouseVersion'),'score',d['categories']['accessibility']['score'])
+            for ref in d['categories']['accessibility']['auditRefs']:
+              a=d['audits'].get(ref['id'],{})
+              if a.get('score') is not None and a.get('score')<1:
+                print('FAILED',ref['id'],'score',a['score'],'title',a.get('title'))
+                for item in a.get('details',{}).get('items',[])[:12]:
+                  n=item.get('node',{})
+                  print('ELEMENT',ref['id'],'selector',n.get('selector'),'snippet',n.get('snippet'),'explanation',n.get('explanation'),'frame',n.get('path'))
+                  print('ITEM_DETAILS',json.dumps({k:v for k,v in item.items() if k not in ('node','subItems')},ensure_ascii=False)[:950])
+          PY
