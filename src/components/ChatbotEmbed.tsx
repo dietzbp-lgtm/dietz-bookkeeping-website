@@ -83,8 +83,8 @@ export default function ChatbotEmbed() {
         </section>
       )}
 
-      {/* Keep the launcher compact. Once chat opens, only the top-right
-          close button remains, giving Jotform the full vertical space. */}
+      {/* Mobile: 48px circular icon. Larger screens: labelled Keily pill.
+          The real Jotform chat still opens on the first tap. */}
       {!open && (
         <button
           type="button"
@@ -92,12 +92,12 @@ export default function ChatbotEmbed() {
           aria-expanded={false}
           aria-controls={everOpened ? panelId : undefined}
           aria-label="Chat with Keily"
-          className="group flex min-h-12 items-center gap-2 rounded-full bg-blue-600 px-3 py-2 text-white shadow-[0_9px_35px_rgba(37,99,235,0.32)] transition-colors hover:bg-blue-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-blue-600"
+          className="group flex h-12 w-12 items-center justify-center rounded-full bg-blue-600 p-0 text-white shadow-[0_9px_35px_rgba(37,99,235,0.32)] transition-colors hover:bg-blue-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-blue-600 sm:h-auto sm:min-h-12 sm:w-auto sm:gap-2 sm:px-3 sm:py-2"
         >
-          <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-white/20" aria-hidden="true">
+          <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-white/20 sm:h-7 sm:w-7" aria-hidden="true">
             <MessageCircle className="h-4 w-4" />
           </span>
-          <span className="text-sm font-semibold">Keily</span>
+          <span className="hidden text-sm font-semibold sm:inline">Keily</span>
         </button>
       )}
     </aside>
