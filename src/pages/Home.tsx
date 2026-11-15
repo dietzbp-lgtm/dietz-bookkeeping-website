@@ -180,7 +180,7 @@ export default function Home() {
           <div className="grid md:grid-cols-3 gap-5">
             {googleQuickBooksReviews.map(review => (
               <article key={review.name} className="flex flex-col rounded-2xl border border-slate-200 bg-white p-6 sm:p-7 shadow-sm">
-                <div className="flex gap-1 text-yellow-500 mb-5" aria-label="Rated 5 out of 5 stars on Google">
+                <div role="img" className="flex gap-1 text-yellow-500 mb-5" aria-label="Rated 5 out of 5 stars on Google">
                   {[...Array(5)].map((_, i) => <Star key={i} aria-hidden="true" className="w-5 h-5 fill-current" />)}
                 </div>
                 <h3 className="text-xl font-bold text-slate-900">{review.focus}</h3>
