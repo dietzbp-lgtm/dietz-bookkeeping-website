@@ -76,6 +76,16 @@ export default function QuickBooksOnlineBookkeeping() {
             <Link to="/tampa-cleanup-bookkeeping/" className="underline underline-offset-4">Explore catch-up and cleanup</Link>
             <Link to="/resources/" className="underline underline-offset-4">See bookkeeping resources</Link>
           </div>
+          <aside className="mt-8 rounded-2xl border border-blue-100 bg-blue-50 p-6 sm:p-7" aria-labelledby="quickbooks-service-businesses">
+            <h3 id="quickbooks-service-businesses" className="text-xl font-bold text-slate-900 mb-3">QuickBooks questions for cleaning and contracting businesses</h3>
+            <p className="text-slate-700 leading-relaxed mb-4">
+              Cleaning businesses may need to compare recurring customer payments and card processing fees with their records. Contractors and handymen may need to review job-related purchases, customer deposits and vendor bills. We discuss the available statements and invoices before deciding what belongs in each account.
+            </p>
+            <div className="flex flex-wrap gap-x-8 gap-y-3 text-sm font-semibold text-blue-700">
+              <Link to="/bookkeeping-for-cleaning-businesses/" className="underline underline-offset-4">Bookkeeping for cleaning businesses</Link>
+              <Link to="/bookkeeping-for-contractors/" className="underline underline-offset-4">Bookkeeping for contractors and handymen</Link>
+            </div>
+          </aside>
         </div>
       </section>
 
