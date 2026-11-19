@@ -222,13 +222,13 @@ function ProfitLossSummary({ showQuestions }: { showQuestions: boolean }) {
 export default function MonthlyBooksIllustration() {
   const [stage, setStage] = useState(0);
   const [manualMode, setManualMode] = useState(false);
-  const sectionRef = useRef<HTMLElement | null>(null);
+  const boardRef = useRef<HTMLDivElement | null>(null);
 
   // Cycle only while visible and the browser tab is active; clicking any step
   // permanently switches this visit to manual control. Do not autoplay for
   // reduced-motion users, and always clean up intervals and observers.
   useEffect(() => {
-    const element = sectionRef.current;
+    const element = boardRef.current;
     if (!element || manualMode || !('IntersectionObserver' in window)) return;
     const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
     if (reducedMotion.matches) return;
@@ -269,7 +269,7 @@ export default function MonthlyBooksIllustration() {
   };
 
   return (
-    <section ref={sectionRef} className="bg-[#f3f5fa] py-16 sm:py-20" aria-labelledby="bookkeeping-demo-title">
+    <section className="bg-[#f3f5fa] py-16 sm:py-20" aria-labelledby="bookkeeping-demo-title">
       <div className="mx-auto grid max-w-7xl items-center gap-10 px-5 sm:px-8 lg:grid-cols-[0.78fr_1.22fr] lg:gap-12">
         <div className="max-w-xl">
           <p className="mb-4 text-sm font-bold uppercase tracking-[0.13em] text-blue-700">
@@ -335,7 +335,7 @@ export default function MonthlyBooksIllustration() {
           </p>
         </div>
 
-        <div id="bookkeeping-demo-board" className="overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-[0_18px_45px_-16px_rgba(15,23,42,0.24)]">
+        <div id="bookkeeping-demo-board" ref={boardRef} className="overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-[0_18px_45px_-16px_rgba(15,23,42,0.24)]">
           <div className="flex flex-wrap items-center justify-between gap-2 border-b border-slate-200 px-5 py-4 sm:px-7">
             <div className="flex items-center gap-3 text-slate-900">
               <span className="inline-flex h-8 w-8 items-center justify-center rounded-xl bg-blue-50 text-blue-700">
