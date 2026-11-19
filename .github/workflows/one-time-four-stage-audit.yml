@@ -1,0 +1,139 @@
+name: One-time PR48 four-stage walkthrough verification
+on:
+  push:
+    branches: [audit/pr48-four-stage-20261118]
+permissions:
+  contents: read
+jobs:
+  smoke:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - name: Install browser and Lighthouse
+        run: npm install -g puppeteer-core@24 lighthouse@13
+      - name: Verify unchanged SEO and four states in rendered HTML
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          import urllib.request,re,html,time
+          root='https://preview-bookkeeping-visual-s.dietz-bookkeeping-website.pages.dev'
+          def get(url):
+            request=urllib.request.Request(url,headers={'User-Agent':'Mozilla/5.0'})
+            with urllib.request.urlopen(request,timeout=25) as res:
+              return res.status,dict(res.headers),res.read().decode('utf-8','replace')
+          for i in range(24):
+            status,headers,source=get(root+'/')
+            if 'From daily transactions to clearer decisions.' in source: break
+            print('PREVIEW_WAIT',i)
+            time.sleep(5)
+          else: raise AssertionError('New four-stage preview not deployed')
+          prod_status,prod_headers,prod=get('https://dietzbookkeeping.com/')
+          def tagged(source,pat):
+            match=re.search(pat,source,re.I|re.S)
+            assert match,pat+' missing'
+            return html.unescape(match.group(1))
+          for pattern in [r'<title>(.*?)</title>',r'<meta name="description" content="([^"]*)"',r'<link rel="canonical" href="([^"]*)"',r'<meta property="og:title" content="([^"]*)"']:
+            assert tagged(source,pattern)==tagged(prod,pattern),'Production SEO metadata changed '+pattern
+          assert 'From daily transactions to clearer decisions.' in source
+          assert 'Bookkeeping, illustrated' in source
+          assert 'Reliable bookkeeping' in source and 'Clean financials' in source and 'Better decisions' in source
+          assert 'Fictional unsorted bookkeeping transactions' in source or 'Individual deposits, expenses and purchases before review' in source
+          assert 'not a' in source and 'customer file' in source
+          assert 'https://dietzbookkeeping.com/' in tagged(source,r'<link rel="canonical" href="([^"]*)"')
+          assert 'noindex' not in prod_headers.get('X-Robots-Tag','').lower()
+          sitemap_status,sitemap_headers,sitemap=get(root+'/sitemap.xml')
+          assert sitemap_status==200 and sitemap.count('<loc>')==27,'Sitemap changed'
+          print('SEO_PRERENDER_AND_SITEMAP_PASS',status,sitemap_status,sitemap.count('<loc>'))
+          PY
+      - name: Test full loop and user takeover in a real browser
+        shell: bash
+        run: |
+          set -o pipefail
+          timeout --signal=TERM --kill-after=5s 150s env NODE_PATH="$(npm root -g)" node <<'JS'
+          const puppeteer=require('puppeteer-core');
+          const sleep=ms=>new Promise(r=>setTimeout(r,ms));
+          const root='https://preview-bookkeeping-visual-s.dietz-bookkeeping-website.pages.dev/';
+          (async()=>{
+            const browser=await puppeteer.launch({headless:true,executablePath:'/usr/bin/google-chrome',args:['--no-sandbox','--disable-dev-shm-usage']});
+            try{
+              const page=await browser.newPage();
+              const errors=[];
+              page.on('pageerror',e=>errors.push(e.message));
+              await page.setViewport({width:390,height:844,isMobile:true,hasTouch:true,deviceScaleFactor:1});
+              const response=await page.goto(root,{waitUntil:'domcontentloaded',timeout:25000});
+              await page.waitForSelector('#bookkeeping-demo-board',{timeout:16000});
+              const state=async()=>page.evaluate(()=>({
+                board:document.querySelector('#bookkeeping-demo-board')?.textContent||'',
+                active:document.querySelectorAll('button[aria-pressed="true"][aria-controls="bookkeeping-demo-board"]').length,
+                pressed:[...document.querySelectorAll('button[aria-controls="bookkeeping-demo-board"]')].findIndex(b=>b.getAttribute('aria-pressed')==='true'),
+                over:document.documentElement.scrollWidth-innerWidth,
+                height:Math.round(document.querySelector('#bookkeeping-demo-board').getBoundingClientRect().height),
+              }));
+              await sleep(5150);
+              console.log('OFFSCREEN_INITIAL',JSON.stringify(await state()));
+              if((await state()).pressed!==0)throw Error('Loop started before board visible');
+              await page.$eval('#bookkeeping-demo-board',x=>x.scrollIntoView({block:'center'}));
+              const seen=[];
+              seen.push((await state()).pressed);
+              for(let n=1;n<=4;n++){
+                await sleep(5300);
+                const s=await state();
+                seen.push(s.pressed);
+                console.log('AUTOMATIC_STEP',n,JSON.stringify({pressed:s.pressed,height:s.height,over:s.over,hasQuestions:s.board.includes('Three questions worth exploring'),hasNet:s.board.includes('$7,000')}));
+                if(s.pressed!==n%4||s.over>1)throw Error('Loop step mismatch '+n+' got '+s.pressed);
+                if(n===1&&!s.board.includes('Transactions brought into focus'))throw Error('Grouped view missing');
+                if(n===2&&(!s.board.includes('A Profit and Loss snapshot')||!s.board.includes('$7,000')))throw Error('P&L missing');
+                if(n===3&&(!s.board.includes('Three questions worth exploring')||!s.board.includes('What would you ask next?')))throw Error('Decision questions missing');
+              }
+              console.log('LOOP_SEQUENCE',JSON.stringify(seen));
+              await page.click('button[aria-controls="bookkeeping-demo-board"]:nth-of-type(1)').catch(()=>null);
+              const target=await page.$$('button[aria-controls="bookkeeping-demo-board"]');
+              await target[3].click();
+              await sleep(10800);
+              const manual=await state();
+              console.log('MANUAL_TAKEOVER',JSON.stringify({pressed:manual.pressed,text:manual.board.slice(0,110)}));
+              if(manual.pressed!==3||!manual.board.includes('Three questions worth exploring'))throw Error('Manual takeover failed');
+              await target[1].click();
+              if((await state()).pressed!==1)throw Error('Manual switching failed');
+              console.log('MANUAL_SWITCH_PASS');
+              // Reduced-motion users get a static initial view and working buttons.
+              const reduced=await browser.newPage();
+              await reduced.setViewport({width:390,height:844,isMobile:true,hasTouch:true});
+              await reduced.emulateMediaFeatures([{name:'prefers-reduced-motion',value:'reduce'}]);
+              await reduced.goto(root,{waitUntil:'domcontentloaded',timeout:25000});
+              await reduced.$eval('#bookkeeping-demo-board',x=>x.scrollIntoView({block:'center'}));
+              await sleep(5400);
+              const motion=await reduced.evaluate(()=>({
+                pressed:[...document.querySelectorAll('button[aria-controls="bookkeeping-demo-board"]')].findIndex(b=>b.getAttribute('aria-pressed')==='true'),
+                animation:getComputedStyle(document.querySelector('.db-example-slip')).animationName
+              }));
+              console.log('REDUCED_MOTION',JSON.stringify(motion));
+              if(motion.pressed!==0||motion.animation!=='none')throw Error('Reduced motion ignored');
+              await reduced.$$('button[aria-controls="bookkeeping-demo-board"]').then(async buttons=>buttons[2].click());
+              const reducedManual=await reduced.evaluate(()=>document.querySelector('#bookkeeping-demo-board').textContent.includes('A Profit and Loss snapshot'));
+              if(!reducedManual)throw Error('Reduced-motion manual button not usable');
+              console.log('REDUCED_MOTION_BUTTON_PASS');
+              // Desktop layout must not overflow horizontally.
+              await page.setViewport({width:1440,height:900,isMobile:false,hasTouch:false});
+              await page.reload({waitUntil:'domcontentloaded',timeout:25000});
+              const wide=await page.evaluate(()=>({scroll:document.documentElement.scrollWidth-innerWidth,board:Math.round(document.querySelector('#bookkeeping-demo-board').getBoundingClientRect().width)}));
+              console.log('DESKTOP_LAYOUT',JSON.stringify(wide),'JS_ERRORS',JSON.stringify(errors));
+              if(wide.scroll>1||errors.length)throw Error('Desktop or JS regression');
+              console.log('FOUR_STAGE_INTERACTION_PASS');
+            } finally{await browser.close();}
+          })().catch(e=>{console.error('SMOKE_FAIL',e.stack||e);process.exitCode=1});
+          JS
+      - name: Check mobile Lighthouse metrics
+        shell: bash
+        run: |
+          timeout 90s lighthouse https://preview-bookkeeping-visual-s.dietz-bookkeeping-website.pages.dev/ --chrome-flags="--headless=new --no-sandbox --disable-dev-shm-usage" --only-categories=performance,accessibility,seo,best-practices --output=json --output-path=/tmp/pr48.json --quiet
+          python3 - <<'PY'
+          import json
+          d=json.load(open('/tmp/pr48.json'))
+          scores={k:round(v['score']*100) for k,v in d['categories'].items()}
+          errs={k:[x['id'] for x in d['categories'][k]['auditRefs'] if d['audits'][x['id']].get('score') is not None and d['audits'][x['id']]['score']<1] for k in ['seo','accessibility']}
+          print('MOBILE_LIGHTHOUSE',scores,errs)
+          assert scores['accessibility']>=95 and scores['best-practices']>=95,'A11y or best practice issues'
+          assert set(errs['seo'])<={'is-crawlable'},'SEO regression other than expected preview noindex'
+          print('SEO_ACCESSIBILITY_PASS')
+          PY
