@@ -1,0 +1,96 @@
+name: PR48 measured baseline and interaction
+on:
+  push:
+    branches: [audit/pr48-relative-performance-20261118]
+permissions:
+  contents: read
+jobs:
+  comparison:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 9
+    steps:
+      - name: Install Lighthouse
+        run: npm install -g lighthouse@13
+      - name: Compare live production versus PR48 preview mobile on same runner
+        shell: bash
+        run: |
+          set -euo pipefail
+          for round in 1 2; do
+            for which in prod preview; do
+              if [ "$which" = prod ]; then url='https://dietzbookkeeping.com/'; else url='https://80e1ca99.dietz-bookkeeping-website.pages.dev/'; fi
+              timeout 90s lighthouse "$url" --chrome-flags="--headless=new --no-sandbox --disable-dev-shm-usage" --only-categories=performance,accessibility,seo,best-practices --output=json --output-path="/tmp/$which$round.json" --quiet
+            done
+          done
+          python3 - <<'PY'
+          import json,statistics
+          scores={}
+          for which in ['prod','preview']:
+            data=[json.load(open('/tmp/'+which+str(i)+'.json')) for i in [1,2]]
+            scores[which]={k:[round(x['categories'][k]['score']*100) for x in data] for k in ['performance','accessibility','best-practices','seo']}
+            for i,x in enumerate(data):
+              f=[a['id'] for a in x['categories']['seo']['auditRefs'] if x['audits'][a['id']].get('score') is not None and x['audits'][a['id']]['score']<1]
+              print('SEO_ERRORS',which,i+1,f)
+            print('MOBILE_SCORES',which,scores[which])
+          delta=statistics.mean(scores['prod']['performance'])-statistics.mean(scores['preview']['performance'])
+          print('PERFORMANCE_MEAN_DELTA',delta)
+          assert min(scores['preview']['accessibility'])>=95
+          assert min(scores['preview']['best-practices'])>=95
+          assert delta<=12,'Visual section may be causing material mobile performance regression; investigate'
+          print('COMPARATIVE_AUDIT_PASS')
+          PY
+  interaction:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - name: Install Puppeteer
+        run: npm install -g puppeteer-core@24
+      - name: Test visual states and responsive layout
+        shell: bash
+        run: |
+          set -o pipefail
+          timeout --kill-after=5s 100s env NODE_PATH="$(npm root -g)" node <<'JS'
+          const puppeteer=require('puppeteer-core');
+          (async()=>{
+            let browser;
+            try{
+              browser=await puppeteer.launch({headless:true,executablePath:'/usr/bin/google-chrome',args:['--no-sandbox','--disable-dev-shm-usage']});
+              const page=await browser.newPage();
+              page.setDefaultTimeout(13000);
+              const failures=[];
+              page.on('pageerror',e=>failures.push(e.message));
+              for(const width of [360,390,1440]){
+                await page.setViewport({width,height:800,isMobile:width<500,hasTouch:width<500});
+                const response=await page.goto('https://80e1ca99.dietz-bookkeeping-website.pages.dev/',{waitUntil:'domcontentloaded',timeout:18000});
+                await new Promise(resolve=>setTimeout(resolve,1500));
+                const initial=await page.evaluate(()=>({
+                  overflow:document.documentElement.scrollWidth-window.innerWidth,
+                  count:document.querySelectorAll('.db-example-slip').length,
+                  label:document.querySelector('#bookkeeping-demo-board')?.textContent?.includes('This month, as it arrives'),
+                  buttons:document.querySelectorAll('button[aria-controls="bookkeeping-demo-board"]').length,
+                  boardWidth:document.querySelector('#bookkeeping-demo-board')?.getBoundingClientRect()?.width,
+                }));
+                console.log('VISUAL_INITIAL',width,JSON.stringify(initial));
+                if(response.status()!==200||initial.count!==12||!initial.label||initial.buttons!==2||initial.overflow>2)throw Error('Initial visual failed at '+width);
+                const buttons=await page.$$('button[aria-controls="bookkeeping-demo-board"]');
+                await buttons[1].click();
+                await page.waitForFunction(()=>document.querySelector('#bookkeeping-demo-board')?.textContent?.includes('A clearer monthly picture'),{timeout:9000});
+                const after=await page.evaluate(()=>({
+                  income:document.querySelectorAll('.db-example-group--income li').length,
+                  costs:document.querySelectorAll('.db-example-group--costs li').length,
+                  expenses:document.querySelectorAll('.db-example-group--expenses li').length,
+                  net:document.querySelector('#bookkeeping-demo-board').textContent.includes('$7,000'),
+                  overflow:document.documentElement.scrollWidth-window.innerWidth,
+                }));
+                console.log('VISUAL_SORTED',width,JSON.stringify(after));
+                if(after.income!==8||after.costs!==3||after.expenses!==7||!after.net||after.overflow>2)throw Error('Organized visual failed at '+width);
+                await buttons[0].click();
+                await page.waitForFunction(()=>document.querySelectorAll('.db-example-slip').length===12,{timeout:9000});
+              }
+              await page.emulateMediaFeatures([{name:'prefers-reduced-motion',value:'reduce'}]);
+              const motion=await page.evaluate(()=>getComputedStyle(document.querySelector('.db-example-slip')).animationName);
+              console.log('MOTION',motion,'PAGE_ERRORS',JSON.stringify(failures));
+              if(motion!=='none'||failures.length)throw Error('Motion or JS error regression');
+              console.log('VISUAL_INTERACTION_PASS');
+            } finally{if(browser)await browser.close()}
+          })().catch(e=>{console.error('INTERACTION_TEST_FAILED',e.stack||e);process.exitCode=1});
+          JS
