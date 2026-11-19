@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowRight, CheckCircle2, Layers3, ReceiptText } from 'lucide-react';
 
@@ -74,9 +74,44 @@ const scattered: { id: string; x: number; y: number; rotate: number; delay: numb
 
 export default function MonthlyBooksIllustration() {
   const [organized, setOrganized] = useState(false);
+  const [userSelected, setUserSelected] = useState(false);
+  const sectionRef = useRef<HTMLElement | null>(null);
+
+  // Tell the story once, after it becomes visible. Never override a visitor's
+  // own selection, play offscreen, or autoplay for reduced-motion preferences.
+  useEffect(() => {
+    const section = sectionRef.current;
+    if (!section || userSelected || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+    let timer: number | null = null;
+    const observer = new IntersectionObserver(([entry]) => {
+      if (entry.isIntersecting && timer === null) {
+        timer = window.setTimeout(() => {
+          setOrganized(true);
+          timer = null;
+          observer.disconnect();
+        }, 4000);
+      } else if (!entry.isIntersecting && timer !== null) {
+        window.clearTimeout(timer);
+        timer = null;
+      }
+    }, { threshold: 0.25 });
+
+    observer.observe(section);
+
+    return () => {
+      observer.disconnect();
+      if (timer !== null) window.clearTimeout(timer);
+    };
+  }, [userSelected]);
+
+  const chooseView = (nextOrganized: boolean) => {
+    setUserSelected(true);
+    setOrganized(nextOrganized);
+  };
 
   return (
-    <section className="bg-[#f3f5fa] py-16 sm:py-20" aria-labelledby="bookkeeping-demo-title">
+    <section ref={sectionRef} className="bg-[#f3f5fa] py-16 sm:py-20" aria-labelledby="bookkeeping-demo-title">
       <div className="mx-auto grid max-w-7xl gap-10 px-5 sm:px-8 lg:grid-cols-[0.78fr_1.22fr] lg:items-center lg:gap-12">
         <div className="max-w-xl">
           <p className="mb-4 text-sm font-bold uppercase tracking-[0.16em] text-blue-700">
@@ -102,13 +137,13 @@ export default function MonthlyBooksIllustration() {
               </li>
             ))}
           </ul>
-          <p className="mb-4 text-sm font-semibold text-slate-800">Explore the illustrative example:</p>
+          <p className="mb-4 text-sm font-semibold text-slate-800">Watch the example organize itself, or choose a view:</p>
           <div className="flex flex-wrap gap-3" role="group" aria-label="Choose a bookkeeping example view">
             <button
               type="button"
               aria-pressed={!organized}
               aria-controls="bookkeeping-demo-board"
-              onClick={() => setOrganized(false)}
+              onClick={() => chooseView(false)}
               className={[
                 'inline-flex items-center gap-2 rounded-full border px-5 py-3 text-sm font-bold transition-colors',
                 'focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-700',
@@ -122,7 +157,7 @@ export default function MonthlyBooksIllustration() {
               type="button"
               aria-pressed={organized}
               aria-controls="bookkeeping-demo-board"
-              onClick={() => setOrganized(true)}
+              onClick={() => chooseView(true)}
               className={[
                 'inline-flex items-center gap-2 rounded-full border px-5 py-3 text-sm font-bold transition-colors',
                 'focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-700',
