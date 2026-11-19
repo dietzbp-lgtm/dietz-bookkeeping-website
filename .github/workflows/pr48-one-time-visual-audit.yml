@@ -1,0 +1,127 @@
+name: One-time PR48 visual and SEO audit
+on:
+  push:
+    branches: [audit/pr48-visual-seo-test-20261118]
+permissions:
+  contents: read
+jobs:
+  inspect:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 12
+    steps:
+      - name: Install Lighthouse and Puppeteer
+        run: npm install -g lighthouse@13 puppeteer-core@24
+      - name: Verify prerendered homepage and existing SEO
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          import urllib.request,re,html
+          preview='https://80e1ca99.dietz-bookkeeping-website.pages.dev/'
+          production='https://dietzbookkeeping.com/'
+          def fetch(url):
+            req=urllib.request.Request(url,headers={'User-Agent':'Mozilla/5.0'})
+            with urllib.request.urlopen(req,timeout=25) as r:
+              return r.status,r.headers,r.read().decode('utf-8','replace')
+          p_status,p_headers,p_html=fetch(preview)
+          live_status,live_headers,live_html=fetch(production)
+          for desc,source in [('preview',p_html),('production',live_html)]:
+            title=re.search(r'<title>(.*?)</title>',source,re.I|re.S)
+            canonical=re.search(r'<link rel="canonical"[^>]*>',source,re.I)
+            meta=re.search(r'<meta name="description"[^>]*>',source,re.I)
+            print(desc,'title=',title.group(1) if title else None,'canonical=',canonical.group(0) if canonical else None)
+            assert title and canonical and meta,'Missing existing SEO on '+desc
+            if desc=='preview':
+              assert 'One month of business, made clearer.' in source,'Illustration section is not pre-rendered'
+              assert 'Fictional numbers for illustration only' in source,'Missing fictional-data disclosure'
+              assert 'This month, as it arrives' in source,'Missing default board'
+              assert 'https://dietzbookkeeping.com/' in canonical.group(0),'Wrong canonical'
+          def extract_title(s):
+            return html.unescape(re.search(r'<title>(.*?)</title>',s,re.I|re.S).group(1))
+          def extract_description(s):
+            return html.unescape(re.search(r'<meta name="description" content="([^"]*)"',s,re.I).group(1))
+          assert extract_title(p_html)==extract_title(live_html),'Existing homepage title changed'
+          assert extract_description(p_html)==extract_description(live_html),'Existing homepage description changed'
+          print('PR48 SEO_HTML_PASS existing title/description unchanged, default section prerendered, canonical correct')
+          status,headers,sitemap=fetch('https://80e1ca99.dietz-bookkeeping-website.pages.dev/sitemap.xml')
+          assert status==200 and sitemap.count('<loc>')==27,'Sitemap count changed'
+          print('SITEMAP_ENTRIES',sitemap.count('<loc>'))
+          PY
+      - name: Audit interaction, responsive widths and reduced motion
+        shell: bash
+        run: |
+          NODE_PATH="$(npm root -g)" node <<'JS'
+          const p=require('puppeteer-core');
+          const root='https://80e1ca99.dietz-bookkeeping-website.pages.dev/';
+          (async()=>{
+            const browser=await p.launch({headless:true,executablePath:'/usr/bin/google-chrome',args:['--no-sandbox','--disable-dev-shm-usage']});
+            const page=await browser.newPage();
+            const errors=[];
+            page.on('pageerror', e => errors.push(e.message));
+            for(const width of [360,390,768,1440]){
+              await page.setViewport({width,height:900,deviceScaleFactor:1,isMobile:width<=390,hasTouch:width<=390});
+              const response=await page.goto(root,{waitUntil:'load',timeout:30000});
+              await page.waitForSelector('#bookkeeping-demo-board');
+              const info=await page.evaluate(()=>{
+                const board=document.getElementById('bookkeeping-demo-board');
+                const hero=document.querySelector('h1');
+                const r=board.getBoundingClientRect();
+                return {
+                  title:document.title,
+                  hero:hero?.textContent?.slice(0,80),
+                  horizontalOverflow:document.documentElement.scrollWidth-innerWidth,
+                  visualBoardWidth:Math.round(r.width),
+                  visualBoardHeight:Math.round(r.height),
+                  before:!!board?.textContent?.includes('This month, as it arrives'),
+                  slips:document.querySelectorAll('.db-example-slip').length,
+                  buttonCount:document.querySelectorAll('button[aria-controls="bookkeeping-demo-board"]').length,
+                };
+              });
+              console.log('MOBILE_DESKTOP_VIEWPORT',width,JSON.stringify(info));
+              if(response.status()!==200 || !info.before || info.slips!==12 || info.buttonCount!==2 || info.horizontalOverflow>1 || !info.hero)throw Error('Viewport regression at '+width);
+              const buttons=await page.$$('button[aria-controls="bookkeeping-demo-board"]');
+              await buttons[1].click();
+              const organized=await page.evaluate(()=>{
+                const board=document.getElementById('bookkeeping-demo-board');
+                return {
+                  after:board?.textContent?.includes('A clearer monthly picture'),
+                  organizedPressed:document.querySelectorAll('button[aria-pressed="true"]').length,
+                  income:document.querySelectorAll('.db-example-group--income li').length,
+                  costs:document.querySelectorAll('.db-example-group--costs li').length,
+                  expenses:document.querySelectorAll('.db-example-group--expenses li').length,
+                  netText:board?.textContent?.includes('$7,000'),
+                  horizontalOverflow:document.documentElement.scrollWidth-innerWidth
+                }
+              });
+              console.log('ORGANIZED_VIEW',width,JSON.stringify(organized));
+              if(!organized.after || organized.income!==8||organized.costs!==3||organized.expenses!==7||!organized.netText||organized.horizontalOverflow>1)throw Error('Organized view regression at '+width);
+              const again=await page.$$('button[aria-controls="bookkeeping-demo-board"]');
+              await again[0].click();
+              if(await page.$$('.db-example-slip').then(x=>x.length)!==12)throw Error('Cannot reset state');
+            }
+            await page.emulateMediaFeatures([{name:'prefers-reduced-motion',value:'reduce'}]);
+            const motion=await page.evaluate(()=>getComputedStyle(document.querySelector('.db-example-slip')).animationName);
+            console.log('REDUCED_MOTION',motion);
+            if(motion!=='none')throw Error('Reduced-motion control failed');
+            console.log('PAGE_ERRORS',JSON.stringify(errors));
+            if(errors.length)throw Error('Page JavaScript errors');
+            await browser.close();
+            console.log('PR48 RESPONSIVE_AND_INTERACTION_PASS');
+          })().catch(e=>{console.error('AUDIT_FAIL',e.stack||e);process.exitCode=1});
+          JS
+      - name: Lighthouse homepage on mobile
+        shell: bash
+        run: |
+          lighthouse https://80e1ca99.dietz-bookkeeping-website.pages.dev/ --chrome-flags="--headless=new --no-sandbox --disable-dev-shm-usage" --only-categories=performance,accessibility,best-practices,seo --output=json --output-path=/tmp/pr48.json --quiet
+          python3 - <<'PY'
+          import json
+          d=json.load(open('/tmp/pr48.json'))
+          scores={key:round(v['score']*100) for key,v in d['categories'].items()}
+          failures={key:[ref['id'] for ref in d['categories'][key]['auditRefs'] if d['audits'][ref['id']].get('score') is not None and d['audits'][ref['id']]['score']<1] for key in ['seo','accessibility']}
+          print('PR48_LIGHTHOUSE_SCORES',scores,'FAILURES',failures)
+          assert scores['performance']>=80,'Unexpected homepage performance regression'
+          assert scores['accessibility']>=95,'Accessibility regression'
+          assert scores['best-practices']>=95,'Best practices regression'
+          assert set(failures['seo'])<=set(['is-crawlable']),'Unexpected SEO audit failure'
+          assert scores['seo']==100 or ('is-crawlable' in failures['seo'] and scores['seo']>=65),'Unexpected SEO score'
+          print('PR48_LIGHTHOUSE_AUDIT_PASS')
+          PY
