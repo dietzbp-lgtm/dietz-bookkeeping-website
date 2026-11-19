@@ -327,8 +327,8 @@ export default function MonthlyBooksIllustration() {
           </div>
 
           <p className="mt-5 text-sm leading-relaxed text-slate-600">
-            Made-up numbers from an imaginary service business. This is an illustration, not a
-            customer file, audited report or promise of results. For more detail, see our{' '}
+            This example uses fictional financial data to show how organized bookkeeping
+            helps you better understand your business finances. Learn more in our{' '}
             <Link to="/quickbooks-profit-and-loss-report/" className="font-semibold text-blue-700 underline underline-offset-4 hover:text-blue-800">
               Profit and Loss guide
             </Link>.
