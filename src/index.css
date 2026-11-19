@@ -52,8 +52,15 @@ body {
   opacity: 0.32;
 }
 
-.db-example-scatter {
-  min-height: 410px;
+.db-example-scatter,
+.db-example-stage {
+  height: 440px;
+}
+
+/* Preserve the illustration's height as the four steps cycle, including mobile.
+   Organized rows remain scrollable within the card on narrow screens. */
+.db-example-stage {
+  overscroll-behavior: contain;
 }
 
 .db-example-slip {
