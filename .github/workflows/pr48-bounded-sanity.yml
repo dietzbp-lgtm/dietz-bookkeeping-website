@@ -1,0 +1,86 @@
+name: PR48 bounded mobile and Lighthouse verification
+on:
+  push:
+    branches: [audit/pr48-bounded-visual-check-20261118]
+permissions:
+  contents: read
+jobs:
+  check:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 8
+    steps:
+      - name: Install tooling
+        run: npm install -g lighthouse@13 puppeteer-core@24
+      - name: Mobile and desktop Lighthouse
+        shell: bash
+        run: |
+          set -euo pipefail
+          timeout 110s lighthouse https://80e1ca99.dietz-bookkeeping-website.pages.dev/ --chrome-flags="--headless=new --no-sandbox --disable-dev-shm-usage" --only-categories=performance,accessibility,seo,best-practices --output=json --output-path=/tmp/pr48-lh.json --quiet
+          python3 - <<'PY'
+          import json
+          d=json.load(open('/tmp/pr48-lh.json'))
+          score={k:round(v['score']*100) for k,v in d['categories'].items()}
+          errors={k:[x['id'] for x in d['categories'][k]['auditRefs'] if d['audits'][x['id']].get('score') is not None and d['audits'][x['id']]['score']<1] for k in ['accessibility','seo']}
+          print('LH_SCORES',score,'ERRORS',errors)
+          assert score['performance']>=80 and score['accessibility']>=95 and score['best-practices']>=95
+          assert set(errors['seo'])<={'is-crawlable'}
+          print('LIGHTHOUSE_PASS_PREVIEW_NOINDEX_EXPECTED')
+          PY
+      - name: Interactive visual checks with bounded browser
+        shell: bash
+        run: |
+          set -o pipefail
+          timeout --signal=TERM --kill-after=5s 110s env NODE_PATH="$(npm root -g)" node <<'JS'
+          const puppeteer=require('puppeteer-core');
+          const root='https://80e1ca99.dietz-bookkeeping-website.pages.dev/';
+          const sleep=ms=>new Promise(res=>setTimeout(res,ms));
+          (async()=>{
+            const browser=await puppeteer.launch({headless:true,executablePath:'/usr/bin/google-chrome',args:['--no-sandbox','--disable-dev-shm-usage']});
+            try {
+              const page=await browser.newPage();
+              page.setDefaultTimeout(16000);
+              const errors=[];
+              page.on('pageerror',error=>errors.push(error.message));
+              for(const width of [390,1440]) {
+                await page.setViewport({width,height:900,isMobile:width===390,hasTouch:width===390});
+                const response=await page.goto(root,{waitUntil:'domcontentloaded',timeout:16000});
+                await page.waitForSelector('#bookkeeping-demo-board');
+                await sleep(1300);
+                const before=await page.evaluate(()=>{
+                  const board=document.querySelector('#bookkeeping-demo-board');
+                  return {
+                    overflow:document.documentElement.scrollWidth-window.innerWidth,
+                    title:document.title,
+                    slips:document.querySelectorAll('.db-example-slip').length,
+                    heading:!!document.querySelector('#bookkeeping-demo-title'),
+                    before:board.textContent.includes('This month, as it arrives'),
+                  };
+                });
+                console.log('INITIAL',width,JSON.stringify(before));
+                if(response.status()!==200||!before.heading||!before.before||before.slips!==12||before.overflow>2)throw Error('Initial visual regression at '+width);
+                const buttons=await page.$$('button[aria-controls="bookkeeping-demo-board"]');
+                if(buttons.length!==2)throw Error('Expected two buttons');
+                await buttons[1].click({delay:50});
+                await page.waitForFunction(()=>document.querySelector('#bookkeeping-demo-board').textContent.includes('A clearer monthly picture'),{timeout:10000});
+                const sorted=await page.evaluate(()=>({
+                  income:document.querySelectorAll('.db-example-group--income li').length,
+                  costs:document.querySelectorAll('.db-example-group--costs li').length,
+                  expenses:document.querySelectorAll('.db-example-group--expenses li').length,
+                  net:document.querySelector('#bookkeeping-demo-board').textContent.includes('$7,000'),
+                  overflow:document.documentElement.scrollWidth-window.innerWidth,
+                }));
+                console.log('SORTED',width,JSON.stringify(sorted));
+                if(sorted.income!==8||sorted.costs!==3||sorted.expenses!==7||!sorted.net||sorted.overflow>2)throw Error('Sorted visual regression at '+width);
+                await buttons[0].click({delay:50});
+                await page.waitForFunction(()=>document.querySelectorAll('.db-example-slip').length===12,{timeout:10000});
+              }
+              await page.emulateMediaFeatures([{name:'prefers-reduced-motion',value:'reduce'}]);
+              const motion=await page.evaluate(()=>getComputedStyle(document.querySelector('.db-example-slip')).animationName);
+              console.log('REDUCED_MOTION_ANIMATION',motion,'JS_ERRORS',JSON.stringify(errors));
+              if(motion!=='none'||errors.length)throw Error('Accessibility or JavaScript regression');
+              console.log('INTERACTION_RESPONSIVE_PASS');
+            } finally {
+              await browser.close();
+            }
+          })().catch(error=>{console.error('BROWSER_AUDIT_FAILED',error.stack||error);process.exitCode=1});
+          JS
