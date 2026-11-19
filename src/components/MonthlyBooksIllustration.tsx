@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowRight, CheckCircle2, Layers3, ReceiptText } from 'lucide-react';
+import { Layers3, ReceiptText } from 'lucide-react';
 
 /**
  * A small, entirely illustrative bookkeeping story. It is ordinary SSR-friendly
@@ -72,191 +72,288 @@ const scattered: { id: string; x: number; y: number; rotate: number; delay: numb
   { id: 'cost-2', x: 53, y: 84, rotate: 6, delay: 1.4 },
 ];
 
+const storySteps = [
+  {
+    label: 'Reliable bookkeeping',
+    detail: 'First, we organize the activity and compare the agreed accounts with source statements. Anything unclear becomes a question to resolve, not a guess.',
+  },
+  {
+    label: 'Clean financials',
+    detail: 'Next, the records can support a useful Profit and Loss summary showing where income came from and what it cost to earn.',
+  },
+  {
+    label: 'Better decisions',
+    detail: 'Finally, we look beyond the totals. The right questions can help you spot unusual costs and understand changes from one month to the next.',
+  },
+] as const;
+
+const reviewQuestions = [
+  'Which expenses changed most, and what actually caused those changes?',
+  'Were material costs, card fees and customer payments recorded in the right places?',
+  'How do this month’s results compare with previous complete periods?',
+];
+
+const stageTitles = [
+  'The month arrives in pieces',
+  'Transactions brought into focus',
+  'A Profit and Loss snapshot',
+  'What would you ask next?',
+];
+
+const stageSubtitles = [
+  'Example income and expenses',
+  'Organized for further review',
+  'Fictional service-business month',
+  'Questions to discuss with your bookkeeper',
+];
+
+const stageFooters = [
+  'Incoming records need review',
+  'Categories are a starting point—not proof of reconciliation',
+  'Revenue less direct costs and operating expenses',
+  'Turn the numbers into useful conversations',
+];
+
+const formatSignedDollars = (amount: number, isIncome: boolean) =>
+  (isIncome ? '+' : '−') + formatDollars(amount);
+
+function ScatteredEntries() {
+  return (
+    <div className="db-example-scatter relative isolate overflow-hidden bg-[radial-gradient(circle_at_48%_50%,#ffffff_5%,#f6f8fc_80%)]" aria-label="Fictional unsorted bookkeeping transactions">
+      <div className="pointer-events-none absolute inset-0 db-example-dots" aria-hidden="true" />
+      <div className="pointer-events-none absolute left-1/2 top-1/2 h-40 w-40 -translate-x-1/2 -translate-y-1/2 rounded-full bg-blue-100/50 blur-3xl" aria-hidden="true" />
+      {scattered.map((pos) => {
+        const entry = entries.find((item) => item.id === pos.id);
+        if (!entry) return null;
+        return (
+          <div
+            key={pos.id}
+            aria-hidden="true"
+            className={'db-example-slip db-example-slip--' + entry.category}
+            style={{
+              left: pos.x + '%',
+              top: pos.y + '%',
+              transform: 'translate(-50%, -50%) rotate(' + pos.rotate + 'deg)',
+              animationDelay: pos.delay + 's',
+            }}
+          >
+            <span className="truncate">{entry.label}</span>
+            <span className="shrink-0 font-extrabold tabular-nums">{formatSignedDollars(entry.amount, entry.category === 'income')}</span>
+          </div>
+        );
+      })}
+      <p className="absolute bottom-4 left-4 right-4 text-center text-xs font-medium text-slate-500">
+        Individual deposits, expenses and purchases before review
+      </p>
+    </div>
+  );
+}
+
+function OrganizedEntries() {
+  return (
+    <div className="db-example-stage overflow-y-auto p-4 sm:p-6" aria-label="Fictional transaction categories">
+      <div className="grid gap-5 sm:grid-cols-3 sm:gap-3">
+        {sections.map((section) => (
+          <div key={section.category} className={'db-example-group db-example-group--' + section.category}>
+            <h4 className="mb-3 border-b-2 pb-2 text-xs font-extrabold uppercase tracking-[0.04em]">{section.heading}</h4>
+            <ul className="space-y-2">
+              {entries.filter((entry) => entry.category === section.category).map((entry) => (
+                <li key={entry.id} className="flex min-w-0 items-center justify-between gap-2 rounded-lg border border-slate-200 bg-white px-2.5 py-2 text-xs shadow-sm">
+                  <span className="min-w-0 truncate font-medium text-slate-700" title={entry.label}>{entry.label}</span>
+                  <span className="shrink-0 font-extrabold tabular-nums">{formatSignedDollars(entry.amount, section.category === 'income')}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))}
+      </div>
+      <p className="mt-5 rounded-xl bg-blue-50 px-4 py-3 text-xs leading-relaxed text-blue-900">
+        Organized records help identify what belongs in each report. Account balances still need to be checked against statements and unresolved items investigated.
+      </p>
+    </div>
+  );
+}
+
+function ProfitLossSummary({ showQuestions }: { showQuestions: boolean }) {
+  const rows = [
+    { label: 'Income from services', amount: totals.income },
+    { label: 'Direct job costs', amount: -totals.costs },
+    { label: 'Gross profit', amount: totals.income - totals.costs, emphasis: true },
+    { label: 'Operating expenses', amount: -totals.expenses },
+    { label: 'Illustrative net income', amount: netIncome, emphasis: true, total: true },
+  ];
+
+  return (
+    <div className="db-example-stage overflow-y-auto px-4 py-5 sm:px-7 sm:py-7" aria-label={showQuestions ? 'Example profit and loss report with review questions' : 'Example profit and loss report'}>
+      <div className="rounded-xl bg-slate-50 p-3 sm:p-5">
+        <p className="mb-3 text-xs font-bold uppercase tracking-widest text-blue-700">Sample monthly statement</p>
+        <dl className="divide-y divide-slate-200">
+          {rows.map((row) => (
+            <div key={row.label} className={'flex items-center justify-between gap-3 py-3 ' + (row.total ? 'border-t-2 border-slate-400' : '')}>
+              <dt className={(row.emphasis ? 'font-bold text-slate-900 ' : 'font-medium text-slate-700 ') + 'text-sm'}>{row.label}</dt>
+              <dd className={'shrink-0 font-bold tabular-nums ' + (row.total ? 'text-2xl text-blue-700' : 'text-sm text-slate-900')}>
+                {row.amount < 0 ? '(' + formatDollars(-row.amount) + ')' : formatDollars(row.amount)}
+              </dd>
+            </div>
+          ))}
+        </dl>
+      </div>
+      {showQuestions ? (
+        <div className="mt-4">
+          <h4 className="mb-2 text-sm font-bold text-slate-900">Three questions worth exploring</h4>
+          <ul className="space-y-2">
+            {reviewQuestions.map((question) => (
+              <li key={question} className="flex items-start gap-3 rounded-lg border border-blue-100 bg-blue-50 px-3 py-2.5">
+                <span aria-hidden="true" className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-blue-700 text-xs font-bold text-white">?</span>
+                <span className="text-xs leading-relaxed text-slate-800">{question}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      ) : (
+        <p className="mt-4 text-xs leading-relaxed text-slate-500">
+          This example summarizes recorded activity. Real reports depend on complete source records and the accounting method used.
+        </p>
+      )}
+    </div>
+  );
+}
+
 export default function MonthlyBooksIllustration() {
-  const [organized, setOrganized] = useState(false);
-  const [userSelected, setUserSelected] = useState(false);
+  const [stage, setStage] = useState(0);
+  const [manualMode, setManualMode] = useState(false);
   const sectionRef = useRef<HTMLElement | null>(null);
 
-  // Tell the story once, after it becomes visible. Never override a visitor's
-  // own selection, play offscreen, or autoplay for reduced-motion preferences.
+  // Cycle only while visible and the browser tab is active; clicking any step
+  // permanently switches this visit to manual control. Do not autoplay for
+  // reduced-motion users, and always clean up intervals and observers.
   useEffect(() => {
-    const section = sectionRef.current;
-    if (!section || userSelected || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    const element = sectionRef.current;
+    if (!element || manualMode || !('IntersectionObserver' in window)) return;
+    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+    if (reducedMotion.matches) return;
 
-    let timer: number | null = null;
-    const observer = new IntersectionObserver(([entry]) => {
-      if (entry.isIntersecting && timer === null) {
-        timer = window.setTimeout(() => {
-          setOrganized(true);
-          timer = null;
-          observer.disconnect();
-        }, 4000);
-      } else if (!entry.isIntersecting && timer !== null) {
-        window.clearTimeout(timer);
-        timer = null;
+    let inView = false;
+    let cycle: number | undefined;
+
+    const syncCycle = () => {
+      const canPlay = inView && document.visibilityState === 'visible' && !reducedMotion.matches;
+      if (canPlay && cycle === undefined) {
+        cycle = window.setInterval(() => setStage((current) => (current + 1) % 4), 4800);
+      } else if (!canPlay && cycle !== undefined) {
+        window.clearInterval(cycle);
+        cycle = undefined;
       }
-    }, { threshold: 0.25 });
+    };
 
-    observer.observe(section);
+    const observer = new IntersectionObserver(([entry]) => {
+      inView = entry.isIntersecting && entry.intersectionRatio >= 0.25;
+      syncCycle();
+    }, { threshold: [0, 0.25, 0.5] });
+
+    observer.observe(element);
+    document.addEventListener('visibilitychange', syncCycle);
+    reducedMotion.addEventListener('change', syncCycle);
 
     return () => {
       observer.disconnect();
-      if (timer !== null) window.clearTimeout(timer);
+      document.removeEventListener('visibilitychange', syncCycle);
+      reducedMotion.removeEventListener('change', syncCycle);
+      if (cycle !== undefined) window.clearInterval(cycle);
     };
-  }, [userSelected]);
+  }, [manualMode]);
 
-  const chooseView = (nextOrganized: boolean) => {
-    setUserSelected(true);
-    setOrganized(nextOrganized);
+  const selectStage = (next: number) => {
+    setManualMode(true);
+    setStage(next);
   };
 
   return (
     <section ref={sectionRef} className="bg-[#f3f5fa] py-16 sm:py-20" aria-labelledby="bookkeeping-demo-title">
-      <div className="mx-auto grid max-w-7xl gap-10 px-5 sm:px-8 lg:grid-cols-[0.78fr_1.22fr] lg:items-center lg:gap-12">
+      <div className="mx-auto grid max-w-7xl items-center gap-10 px-5 sm:px-8 lg:grid-cols-[0.78fr_1.22fr] lg:gap-12">
         <div className="max-w-xl">
-          <p className="mb-4 text-sm font-bold uppercase tracking-[0.16em] text-blue-700">
-            See what organized books can do
+          <p className="mb-4 text-sm font-bold uppercase tracking-[0.13em] text-blue-700">
+            Bookkeeping, illustrated
           </p>
           <h2 id="bookkeeping-demo-title" className="mb-5 text-4xl font-bold leading-tight tracking-tight text-slate-900 sm:text-5xl">
-            One month of business, made clearer.
+            From daily transactions to clearer decisions.
           </h2>
-          <p className="mb-7 text-lg leading-relaxed text-slate-700">
-            Deposits, purchases and bills can look like a pile of disconnected details.
-            A consistent bookkeeping routine helps organize those records so you can
-            review income, expenses and the questions that still need attention.
+          <p className="mb-6 text-base leading-relaxed text-slate-700 sm:text-lg">
+            A month of business can generate dozens of separate records. See how reviewing
+            them, putting them in context and reading the resulting reports can help you understand your numbers.
           </p>
-          <ul className="mb-7 space-y-3">
-            {[
-              'Understand what each transaction represents',
-              'Compare records with bank and card statements',
-              'Review a clearer profit-and-loss picture',
-            ].map((item) => (
-              <li key={item} className="flex items-start gap-3 text-slate-700">
-                <CheckCircle2 aria-hidden="true" className="mt-0.5 h-5 w-5 shrink-0 text-blue-700" />
-                <span>{item}</span>
-              </li>
-            ))}
-          </ul>
-          <p className="mb-4 text-sm font-semibold text-slate-800">Watch the example organize itself, or choose a view:</p>
-          <div className="flex flex-wrap gap-3" role="group" aria-label="Choose a bookkeeping example view">
+
+          <div className="mb-5 flex flex-wrap items-center gap-3">
             <button
               type="button"
-              aria-pressed={!organized}
+              aria-pressed={stage === 0}
               aria-controls="bookkeeping-demo-board"
-              onClick={() => chooseView(false)}
-              className={[
-                'inline-flex items-center gap-2 rounded-full border px-5 py-3 text-sm font-bold transition-colors',
-                'focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-700',
-                !organized ? 'border-blue-700 bg-blue-700 text-white' : 'border-slate-300 bg-white text-slate-800 hover:border-blue-400',
-              ].join(' ')}
+              onClick={() => selectStage(0)}
+              className={'rounded-full border px-4 py-2 text-sm font-bold transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-700 ' +
+                (stage === 0 ? 'border-blue-700 bg-blue-700 text-white' : 'border-slate-300 bg-white text-slate-700 hover:border-blue-400')}
             >
-              <ReceiptText aria-hidden="true" className="h-4 w-4" />
-              As it arrives
+              Start with incoming activity
             </button>
-            <button
-              type="button"
-              aria-pressed={organized}
-              aria-controls="bookkeeping-demo-board"
-              onClick={() => chooseView(true)}
-              className={[
-                'inline-flex items-center gap-2 rounded-full border px-5 py-3 text-sm font-bold transition-colors',
-                'focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-700',
-                organized ? 'border-blue-700 bg-blue-700 text-white' : 'border-slate-300 bg-white text-slate-800 hover:border-blue-400',
-              ].join(' ')}
-            >
-              <Layers3 aria-hidden="true" className="h-4 w-4" />
-              Books organized
-            </button>
+            <span className="text-xs font-medium text-slate-600">
+              {manualMode ? 'You are controlling the example' : 'Automatically explores each stage while in view'}
+            </span>
           </div>
+
+          <div className="divide-y divide-slate-200 border-y border-slate-200" role="group" aria-label="Bookkeeping walkthrough stages">
+            {storySteps.map((step, index) => {
+              const stepIndex = index + 1;
+              const active = stage === stepIndex;
+              return (
+                <div key={step.label} className="py-3.5">
+                  <button
+                    type="button"
+                    aria-controls="bookkeeping-demo-board"
+                    aria-pressed={active}
+                    onClick={() => selectStage(stepIndex)}
+                    className="flex w-full items-start gap-3 text-left focus-visible:rounded-lg focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-700"
+                  >
+                    <span aria-hidden="true" className={'mt-1 inline-block h-3.5 w-3.5 shrink-0 rounded-full border-2 ' +
+                      (active ? 'border-blue-700 bg-blue-700' : stage > stepIndex ? 'border-slate-900 bg-slate-900' : 'border-slate-400 bg-transparent')} />
+                    <span className={'font-bold tracking-wide ' + (active ? 'text-slate-900' : 'text-slate-500')}>{step.label}</span>
+                  </button>
+                  {active && (
+                    <p className="ml-[26px] mt-2 text-sm leading-relaxed text-slate-600">
+                      {step.detail}
+                    </p>
+                  )}
+                </div>
+              );
+            })}
+          </div>
+
           <p className="mt-5 text-sm leading-relaxed text-slate-600">
-            Fictional numbers for illustration only—not client records, promised results
-            or an automatic reconciliation. <Link to="/quickbooks-profit-and-loss-report/" className="font-semibold text-blue-700 underline underline-offset-4 hover:text-blue-800">Read our profit-and-loss guide</Link>.
+            Made-up numbers from an imaginary service business. This is an illustration, not a
+            customer file, audited report or promise of results. For more detail, see our{' '}
+            <Link to="/quickbooks-profit-and-loss-report/" className="font-semibold text-blue-700 underline underline-offset-4 hover:text-blue-800">
+              Profit and Loss guide
+            </Link>.
           </p>
         </div>
 
         <div id="bookkeeping-demo-board" className="overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-[0_18px_45px_-16px_rgba(15,23,42,0.24)]">
-          <div className="flex flex-wrap items-center justify-between gap-3 border-b border-slate-200 px-5 py-4 sm:px-7">
-            <div className="flex items-center gap-2 text-slate-900">
+          <div className="flex flex-wrap items-center justify-between gap-2 border-b border-slate-200 px-5 py-4 sm:px-7">
+            <div className="flex items-center gap-3 text-slate-900">
               <span className="inline-flex h-8 w-8 items-center justify-center rounded-xl bg-blue-50 text-blue-700">
-                {organized ? <Layers3 aria-hidden="true" className="h-4 w-4" /> : <ReceiptText aria-hidden="true" className="h-4 w-4" />}
+                {stage === 0 ? <ReceiptText aria-hidden="true" className="h-4 w-4" /> :
+                  <Layers3 aria-hidden="true" className="h-4 w-4" />}
               </span>
-              <h3 className="text-base font-bold sm:text-lg">
-                {organized ? 'A clearer monthly picture' : 'This month, as it arrives'}
-              </h3>
+              <h3 className="text-base font-bold sm:text-lg">{stageTitles[stage]}</h3>
             </div>
-            <span className="text-xs font-medium text-slate-500">
-              {organized ? 'Entries grouped for review' : 'Payments, deposits and bills'}
-            </span>
+            <span className="text-xs font-medium text-slate-500">{stageSubtitles[stage]}</span>
           </div>
 
-          {organized ? (
-            <div className="p-4 sm:p-6" aria-label="Illustrative organized bookkeeping entries">
-              <div className="grid gap-4 sm:grid-cols-3 sm:gap-3">
-                {sections.map((section) => {
-                  const groupEntries = entries.filter((entry) => entry.category === section.category);
-                  return (
-                    <div key={section.category} className={'db-example-group db-example-group--' + section.category}>
-                      <h4 className="mb-3 border-b-2 pb-2 text-xs font-extrabold uppercase tracking-[0.04em]">{section.heading}</h4>
-                      <ul className="space-y-2">
-                        {groupEntries.map((entry) => (
-                          <li key={entry.id} className="flex min-w-0 items-center justify-between gap-2 rounded-lg border border-slate-200 bg-white px-2.5 py-2 text-xs shadow-sm">
-                            <span className="min-w-0 truncate font-medium text-slate-700" title={entry.label}>{entry.label}</span>
-                            <span className="shrink-0 font-extrabold tabular-nums">{section.category === 'income' ? '+' : '−'}{formatDollars(entry.amount)}</span>
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                  );
-                })}
-              </div>
-              <div className="mt-6 grid grid-cols-2 gap-3 border-t border-slate-200 pt-5 sm:grid-cols-4">
-                {sections.map((section) => (
-                  <div key={section.category} className="rounded-xl bg-slate-50 p-3">
-                    <p className="text-xs font-semibold leading-snug text-slate-500">{section.totalLabel}</p>
-                    <p className="mt-1 text-lg font-extrabold tabular-nums text-slate-900">{formatDollars(totals[section.category])}</p>
-                  </div>
-                ))}
-                <div className="rounded-xl bg-blue-50 p-3">
-                  <p className="text-xs font-semibold leading-snug text-blue-800">Illustrative net income</p>
-                  <p className="mt-1 text-lg font-extrabold tabular-nums text-blue-800">{formatDollars(netIncome)}</p>
-                </div>
-              </div>
-              <p className="mt-4 text-xs leading-relaxed text-slate-500">
-                Sample P&amp;L view only; actual reports depend on complete records, accounting methods and review.
-              </p>
-            </div>
-          ) : (
-            <div className="db-example-scatter relative isolate overflow-hidden bg-[radial-gradient(circle_at_48%_50%,#ffffff_5%,#f6f8fc_80%)]" aria-label="Illustration of assorted, unsorted business transactions">
-              <div className="pointer-events-none absolute inset-0 db-example-dots" aria-hidden="true" />
-              <div className="pointer-events-none absolute left-1/2 top-1/2 h-40 w-40 -translate-x-1/2 -translate-y-1/2 rounded-full bg-blue-100/50 blur-3xl" aria-hidden="true" />
-              {scattered.map((pos) => {
-                const entry = entries.find((item) => item.id === pos.id);
-                if (!entry) return null;
-                return (
-                  <div
-                    key={pos.id}
-                    aria-hidden="true"
-                    className={'db-example-slip db-example-slip--' + entry.category}
-                    style={{
-                      left: pos.x + '%',
-                      top: pos.y + '%',
-                      transform: 'translate(-50%, -50%) rotate(' + pos.rotate + 'deg)',
-                      animationDelay: pos.delay + 's',
-                    }}
-                  >
-                    <span className="truncate">{entry.label}</span>
-                    <span className="shrink-0 font-extrabold tabular-nums">{entry.category === 'income' ? '+' : '−'}{formatDollars(entry.amount)}</span>
-                  </div>
-                );
-              })}
-              <div className="absolute bottom-5 left-0 right-0 text-center text-xs font-semibold text-slate-500">
-                A small sample of the month's incoming activity
-              </div>
-            </div>
-          )}
-          <div className="flex flex-wrap items-center justify-between gap-2 border-t border-slate-200 bg-white px-5 py-4 text-xs font-medium text-slate-600 sm:px-7">
-            <span>{organized ? 'A starting point for reviewing your reports' : 'The details need sorting and review'}</span>
-            <span className="font-semibold text-blue-700">{organized ? 'Example organized ✓' : 'Select “Books organized” to see the difference'}</span>
+          {stage === 0 ? <ScatteredEntries /> :
+            stage === 1 ? <OrganizedEntries /> :
+              <ProfitLossSummary showQuestions={stage === 3} />}
+
+          <div className="flex flex-wrap items-center justify-between gap-2 border-t border-slate-200 bg-white px-5 py-3.5 text-xs font-medium text-slate-600 sm:px-7">
+            <span>{stageFooters[stage]}</span>
+            <span className="font-semibold text-blue-700">{stage + 1} of 4 {manualMode ? '· Manual' : '· Auto'}</span>
           </div>
         </div>
       </div>
