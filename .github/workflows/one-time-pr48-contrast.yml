@@ -1,0 +1,25 @@
+name: One-time PR48 color contrast diagnosis
+on:
+  push:
+    branches: [audit/pr48-contrast-inspect-20261118]
+permissions:
+  contents: read
+jobs:
+  inspect:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - name: Install Lighthouse
+        run: npm install -g lighthouse@13
+      - name: Report contrast elements
+        shell: bash
+        run: |
+          timeout 90s lighthouse https://preview-bookkeeping-visual-s.dietz-bookkeeping-website.pages.dev/ --chrome-flags="--headless=new --no-sandbox --disable-dev-shm-usage" --only-categories=accessibility --output=json --output-path=/tmp/pr48-contrast.json --quiet
+          python3 - <<'PY'
+          import json
+          d=json.load(open('/tmp/pr48-contrast.json'))
+          audit=d['audits']['color-contrast']
+          print('CONTRAST_SCORE',audit.get('score'))
+          for item in audit.get('details',{}).get('items',[]):
+            print('CONTRAST_ELEMENT',item.get('node',{}).get('snippet','')[:600], 'EXPLANATION',item.get('node',{}).get('explanation','')[:500], 'RATIO',item.get('contrastRatio',''), 'TEXT',str(item)[:200])
+          PY
