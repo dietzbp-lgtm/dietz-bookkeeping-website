@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom';
 import { ArrowRight, CheckCircle2, FileText, Monitor, MessageCircle, RefreshCw, BarChart3, Star, Quote } from 'lucide-react';
 import Layout from '../components/Layout';
 import ServiceCard from '../components/ServiceCard';
+import MonthlyBooksIllustration from '../components/MonthlyBooksIllustration';
 import { services } from '../data/services';
 
 const primaryServices = [
@@ -71,6 +72,8 @@ export default function Home() {
           <div className="grid md:grid-cols-2 gap-6">{primaryServices.map(item => <div key={item.title} className="rounded-2xl border border-slate-200 bg-slate-50 p-7 sm:p-9"><item.icon className="w-8 h-8 text-blue-600 mb-5" /><h3 className="text-2xl font-bold text-slate-900 mb-3">{item.title}</h3><p className="text-slate-600 leading-relaxed mb-6">{item.text}</p><Link to={item.link} className="inline-flex items-center gap-2 text-blue-700 font-semibold">{item.label}<ArrowRight className="w-4 h-4" /></Link></div>)}</div>
         </div>
       </section>
+
+      <MonthlyBooksIllustration />
 
       <section className="py-14 sm:py-20 bg-slate-50">
         <div className="max-w-7xl mx-auto px-5 sm:px-8 grid lg:grid-cols-2 gap-10 items-start">
