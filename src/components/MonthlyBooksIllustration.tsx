@@ -314,7 +314,7 @@ export default function MonthlyBooksIllustration() {
                   >
                     <span aria-hidden="true" className={'mt-1 inline-block h-3.5 w-3.5 shrink-0 rounded-full border-2 ' +
                       (active ? 'border-blue-700 bg-blue-700' : stage > stepIndex ? 'border-slate-900 bg-slate-900' : 'border-slate-400 bg-transparent')} />
-                    <span className={'font-bold tracking-wide ' + (active ? 'text-slate-900' : 'text-slate-500')}>{step.label}</span>
+                    <span className={'font-bold tracking-wide ' + (active ? 'text-slate-900' : 'text-slate-600')}>{step.label}</span>
                   </button>
                   {active && (
                     <p className="ml-[26px] mt-2 text-sm leading-relaxed text-slate-600">
