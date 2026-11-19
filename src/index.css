@@ -43,3 +43,88 @@ body {
   transform: scale(0.96);
   opacity: 0.8;
 }
+
+
+/* Lightweight transaction-story illustration. No images or animation libraries. */
+.db-example-dots {
+  background-image: radial-gradient(#cbd5e1 0.65px, transparent 0.65px);
+  background-size: 18px 18px;
+  opacity: 0.32;
+}
+
+.db-example-scatter,
+.db-example-stage {
+  height: 440px;
+}
+
+/* Preserve the illustration's height as the four steps cycle, including mobile.
+   Organized rows remain scrollable within the card on narrow screens. */
+.db-example-stage {
+  overscroll-behavior: contain;
+}
+
+.db-example-slip {
+  position: absolute;
+  z-index: 1;
+  display: flex;
+  width: clamp(126px, 32%, 185px);
+  min-height: 34px;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+  padding: 7px 10px;
+  border: 1px solid #d5def0;
+  border-radius: 7px;
+  background: #fff;
+  box-shadow: 0 6px 12px -8px rgb(15 23 42 / 0.28), 0 2px 4px rgb(15 23 42 / 0.07);
+  color: #334155;
+  font-size: 11px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.db-example-slip--income > span:last-child,
+.db-example-group--income {
+  color: #1d4ed8;
+}
+
+.db-example-slip--costs > span:last-child,
+.db-example-group--costs {
+  color: #0f766e;
+}
+
+.db-example-slip--expenses > span:last-child,
+.db-example-group--expenses {
+  color: #6d28d9;
+}
+
+.db-example-group--income > h4 { border-color: #2563eb; }
+.db-example-group--costs > h4 { border-color: #0d9488; }
+.db-example-group--expenses > h4 { border-color: #7c3aed; }
+
+/* Short entry transitions only: no looping motion, scroll listener or layout shifts. */
+@media (prefers-reduced-motion: no-preference) {
+  .db-example-slip {
+    animation: db-slip-enter 520ms ease-out both;
+  }
+
+  @keyframes db-slip-enter {
+    from { opacity: 0; translate: 0 7px; }
+    to { opacity: 1; translate: 0 0; }
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .db-example-slip {
+    animation: none;
+    transition: none;
+  }
+}
+
+@media (max-width: 410px) {
+  .db-example-slip {
+    width: 126px;
+    padding: 7px 7px;
+    font-size: 10px;
+  }
+}
