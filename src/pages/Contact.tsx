@@ -39,7 +39,7 @@ export default function Contact() {
     <section className="bg-slate-50 py-12 sm:py-16">
       <div className="max-w-5xl mx-auto px-5 sm:px-6 grid sm:grid-cols-3 gap-6">
         <div className="bg-white rounded-xl p-6 border border-slate-200"><h2 className="font-bold text-lg mb-3">Call Bryan</h2><a href="tel:+18134193475" className="text-blue-700 hover:underline">813-419-3475</a></div>
-        <div className="bg-white rounded-xl p-6 border border-slate-200 min-w-0"><h2 className="font-bold text-lg mb-3">Email</h2><a href="mailto:bryand@dietzbookkeeping.com" className="text-blue-700 hover:underline break-words">bryand@dietzbookkeeping.com</a></div>
+        <div className="bg-white rounded-xl p-6 border border-slate-200 min-w-0"><h2 className="font-bold text-lg mb-3">Email</h2><a href="mailto:bryand@dietzbookkeeping.com" className="text-blue-700 hover:underline break-words">bryand@dietzbookkeeping.com</a><p className="mt-3 text-sm text-slate-600">General inquiries only. Please do not send unsolicited attachments, document-sharing links or confidential financial records.</p></div>
         <div className="bg-white rounded-xl p-6 border border-slate-200"><h2 className="font-bold text-lg mb-3">Tampa appointments</h2><p className="text-slate-600">Home office visits are by appointment only. Please contact us before visiting.</p></div>
       </div>
     </section>
