@@ -32,6 +32,7 @@ export default function Schedule() {
     </section>
     <section className="bg-white pb-16 sm:pb-20">
       <div className="max-w-5xl mx-auto px-4 sm:px-6">
+        <p className="mb-4 text-center text-sm text-slate-600">Please keep booking details general. Do not include confidential financial information, attachments or document-sharing links. We will discuss any records needed during your consultation.</p>
         <div className="border border-slate-200 rounded-2xl bg-white overflow-hidden shadow-sm">
           {Widget ? <Widget /> : <div
             className="flex h-[780px] w-full items-center justify-center px-6 text-center text-slate-600"
