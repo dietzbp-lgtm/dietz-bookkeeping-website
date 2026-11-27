@@ -65,6 +65,7 @@ export default function ChatbotEmbed() {
               </button>
             </div>
           </header>
+          <p className="shrink-0 border-b border-blue-100 bg-blue-50 px-3 py-2 text-xs leading-relaxed text-slate-700">General questions only. Please do not share confidential financial information, files, passwords or document links in chat.</p>
           <div className="relative min-h-0 flex-1">
             {!iframeLoaded && (
               <div className="absolute inset-0 flex items-center justify-center bg-white px-4 text-center" role="status">

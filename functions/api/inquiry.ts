@@ -121,8 +121,9 @@ export const onRequestPost = async (context: {
     ] : []),
     ['Message', message],
   ].filter(([, v]) => Boolean(v));
-  const text = details.map(([k, v]) => `${k}: ${v}`).join('\n');
-  const html = '<h2>New Dietz Bookkeeping inquiry</h2>' +
+  const warning = 'Unverified website inquiry. Verify the sender independently before opening any links, accepting documents or sharing information.';
+  const text = warning + '\n\n' + details.map(([k, v]) => `${k}: ${v}`).join('\n');
+  const html = '<h2>New Dietz Bookkeeping inquiry</h2><p><strong>' + escapeHtml(warning) + '</strong></p>' +
     details.map(([k, v]) => `<p><strong>${escapeHtml(k)}:</strong> ${escapeHtml(v).replaceAll('\n', '<br>')}</p>`).join('');
 
   try {
@@ -139,7 +140,7 @@ export const onRequestPost = async (context: {
         from: 'Dietz Bookkeeping <notifications@dietzbookkeeping.com>',
         to: [email],
         subject: 'We received your Dietz Bookkeeping request',
-        text: `Hi ${name},\n\nThank you for contacting Dietz Bookkeeping. We received your ${type === 'estimate' ? 'estimate request' : 'message'} and will review it.\n\nPlease do not email passwords or financial account credentials.\n\nDietz Bookkeeping`,
+        text: `Hi ${name},\n\nThank you for contacting Dietz Bookkeeping. We received your ${type === 'estimate' ? 'estimate request' : 'message'} and will review it.\n\nPlease do not send financial records, tax returns, passwords, account details, unsolicited attachments or document-sharing links by email. If documents are needed, we will contact you to arrange an approved submission method.\n\nDietz Bookkeeping`,
       });
     } catch {
       console.error('Customer confirmation delivery failed');

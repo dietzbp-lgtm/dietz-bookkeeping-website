@@ -70,11 +70,12 @@ export default function InquiryForm({ kind }: { kind: Kind }) {
 
   if (complete) return <div role="status" className="rounded-3xl border border-emerald-200 bg-emerald-50 p-8 sm:p-12 text-center shadow-sm">
     <h2 className="text-2xl font-bold text-slate-900 mb-3">Thank you! Your request was sent.</h2>
-    <p className="text-slate-700">We'll review your information and get back to you. Please check your inbox for a confirmation email.</p>
+    <p className="text-slate-700">We'll review your information and get back to you. Please check your inbox for a confirmation email. If we need documents, we will contact you with next steps. Please do not email financial records.</p>
   </div>;
 
   return <form onSubmit={submit} className="rounded-3xl border border-slate-200/90 bg-white shadow-[0_18px_60px_-35px_rgba(15,23,42,0.22)] p-5 sm:p-9 lg:p-10 space-y-7">
     <div className="border-b border-slate-100 pb-6"><p className="text-xs font-bold tracking-[0.14em] uppercase text-blue-700 mb-2">{estimate ? "Business information" : "Contact details"}</p><h2 className="text-xl sm:text-2xl font-bold text-slate-900">{estimate ? "Tell us about your business" : "Send us a message"}</h2><p className="text-sm text-slate-500 mt-2">Fields marked * are required.</p></div>
+    <aside aria-label="Protecting your financial information" className="rounded-xl border border-blue-100 bg-blue-50/60 px-4 py-4 text-sm leading-relaxed text-slate-700"><p className="font-semibold text-slate-900 mb-1">Your financial information deserves protection.</p><p>{estimate ? 'No financial documents are needed to start your estimate. Approximate business details are fine.' : 'Please use this form for general questions only.'} If records are needed after we discuss your inquiry, we will arrange an approved way to share them. Please do not send sensitive documents or file-sharing links through this form or regular email.</p></aside>
     <div className="grid sm:grid-cols-2 gap-5">
       <div><label htmlFor={kind + '-name'} className={labelClass}>Full name *</label>
         <input id={kind + '-name'} name="name" required minLength={2} maxLength={100} autoComplete="name" className={controlClass} /></div>
@@ -123,10 +124,10 @@ export default function InquiryForm({ kind }: { kind: Kind }) {
       </div>
     </>}
     <div><label htmlFor={kind + '-message'} className={labelClass}>{estimate ? 'Additional details (optional)' : 'How can we help? *'}</label>
-      <textarea id={kind + '-message'} name="message" rows={5} required={!estimate} minLength={estimate ? undefined : 10} maxLength={3000} className={controlClass} placeholder={estimate ? 'Tell us about your bookkeeping needs or any cleanup backlog.' : 'Tell us a little about your question.'} /></div>
+      <textarea id={kind + '-message'} name="message" rows={5} required={!estimate} minLength={estimate ? undefined : 10} maxLength={3000} className={controlClass} placeholder={estimate ? 'Describe your bookkeeping needs or cleanup backlog without confidential details.' : 'Tell us a little about your question.'} /></div>
     <div className="hidden" aria-hidden="true"><label htmlFor={kind + '-website'}>Leave this blank</label><input id={kind + '-website'} name="website" tabIndex={-1} autoComplete="off" /></div>
-    <p className="rounded-xl border border-blue-100 bg-blue-50/60 px-4 py-3 text-sm leading-relaxed text-slate-600">For your security, please do not include passwords, Social Security numbers, bank account details or financial documents.</p>
-    {error && <div role="alert" className="rounded-xl bg-red-50 border border-red-200 text-red-800 p-4">{error} <a href="mailto:bryand@dietzbookkeeping.com" className="underline">Email us instead.</a></div>}
+    <p className="rounded-xl border border-blue-100 bg-blue-50/60 px-4 py-3 text-sm leading-relaxed text-slate-600">Do not include passwords, Social Security numbers, account numbers, tax returns, bank statements or document links.</p>
+    {error && <div role="alert" className="rounded-xl bg-red-50 border border-red-200 text-red-800 p-4">{error} <a href="mailto:bryand@dietzbookkeeping.com" className="underline">Email us with a general question instead.</a></div>}
     <button type="submit" disabled={sending} className="rounded-xl bg-blue-600 hover:bg-blue-700 disabled:cursor-not-allowed disabled:opacity-60 text-white font-semibold px-8 py-4 w-full sm:w-auto shadow-lg shadow-blue-600/15 transition-colors">
       {sending ? 'Sending your request…' : estimate ? 'Send estimate request' : 'Send message'}
     </button>

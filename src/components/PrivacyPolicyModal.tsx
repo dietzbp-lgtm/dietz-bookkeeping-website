@@ -30,7 +30,7 @@ const PrivacyPolicyModal: React.FC<PrivacyPolicyModalProps> = ({ isOpen, onClose
         <div className="p-6 sm:p-8 overflow-y-auto">
           <div className="prose prose-slate max-w-none">
             <p className="font-medium"><strong>Privacy Policy for Dietz Bookkeeping</strong></p>
-            <p className="text-sm text-slate-500">Effective Date: 01/01/2024</p>
+            <p className="text-sm text-slate-500">Last updated: November 27, 2026</p>
 
             <p>
               Dietz Bookkeeping (“Dietz Bookkeeping,” “we,” “us,” or “our”) respects your privacy and is committed to protecting the personal information you share with us through our website, forms, chatbot, scheduling tools, and other communications.
@@ -51,8 +51,10 @@ const PrivacyPolicyModal: React.FC<PrivacyPolicyModalProps> = ({ isOpen, onClose
               <li>email address</li>
               <li>business name</li>
               <li>information about your bookkeeping needs</li>
-              <li>records or details you choose to provide regarding your business finances</li>
+              <li>general information about your business finances and, when specifically requested, records shared through an approved process</li>
             </ul>
+
+            <p>Our public contact and estimate forms are intended for initial inquiries, not document collection. Please do not send confidential financial records, account numbers, Social Security numbers, passwords or document-sharing links through these forms, chatbot, scheduling tools or ordinary email. If records are necessary, we will discuss an appropriate submission method with you first.</p>
 
             <h4>Information collected automatically</h4>
             <p>When you visit our website, we may automatically collect certain technical information, including:</p>

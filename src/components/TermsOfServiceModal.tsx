@@ -30,7 +30,7 @@ const TermsOfServiceModal: React.FC<TermsOfServiceModalProps> = ({ isOpen, onClo
         <div className="p-6 sm:p-8 overflow-y-auto">
           <div className="prose prose-slate max-w-none">
             <p className="font-medium"><strong>Terms of Service for Dietz Bookkeeping</strong></p>
-            <p className="text-sm text-slate-500">Effective Date: 01/01/2024</p>
+            <p className="text-sm text-slate-500">Last updated: November 27, 2026</p>
 
             <p>
               These Terms of Service (“Terms”) govern your use of the Dietz Bookkeeping website, forms, chatbot, scheduling tools, and related services. By using our website or contacting us through it, you agree to these Terms.
@@ -84,7 +84,7 @@ const TermsOfServiceModal: React.FC<TermsOfServiceModalProps> = ({ isOpen, onClo
               <li>it does not violate any law or third-party rights</li>
             </ul>
             <p>
-              You should avoid sending highly sensitive financial documents unless and until we instruct you to do so through an approved process.
+              Do not submit confidential financial records, passwords, account numbers, Social Security numbers, unsolicited attachments or document-sharing links through public forms, chatbot, scheduling tools or regular email. If documents are needed, wait for our instructions and use only the approved submission method. We may decline to open unsolicited files or links.
             </p>
 
             <h3>7. Scheduling and Communications</h3>
