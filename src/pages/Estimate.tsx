@@ -8,7 +8,7 @@ export default function Estimate() {
       <div className="max-w-3xl mx-auto px-5 sm:px-6 text-center">
         <p className="text-xs sm:text-sm font-bold uppercase tracking-[0.18em] text-blue-700 mb-4">Get a personalized estimate</p>
         <h1 className="text-3xl sm:text-5xl font-bold tracking-tight text-slate-900 mb-5">Bookkeeping support built around your business.</h1>
-        <p className="text-base sm:text-lg text-slate-600 leading-relaxed max-w-2xl mx-auto">Tell us what you need, from monthly bookkeeping to catching up on past records. We'll review your information and follow up with the next steps.</p>
+        <p className="text-base sm:text-lg text-slate-600 leading-relaxed max-w-2xl mx-auto">Tell us what you need, from monthly bookkeeping to catching up on past records. Approximate workload details are enough to get started; no financial documents are needed for your initial request. We'll review your information and follow up with the next steps.</p>
       </div>
     </section>
     <section className="bg-white pb-16 sm:pb-20">
